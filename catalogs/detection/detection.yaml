@@ -1,0 +1,403 @@
+id: brick-detection
+displayName:
+  en: "Detection"
+  it: "Rilevamento"
+category: "Detection"
+docs:
+  api: "https://docs.arduino.cc/software/app-lab/bricks"
+
+implementations:
+  - runtime: "arduino:python"
+    dependencies:
+      - type: brick
+        name: "arduino:video_object_detection"
+      - type: brick
+        name: "arduino:video_image_classification"
+      - type: brick
+        name: "arduino:keyword_spotting"
+      - type: brick
+        name: "arduino:gesture_recognition"
+      - type: brick
+        name: "arduino:motion_detection"
+      - type: brick
+        name: "arduino:vibration_anomaly_detection"
+      - type: brick
+        name: "arduino:camera_code_detection"
+      - type: brick
+        name: "arduino:object_detection"
+      - type: brick
+        name: "arduino:image_classification"
+      - type: brick
+        name: "arduino:visual_anomaly_detection"
+      - type: brick
+        name: "arduino:audio_classification"
+      - type: brick
+        name: "arduino:mood_detector"
+    codegen:
+      imports:
+        - "from arduino.app_utils import (VideoObjectDetection, VideoImageClassification,"
+        - "    KeywordSpotting, GestureRecognition, MotionDetection,"
+        - "    VibrationAnomalyDetection, CameraCodeDetection,"
+        - "    ObjectDetection, ImageClassification, VisualAnomalyDetection,"
+        - "    AudioClassification, MoodDetector)"
+    blocks:
+      # ── Event-driven detection (hat blocks) ──────────────────────────────
+
+      - blockly:
+          type: detect_video_object_event
+          message0: "when video detects %1"
+          args0:
+            - type: field_dropdown
+              name: OBJECT_TYPE
+              options:
+                - ["person", "person"]
+                - ["car", "car"]
+                - ["bicycle", "bicycle"]
+                - ["motorcycle", "motorcycle"]
+                - ["cat", "cat"]
+                - ["dog", "dog"]
+                - ["bird", "bird"]
+                - ["bottle", "bottle"]
+                - ["cup", "cup"]
+                - ["chair", "chair"]
+          message1: "confidence ≥ %1 %"
+          args1:
+            - type: field_number
+              name: CONFIDENCE
+              value: 80
+              min: 1
+              max: 100
+          message2: "for each result %1"
+          args2:
+            - type: field_variable
+              name: RESULT_VAR
+              variable: detection
+          message3: "do %1"
+          args3:
+            - type: input_statement
+              name: DO
+          nextStatement: null
+          extensions:
+            - hat_event_style
+          colour: 200
+          tooltip: "Run blocks each time the video object detection model spots the chosen object."
+        codegen:
+          declarations:
+            - "def _on_video_obj_detect_{{OBJECT_TYPE}}({{RESULT_VAR}}):\n  {{DO}}"
+          setup:
+            - "_video_obj_detector_{{OBJECT_TYPE}} = VideoObjectDetection(confidence={{CONFIDENCE}})"
+            - "_video_obj_detector_{{OBJECT_TYPE}}.on_detect('{{OBJECT_TYPE}}', _on_video_obj_detect_{{OBJECT_TYPE}})"
+        tags: [event, detection, vision, advanced]
+
+      - blockly:
+          type: detect_video_class_event
+          message0: "when video classifies as %1"
+          args0:
+            - type: field_dropdown
+              name: CLASS_TYPE
+              options:
+                - ["cat", "cat"]
+                - ["dog", "dog"]
+                - ["flower", "flower"]
+                - ["food", "food"]
+                - ["car", "car"]
+                - ["bird", "bird"]
+                - ["person", "person"]
+          message1: "confidence ≥ %1 %"
+          args1:
+            - type: field_number
+              name: CONFIDENCE
+              value: 80
+              min: 1
+              max: 100
+          message2: "for each result %1"
+          args2:
+            - type: field_variable
+              name: RESULT_VAR
+              variable: classification
+          message3: "do %1"
+          args3:
+            - type: input_statement
+              name: DO
+          nextStatement: null
+          extensions:
+            - hat_event_style
+          colour: 200
+          tooltip: "Run blocks each time the image classification model matches the chosen class."
+        codegen:
+          declarations:
+            - "def _on_video_class_{{CLASS_TYPE}}({{RESULT_VAR}}):\n  {{DO}}"
+          setup:
+            - "_video_classifier_{{CLASS_TYPE}} = VideoImageClassification(confidence={{CONFIDENCE}})"
+            - "_video_classifier_{{CLASS_TYPE}}.on_detect('{{CLASS_TYPE}}', _on_video_class_{{CLASS_TYPE}})"
+        tags: [event, detection, vision, advanced]
+
+      - blockly:
+          type: detect_keyword_event
+          message0: "when keyword %1 heard"
+          args0:
+            - type: field_dropdown
+              name: KEYWORD
+              options:
+                - ["yes", "yes"]
+                - ["no", "no"]
+                - ["up", "up"]
+                - ["down", "down"]
+                - ["left", "left"]
+                - ["right", "right"]
+                - ["on", "on"]
+                - ["off", "off"]
+                - ["stop", "stop"]
+                - ["start", "start"]
+          message1: "for each result %1"
+          args1:
+            - type: field_variable
+              name: RESULT_VAR
+              variable: keyword
+          message2: "do %1"
+          args2:
+            - type: input_statement
+              name: DO
+          nextStatement: null
+          extensions:
+            - hat_event_style
+          colour: 200
+          tooltip: "Run blocks each time the keyword spotting model detects the chosen word."
+        codegen:
+          declarations:
+            - "def _on_keyword_{{KEYWORD}}({{RESULT_VAR}}):\n  {{DO}}"
+          setup:
+            - "_kw_spotter_{{KEYWORD}} = KeywordSpotting()"
+            - "_kw_spotter_{{KEYWORD}}.on_detect('{{KEYWORD}}', _on_keyword_{{KEYWORD}})"
+        tags: [event, detection, audio, beginner]
+
+      - blockly:
+          type: detect_gesture_event
+          message0: "when gesture %1 recognized"
+          args0:
+            - type: field_dropdown
+              name: GESTURE
+              options:
+                - ["thumbs up", "thumbs_up"]
+                - ["thumbs down", "thumbs_down"]
+                - ["open palm", "open_palm"]
+                - ["pointing up", "pointing_up"]
+                - ["victory", "victory"]
+                - ["closed fist", "closed_fist"]
+          message1: "for each result %1"
+          args1:
+            - type: field_variable
+              name: RESULT_VAR
+              variable: gesture
+          message2: "do %1"
+          args2:
+            - type: input_statement
+              name: DO
+          nextStatement: null
+          extensions:
+            - hat_event_style
+          colour: 200
+          tooltip: "Run blocks each time the gesture recognition model detects the chosen hand gesture."
+        codegen:
+          declarations:
+            - "def _on_gesture_{{GESTURE}}({{RESULT_VAR}}):\n  {{DO}}"
+          setup:
+            - "_gesture_rec = GestureRecognition()"
+            - "_gesture_rec.on_gesture('{{GESTURE}}', _on_gesture_{{GESTURE}})"
+        tags: [event, detection, vision, advanced]
+
+      - blockly:
+          type: detect_motion_event
+          message0: "when motion %1 detected"
+          args0:
+            - type: field_dropdown
+              name: MOTION_TYPE
+              options:
+                - ["moving", "moving"]
+                - ["stationary", "stationary"]
+          message1: "confidence ≥ %1 %"
+          args1:
+            - type: field_number
+              name: CONFIDENCE
+              value: 70
+              min: 1
+              max: 100
+          message2: "for each result %1"
+          args2:
+            - type: field_variable
+              name: RESULT_VAR
+              variable: motion
+          message3: "do %1"
+          args3:
+            - type: input_statement
+              name: DO
+          nextStatement: null
+          extensions:
+            - hat_event_style
+          colour: 200
+          tooltip: "Run blocks each time the motion detection model detects the specified movement state."
+        codegen:
+          declarations:
+            - "def _on_motion_{{MOTION_TYPE}}({{RESULT_VAR}}):\n  {{DO}}"
+          setup:
+            - "_motion_detector_{{MOTION_TYPE}} = MotionDetection(confidence={{CONFIDENCE}})"
+            - "_motion_detector_{{MOTION_TYPE}}.on_movement_detection('{{MOTION_TYPE}}', _on_motion_{{MOTION_TYPE}})"
+        tags: [event, detection, vision, advanced]
+
+      - blockly:
+          type: detect_vibration_anomaly_event
+          message0: "when vibration anomaly detected (threshold %1)"
+          args0:
+            - type: field_number
+              name: THRESHOLD
+              value: 3
+              min: 0
+          message1: "do %1"
+          args1:
+            - type: input_statement
+              name: DO
+          nextStatement: null
+          extensions:
+            - hat_event_style
+          colour: 200
+          tooltip: "Run blocks each time the vibration anomaly sensor detects an unusual vibration pattern."
+        codegen:
+          declarations:
+            - "def _on_vibration_anomaly():\n  {{DO}}"
+          setup:
+            - "_vib_anomaly = VibrationAnomalyDetection(threshold={{THRESHOLD}})"
+            - "_vib_anomaly.on_anomaly(_on_vibration_anomaly)"
+        tags: [event, detection, sensor, advanced]
+
+      - blockly:
+          type: detect_qr_event
+          message0: "when QR or barcode detected"
+          message1: "for each result %1"
+          args1:
+            - type: field_variable
+              name: RESULT_VAR
+              variable: code
+          message2: "do %1"
+          args2:
+            - type: input_statement
+              name: DO
+          nextStatement: null
+          extensions:
+            - hat_event_style
+          colour: 200
+          tooltip: "Run blocks each time a QR code or barcode is detected by the camera."
+        codegen:
+          declarations:
+            - "def _on_code_detected({{RESULT_VAR}}):\n  {{DO}}"
+          setup:
+            - "_code_detector = CameraCodeDetection()"
+            - "_code_detector.on_detect(_on_code_detected)"
+        tags: [event, detection, vision, beginner]
+
+      # ── Single-shot detection (value blocks) ─────────────────────────────
+
+      - blockly:
+          type: detect_objects_in_image
+          message0: "detect objects in %1 confidence ≥ %2 %"
+          args0:
+            - type: input_value
+              name: IMAGE
+            - type: field_number
+              name: CONFIDENCE
+              value: 80
+              min: 1
+              max: 100
+          output: null
+          colour: 200
+          tooltip: "Run object detection on an image and return a list of detected objects."
+          inputsInline: true
+        codegen:
+          body:
+            - "ObjectDetection().detect({{IMAGE}}, confidence={{CONFIDENCE}})"
+          precedence: ATOMIC
+          inputDefaults:
+            IMAGE: "None"
+        tags: [detection, vision, advanced]
+
+      - blockly:
+          type: detect_classify_image
+          message0: "classify image %1 confidence ≥ %2 %"
+          args0:
+            - type: input_value
+              name: IMAGE
+            - type: field_number
+              name: CONFIDENCE
+              value: 80
+              min: 1
+              max: 100
+          output: null
+          colour: 200
+          tooltip: "Run image classification and return the predicted class and confidence."
+          inputsInline: true
+        codegen:
+          body:
+            - "ImageClassification().classify({{IMAGE}}, confidence={{CONFIDENCE}})"
+          precedence: ATOMIC
+          inputDefaults:
+            IMAGE: "None"
+        tags: [detection, vision, advanced]
+
+      - blockly:
+          type: detect_visual_anomaly
+          message0: "detect anomalies in %1"
+          args0:
+            - type: input_value
+              name: IMAGE
+          output: null
+          colour: 200
+          tooltip: "Run visual anomaly detection on an image and return the anomaly score."
+          inputsInline: true
+        codegen:
+          body:
+            - "VisualAnomalyDetection().detect({{IMAGE}})"
+          precedence: ATOMIC
+          inputDefaults:
+            IMAGE: "None"
+        tags: [detection, vision, advanced]
+
+      - blockly:
+          type: detect_classify_audio
+          message0: "classify audio %1 confidence ≥ %2 %"
+          args0:
+            - type: input_value
+              name: DATA
+            - type: field_number
+              name: CONFIDENCE
+              value: 80
+              min: 1
+              max: 100
+          output: null
+          colour: 200
+          tooltip: "Classify an audio file or buffer and return the predicted class."
+          inputsInline: true
+        codegen:
+          body:
+            - "AudioClassification.classify_from_file({{DATA}}, confidence={{CONFIDENCE}})"
+          precedence: ATOMIC
+          inputDefaults:
+            DATA: "None"
+        tags: [detection, audio, advanced]
+
+      - blockly:
+          type: detect_sentiment
+          message0: "sentiment of %1"
+          args0:
+            - type: input_value
+              name: TEXT
+              check: String
+          output: null
+          colour: 200
+          tooltip: "Analyse the sentiment of a text string. Returns positive, negative, or neutral."
+          inputsInline: true
+        codegen:
+          body:
+            - "MoodDetector().get_sentiment({{TEXT}})"
+          precedence: ATOMIC
+          inputDefaults:
+            TEXT: '""'
+        tags: [detection, nlp, beginner]

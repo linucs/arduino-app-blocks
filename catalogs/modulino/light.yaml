@@ -1,0 +1,77 @@
+id: modulino-light
+displayName:
+  en: "Modulino Light"
+  it: "Modulino Light"
+category: "Modulino"
+docs:
+  datasheet: "https://docs.arduino.cc/hardware/modulino-light"
+  api: "https://github.com/arduino-libraries/Modulino/blob/main/docs/api.md"
+
+implementations:
+  # ─── C++ (MCU side) ───
+  - runtime: "arduino:cpp"
+    dependencies:
+      - type: library
+        name: "Modulino"
+        minVersion: "0.5.0"
+    codegen:
+      imports:
+        - "#include <Modulino.h>"
+        - "#include <Wire.h>"
+      declarations:
+        - "ModulinoLight _light;"
+      setup:
+        - "Wire1.begin();"
+        - "Modulino.begin(Wire1);"
+        - "_light.begin();"
+    blocks:
+      - blockly:
+          type: modulino_light_lux
+          message0: "☀ light (lux)"
+          output: Number
+          colour: 20
+          tooltip: "Read the ambient light level in lux from Modulino Light."
+          inputsInline: true
+        codegen:
+          body:
+            - "_light.getLux()"
+          precedence: ATOMIC
+        tags: [sensor, input, i2c, beginner]
+
+      - blockly:
+          type: modulino_light_color
+          message0: "☀ light colour"
+          output: Number
+          colour: 20
+          tooltip: "Read the approximate colour name from Modulino Light."
+          inputsInline: true
+        codegen:
+          body:
+            - "_light.getColorApproximate()"
+          precedence: ATOMIC
+        tags: [sensor, input, i2c]
+
+  # ─── Python (SBC side) ───
+  - runtime: "arduino:python"
+    dependencies:
+      - type: pip
+        name: "modulino"
+        minVersion: "0.5.0"
+    codegen:
+      imports:
+        - "from modulino import ModulinoLight"
+      declarations:
+        - "_light = ModulinoLight()"
+    blocks:
+      - blockly:
+          type: modulino_light_lux
+          message0: "☀ light (lux)"
+          output: Number
+          colour: 20
+          tooltip: "Read the ambient light level in lux from Modulino Light."
+          inputsInline: true
+        codegen:
+          body:
+            - "_light.lux"
+          precedence: ATOMIC
+        tags: [sensor, input, i2c, beginner]

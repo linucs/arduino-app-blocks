@@ -1,0 +1,109 @@
+id: brick-storage
+displayName:
+  en: "Storage"
+  it: "Storage"
+category: "Storage"
+docs:
+  api: "https://docs.arduino.cc/software/app-lab/bricks"
+
+implementations:
+  - runtime: "arduino:python"
+    dependencies:
+      - type: brick
+        name: "arduino:dbstorage_tsstore"
+      - type: brick
+        name: "arduino:dbstorage_sqlstore"
+    codegen:
+      imports:
+        - "from arduino.app_utils import TimeSeriesStore, SQLStore"
+        - "import time as _time_module"
+    blocks:
+      - blockly:
+          type: storage_ts_write
+          message0: "store time-series %1 = %2"
+          args0:
+            - type: field_input
+              name: MEASURE
+              text: "temperature"
+            - type: input_value
+              name: VALUE
+          previousStatement: null
+          nextStatement: null
+          colour: 60
+          tooltip: "Write a sample to the time-series database with the current timestamp."
+          inputsInline: true
+        codegen:
+          body:
+            - "TimeSeriesStore().write_sample('{{MEASURE}}', {{VALUE}}, _time_module.time())"
+          inputDefaults:
+            VALUE: "0"
+        tags: [storage, database, beginner]
+
+      - blockly:
+          type: storage_ts_read
+          message0: "read time-series %1 window %2 limit %3"
+          args0:
+            - type: field_input
+              name: MEASURE
+              text: "temperature"
+            - type: field_input
+              name: WINDOW
+              text: "1h"
+            - type: field_number
+              name: LIMIT
+              value: 100
+              min: 1
+          output: null
+          colour: 60
+          tooltip: "Read recent samples from the time-series database. Window format: '1h', '30m', '7d'."
+          inputsInline: true
+        codegen:
+          body:
+            - "TimeSeriesStore().read_samples(measure='{{MEASURE}}', window='{{WINDOW}}', limit={{LIMIT}})"
+          precedence: ATOMIC
+        tags: [storage, database]
+
+      - blockly:
+          type: storage_sql_write
+          message0: "store record in SQL table %1 record %2"
+          args0:
+            - type: field_input
+              name: TABLE
+              text: "events"
+            - type: input_value
+              name: RECORD
+          previousStatement: null
+          nextStatement: null
+          colour: 60
+          tooltip: "Insert a record (dict) into a SQL table."
+          inputsInline: true
+        codegen:
+          body:
+            - "SQLStore().store('{{TABLE}}', {{RECORD}})"
+          inputDefaults:
+            RECORD: "{}"
+        tags: [storage, database, advanced]
+
+      - blockly:
+          type: storage_sql_read
+          message0: "read from SQL %1 where %2 limit %3"
+          args0:
+            - type: field_input
+              name: TABLE
+              text: "events"
+            - type: field_input
+              name: CONDITION
+              text: ""
+            - type: field_number
+              name: LIMIT
+              value: 10
+              min: 1
+          output: null
+          colour: 60
+          tooltip: "Query rows from a SQL table. Returns a list of dicts."
+          inputsInline: true
+        codegen:
+          body:
+            - "SQLStore().read('{{TABLE}}', condition='{{CONDITION}}', limit={{LIMIT}})"
+          precedence: ATOMIC
+        tags: [storage, database, advanced]

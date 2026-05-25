@@ -1,0 +1,197 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/arduino/arduino-app-lab/main/ui-packages/ui-components/lib/blockly-editor/schemas/block-catalog_v1.schema.json
+id: builtin_led_matrix
+displayName:
+  en: LED Matrix
+  it: Matrice LED
+category: "Display"
+docs:
+  library: https://www.arduino.cc/reference/en/libraries/arduino_led_matrix/
+implementations:
+  - runtime: "arduino:cpp"
+    dependencies:
+      - type: library
+        name: ArduinoGraphics
+        minVersion: "1.0.0"
+      - type: library
+        name: Arduino_LED_Matrix
+        minVersion: "1.0.0"
+    apiReference: https://www.arduino.cc/reference/en/libraries/arduino_led_matrix/
+    repository: https://github.com/arduino-libraries/Arduino_LED_Matrix
+    # ArduinoGraphics MUST be included before Arduino_LED_Matrix — the matrix
+    # library uses a compile-time #if __has_include to conditionally inherit
+    # from ArduinoGraphics, so header order matters.
+    codegen:
+      imports:
+        - '#include "ArduinoGraphics.h"'
+        - '#include "Arduino_LED_Matrix.h"'
+      declarations:
+        - "ArduinoLEDMatrix matrix;"
+      setup:
+        - "matrix.begin();"
+    blocks:
+
+      # -----------------------------------------------------------------------
+      # led_matrix_clear — turn off all 8x13 LEDs
+      # -----------------------------------------------------------------------
+      - blockly:
+          type: led_matrix_clear
+          message0: "LED Matrix: clear"
+          args0: []
+          previousStatement: null
+          nextStatement: null
+          colour: 165
+          tooltip: "Turn off all LEDs on the 8×13 matrix."
+          helpUrl: https://www.arduino.cc/reference/en/libraries/arduino_led_matrix/
+        codegen:
+          body:
+            - "matrix.clear();"
+        tags:
+          - display
+          - actuator
+          - beginner
+
+      # -----------------------------------------------------------------------
+      # led_matrix_scroll_text — blocking left/right/static text display
+      # Requires ArduinoGraphics (already included at implementation level).
+      # endText() blocks until the full scroll animation completes.
+      # -----------------------------------------------------------------------
+      - blockly:
+          type: led_matrix_scroll_text
+          message0: "LED Matrix: scroll %1 speed %2 ms"
+          args0:
+            - type: input_value
+              name: TEXT
+              check: String
+            - type: field_number
+              name: SPEED
+              value: 100
+              min: 10
+              max: 2000
+          message1: "font %1  direction %2"
+          args1:
+            - type: field_dropdown
+              name: FONT
+              options:
+                - ["5×7", "Font_5x7"]
+                - ["4×6", "Font_4x6"]
+            - type: field_dropdown
+              name: DIRECTION
+              options:
+                - ["← scroll left", "SCROLL_LEFT"]
+                - ["scroll right →", "SCROLL_RIGHT"]
+                - ["static", "NO_SCROLL"]
+            - type: input_dummy
+          previousStatement: null
+          nextStatement: null
+          colour: 165
+          tooltip: "Scroll (or display) text on the LED matrix. Blocking — the next block runs only after the full animation finishes."
+          helpUrl: https://www.arduino.cc/reference/en/libraries/arduino_led_matrix/
+        codegen:
+          body:
+            - "matrix.beginDraw();"
+            - "matrix.stroke(0xFFFFFFFF);"
+            - "matrix.textFont({{FONT}});"
+            - "matrix.textScrollSpeed({{SPEED}});"
+            - "matrix.beginText(0, 1, 0xFFFFFF);"
+            - "matrix.println({{TEXT}});"
+            - "matrix.endText({{DIRECTION}});"
+            - "matrix.endDraw();"
+          inputDefaults:
+            TEXT: '"Hello"'
+        tags:
+          - display
+          - actuator
+          - text
+          - beginner
+
+      # -----------------------------------------------------------------------
+      # led_matrix_draw — C-shaped wrapper for pixel-level drawing operations.
+      # Emits beginDraw() before the body and endDraw() after; the hardware
+      # framebuffer is flushed only at endDraw().
+      # -----------------------------------------------------------------------
+      - blockly:
+          type: led_matrix_draw
+          message0: "LED Matrix: draw %1"
+          args0:
+            - type: input_statement
+              name: COMMANDS
+          previousStatement: null
+          nextStatement: null
+          colour: 165
+          tooltip: "Open a drawing session on the LED matrix. Place 'set pixel' and 'fill' blocks inside. The display updates when the block ends."
+          helpUrl: https://www.arduino.cc/reference/en/libraries/arduino_led_matrix/
+        codegen:
+          body:
+            - "matrix.beginDraw();"
+            - "{{COMMANDS}}"
+            - "matrix.endDraw();"
+        tags:
+          - display
+          - actuator
+
+      # -----------------------------------------------------------------------
+      # led_matrix_set_pixel — set one LED inside a draw block.
+      # matrix.set(x, y, r, g, b): x = column 0-12, y = row 0-7.
+      # STATE dropdown emits 1 (on) or 0 (off) for all three RGB channels.
+      # -----------------------------------------------------------------------
+      - blockly:
+          type: led_matrix_set_pixel
+          message0: "pixel  col %1  row %2  %3"
+          args0:
+            - type: input_value
+              name: COL
+              check: ["Number", "int", "unsigned int", "long", "unsigned long",
+                      "byte", "word", "uint8_t", "uint16_t", "uint32_t",
+                      "int8_t", "int16_t", "int32_t"]
+            - type: input_value
+              name: ROW
+              check: ["Number", "int", "unsigned int", "long", "unsigned long",
+                      "byte", "word", "uint8_t", "uint16_t", "uint32_t",
+                      "int8_t", "int16_t", "int32_t"]
+            - type: field_dropdown
+              name: STATE
+              options:
+                - ["on", "1"]
+                - ["off", "0"]
+          previousStatement: null
+          nextStatement: null
+          colour: 165
+          inputsInline: true
+          tooltip: "Turn one LED on or off. Place inside 'LED Matrix: draw'. Col: 0–12 (left→right), Row: 0–7 (top→bottom)."
+          helpUrl: https://www.arduino.cc/reference/en/libraries/arduino_led_matrix/
+        codegen:
+          body:
+            - "matrix.set({{COL}}, {{ROW}}, {{STATE}}, {{STATE}}, {{STATE}});"
+          inputDefaults:
+            COL: "0"
+            ROW: "0"
+        tags:
+          - display
+          - actuator
+          - beginner
+
+      # -----------------------------------------------------------------------
+      # led_matrix_fill — fill the entire display inside a draw block.
+      # matrix.background(r, g, b): 255 = on, 0 = off for all 8x13 LEDs.
+      # -----------------------------------------------------------------------
+      - blockly:
+          type: led_matrix_fill
+          message0: "fill all LEDs %1"
+          args0:
+            - type: field_dropdown
+              name: STATE
+              options:
+                - ["on", "255"]
+                - ["off", "0"]
+          previousStatement: null
+          nextStatement: null
+          colour: 165
+          tooltip: "Turn all LEDs on or off at once. Place inside 'LED Matrix: draw'."
+          helpUrl: https://www.arduino.cc/reference/en/libraries/arduino_led_matrix/
+        codegen:
+          body:
+            - "matrix.background({{STATE}}, {{STATE}}, {{STATE}});"
+        tags:
+          - display
+          - actuator
+          - beginner

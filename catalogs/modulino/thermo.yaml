@@ -1,0 +1,86 @@
+# Modulino Thermo — temperature + humidity sensor.
+# Loaded via FilesystemSource ($BLOCK_CATALOG_PATH) in dev,
+# or RemoteSource (iteration 5) in production.
+
+id: modulino_thermo
+displayName:
+  en: "Modulino Thermo"
+  it: "Modulino Thermo"
+category: "Modulino"
+docs:
+  datasheet: "https://docs.arduino.cc/hardware/modulino-thermo"
+  api: "https://github.com/arduino-libraries/Modulino/blob/main/docs/api.md"
+
+implementations:
+  # ─── C++ (MCU side) ───
+  - runtime: "arduino:cpp"
+    dependencies:
+      - type: library
+        name: "Modulino"
+        minVersion: "0.5.0"
+    codegen:
+      imports:
+        - "#include <Modulino.h>"
+        - "#include <Wire.h>"
+      declarations:
+        - "ModulinoThermo _thermo;"
+      setup:
+        - "Wire1.begin();"
+        - "Modulino.begin(Wire1);"
+        - "_thermo.begin();"
+    blocks:
+      - blockly:
+          type: modulino_thermo_temperature
+          message0: "🌡 temperature (°C)"
+          output: Number
+          colour: 20
+          tooltip: "Read the temperature in Celsius from Modulino Thermo."
+        codegen:
+          body:
+            - "_thermo.getTemperature()"
+          precedence: ATOMIC
+
+      - blockly:
+          type: modulino_thermo_humidity
+          message0: "💧 humidity (%)"
+          output: Number
+          colour: 20
+          tooltip: "Read the relative humidity from Modulino Thermo."
+        codegen:
+          body:
+            - "_thermo.getHumidity()"
+          precedence: ATOMIC
+
+  # ─── Python (SBC side) ───
+  - runtime: "arduino:python"
+    dependencies:
+      - type: pip
+        name: "modulino"
+        minVersion: "0.5.0"
+    codegen:
+      imports:
+        - "from modulino import ModulinoThermo"
+      declarations:
+        - "_thermo = ModulinoThermo()"
+    blocks:
+      - blockly:
+          type: modulino_thermo_temperature
+          message0: "🌡 temperature (°C)"
+          output: Number
+          colour: 20
+          tooltip: "Read the temperature in Celsius from Modulino Thermo."
+        codegen:
+          body:
+            - "_thermo.temperature"
+          precedence: ATOMIC
+
+      - blockly:
+          type: modulino_thermo_humidity
+          message0: "💧 humidity (%)"
+          output: Number
+          colour: 20
+          tooltip: "Read the relative humidity from Modulino Thermo."
+        codegen:
+          body:
+            - "_thermo.humidity"
+          precedence: ATOMIC

@@ -40,7 +40,7 @@ implementations:
               checked: true
           message2: "system prompt %1"
           args2:
-            - type: field_multilineinput
+            - type: field_multilinetext
               name: SYSTEM_PROMPT
               text: "You are a helpful assistant."
           message3: "for each response %1 do"
@@ -79,7 +79,7 @@ implementations:
               checked: true
           message2: "system prompt %1"
           args2:
-            - type: field_multilineinput
+            - type: field_multilinetext
               name: SYSTEM_PROMPT
               text: "You are a helpful assistant."
           message3: "for each response %1 do"

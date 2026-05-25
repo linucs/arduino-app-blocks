@@ -67,7 +67,7 @@ implementations:
               value: 100
               min: 10
               max: 2000
-          message1: "font %1  direction %2"
+          message1: "font %1  direction %2 %3"
           args1:
             - type: field_dropdown
               name: FONT

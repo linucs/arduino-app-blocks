@@ -17,10 +17,7 @@ Add this header to every catalog file for in-editor schema validation:
 ```yaml
 # yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/arduino-app-lab/main/ui-packages/ui-components/lib/blockly-editor/schemas/block-catalog_v1.schema.json
 id: modulino-thermo
-displayName:
-  en: Modulino Thermo
-  it: Modulino Thermo
-category: modulino
+category: Sensors
 docs:
   datasheet: https://docs.arduino.cc/hardware/modulino-thermo
   library: https://www.arduino.cc/reference/en/libraries/modulino/
@@ -31,9 +28,8 @@ implementations:
 | Field | Required | Description |
 |-------|----------|-------------|
 | `id` | Yes | Unique identifier. Kebab-case for external catalog entries (e.g. `modulino-thermo`). |
-| `displayName` | Yes | String or `{ en: "...", it: "..." }` locale map |
-| `category` | Yes | Toolbox category. Use `::` for subcategories (e.g. `I/O::Digital`, `Communication::Serial`). Flat when no `::` (e.g. `Modulino`, `Detection`). |
-| `docs` | No | URL map for documentation links |
+| `category` | Yes | Toolbox category. Must match a predefined palette category (e.g. `Sensors`, `Vision`, `Audio`). Use `::` for subcategories (e.g. `I/O::Digital`, `Messaging::Serial`). |
+| `docs` | No | URL map for documentation links (see [Documentation Links](#documentation-links)) |
 | `implementations` | Yes | Array of runtime-specific implementations |
 
 ## Implementation
@@ -62,8 +58,6 @@ blocks:
 | `dependencies` | No | Array of dependency objects (see below) |
 | `codegen` | No | Implementation-level code sections (shared across all blocks) |
 | `blocks` | Yes | Array of block definitions |
-| `apiReference` | No | URL to the library's API docs |
-| `repository` | No | URL to the library's source repo |
 
 ### Dependencies
 
@@ -102,7 +96,6 @@ blockly:
   output: Number
   colour: 30
   tooltip: Read temperature in Celsius.
-  helpUrl: https://docs.arduino.cc/hardware/modulino-thermo
   inputsInline: true
 codegen:
   # code generation templates
@@ -134,13 +127,14 @@ args0: []
 output: Number
 colour: 30
 tooltip: Read temperature in Celsius.
-helpUrl: https://docs.arduino.cc/hardware/modulino-thermo
 inputsInline: true
 extensions:
   - hat_event_style    # add for hat/event blocks
 ```
 
 The block `type` must be unique across the entire workspace. Convention: `<component>_<action>` in snake_case.
+
+`helpUrl` is optional — see [Documentation Links](#documentation-links) for when to set it.
 
 ### The `codegen` Section
 
@@ -197,6 +191,52 @@ For value blocks only. Maps to Blockly's `Order` enum:
 | `NONE` | Always needs parentheses | Complex expressions |
 
 When in doubt, use `ATOMIC` — it's safe for any single function call or property access.
+
+## Documentation Links
+
+Two fields carry documentation URLs: `docs` (per catalog entry) and `helpUrl` (per block, inside `blockly`).
+
+### `docs` (catalog entry level)
+
+A free-form map of key→URL pairs. Each key becomes a context menu item on
+every block in the entry — the key is transformed into a human-readable label
+(e.g. `library` → "Library", `api_reference` → "Api Reference").
+
+```yaml
+docs:
+  datasheet: "https://docs.arduino.cc/hardware/modulino-thermo"
+  library: "https://www.arduino.cc/reference/en/libraries/modulino/"
+```
+
+**Common keys** (use only the ones that apply — any key is valid):
+
+| Key | Points to | Example |
+|-----|-----------|---------|
+| `datasheet` | Hardware product page with pinout, specs, wiring | `docs.arduino.cc/hardware/modulino-thermo` |
+| `library` | Library reference page (API listing) | `arduino.cc/reference/en/libraries/modulino/` |
+| `api` | Brick, function or service API docs specific to this entry | A page documenting *this entry's* endpoints/classes |
+
+**Rules**:
+
+- Every URL must point to a page **specific to this catalog entry**. A generic landing page shared by many entries (e.g. a docs index that covers all bricks) is not useful — omit the key instead.
+- Only include a key if you can verify the URL resolves to real, maintained content. Do not guess URLs based on naming patterns — check that the page exists.
+- `datasheet` is for hardware components only (Modulino, shields, breakouts). Do not use it for software-only entries.
+- Use `snake_case` or plain lowercase for keys — they are converted to Title Case for display.
+- Omit `docs` entirely for builtin programming blocks (math, logic, loops, serial) — there is no external hardware documentation to link.
+
+### `helpUrl` (block level)
+
+Standard Blockly property. Sets the URL opened by the built-in "Help" context menu item for a single block.
+
+```yaml
+blockly:
+  type: modulino_thermo_temperature
+  helpUrl: "https://docs.arduino.cc/hardware/modulino-thermo#reading-temperature"
+```
+
+**When to set it**: only when a block maps to a specific section or anchor within a documentation page — e.g. a particular API method, a wiring example for that exact sensor read. If the best link is the same page already in `docs.datasheet` or `docs.library`, do not repeat it in `helpUrl`.
+
+**When to omit it**: if there is no block-specific page or anchor. An empty or generic `helpUrl` is worse than none — Blockly shows a grayed-out "Help" menu item that leads nowhere useful.
 
 ## YAML Gotchas
 

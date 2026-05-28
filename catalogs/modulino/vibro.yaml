@@ -1,10 +1,8 @@
 id: modulino-vibro
-displayName:
-  en: "Modulino Vibro"
-  it: "Modulino Vibro"
-category: "Modulino"
+category: "Sensors"
 docs:
   datasheet: "https://docs.arduino.cc/hardware/modulino-vibro"
+  library: "https://www.arduino.cc/reference/en/libraries/modulino/"
   api: "https://github.com/arduino-libraries/Modulino/blob/main/docs/api.md"
 
 implementations:
@@ -35,7 +33,6 @@ implementations:
                       "word", "uint8_t", "uint16_t", "uint32_t", "int8_t", "int16_t", "int32_t"]
           previousStatement: null
           nextStatement: null
-          colour: 20
           tooltip: "Activate the Modulino Vibro motor for the specified duration in milliseconds."
           inputsInline: true
         codegen:
@@ -50,7 +47,6 @@ implementations:
           message0: "📳 stop vibration"
           previousStatement: null
           nextStatement: null
-          colour: 20
           tooltip: "Stop the Modulino Vibro motor immediately."
           inputsInline: true
         codegen:
@@ -78,7 +74,6 @@ implementations:
               name: DURATION
           previousStatement: null
           nextStatement: null
-          colour: 20
           tooltip: "Activate the Modulino Vibro motor for the specified duration in milliseconds."
           inputsInline: true
         codegen:
@@ -93,7 +88,6 @@ implementations:
           message0: "📳 stop vibration"
           previousStatement: null
           nextStatement: null
-          colour: 20
           tooltip: "Stop the Modulino Vibro motor immediately."
           inputsInline: true
         codegen:

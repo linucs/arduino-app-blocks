@@ -1,10 +1,8 @@
 id: modulino-light
-displayName:
-  en: "Modulino Light"
-  it: "Modulino Light"
-category: "Modulino"
+category: "Sensors"
 docs:
   datasheet: "https://docs.arduino.cc/hardware/modulino-light"
+  library: "https://www.arduino.cc/reference/en/libraries/modulino/"
   api: "https://github.com/arduino-libraries/Modulino/blob/main/docs/api.md"
 
 implementations:
@@ -29,7 +27,6 @@ implementations:
           type: modulino_light_lux
           message0: "☀ light (lux)"
           output: Number
-          colour: 20
           tooltip: "Read the ambient light level in lux from Modulino Light."
           inputsInline: true
         codegen:
@@ -42,7 +39,6 @@ implementations:
           type: modulino_light_color
           message0: "☀ light colour"
           output: Number
-          colour: 20
           tooltip: "Read the approximate colour name from Modulino Light."
           inputsInline: true
         codegen:
@@ -67,7 +63,6 @@ implementations:
           type: modulino_light_lux
           message0: "☀ light (lux)"
           output: Number
-          colour: 20
           tooltip: "Read the ambient light level in lux from Modulino Light."
           inputsInline: true
         codegen:

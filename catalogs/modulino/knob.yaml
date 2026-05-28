@@ -1,10 +1,8 @@
 id: modulino-knob
-displayName:
-  en: "Modulino Knob"
-  it: "Modulino Knob"
-category: "Modulino"
+category: "Sensors"
 docs:
   datasheet: "https://docs.arduino.cc/hardware/modulino-knob"
+  library: "https://www.arduino.cc/reference/en/libraries/modulino/"
   api: "https://github.com/arduino-libraries/Modulino/blob/main/docs/api.md"
 
 implementations:
@@ -29,7 +27,6 @@ implementations:
           type: modulino_knob_value
           message0: "🎛 knob value"
           output: Number
-          colour: 20
           tooltip: "Read the current rotary encoder position from Modulino Knob."
           inputsInline: true
         codegen:
@@ -48,7 +45,6 @@ implementations:
                       "word", "uint8_t", "uint16_t", "uint32_t", "int8_t", "int16_t", "int32_t"]
           previousStatement: null
           nextStatement: null
-          colour: 20
           tooltip: "Set the rotary encoder value of Modulino Knob."
           inputsInline: true
         codegen:
@@ -62,7 +58,6 @@ implementations:
           type: modulino_knob_pressed
           message0: "🎛 knob button pressed"
           output: Boolean
-          colour: 20
           tooltip: "True if the push-button on the Modulino Knob is currently held down."
           inputsInline: true
         codegen:
@@ -87,7 +82,6 @@ implementations:
           type: modulino_knob_value
           message0: "🎛 knob value"
           output: Number
-          colour: 20
           tooltip: "Read the current rotary encoder position from Modulino Knob."
           inputsInline: true
         codegen:
@@ -104,7 +98,6 @@ implementations:
               name: VALUE
           previousStatement: null
           nextStatement: null
-          colour: 20
           tooltip: "Set the rotary encoder value of Modulino Knob."
           inputsInline: true
         codegen:
@@ -118,7 +111,6 @@ implementations:
           type: modulino_knob_pressed
           message0: "🎛 knob button pressed"
           output: Boolean
-          colour: 20
           tooltip: "True if the push-button on the Modulino Knob is currently held down."
           inputsInline: true
         codegen:

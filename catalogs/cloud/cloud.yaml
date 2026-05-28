@@ -1,10 +1,5 @@
 id: brick-arduino-cloud
-displayName:
-  en: "Arduino Cloud"
-  it: "Arduino Cloud"
-category: "Cloud"
-docs:
-  api: "https://docs.arduino.cc/software/app-lab/bricks"
+category: "IoT"
 
 implementations:
   - runtime: "arduino:python"
@@ -40,7 +35,6 @@ implementations:
           nextStatement: null
           extensions:
             - hat_event_style
-          colour: 230
           tooltip: "Run blocks whenever the specified Arduino IoT Cloud variable changes."
         codegen:
           declarations:

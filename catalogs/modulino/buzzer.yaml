@@ -1,10 +1,8 @@
 id: modulino-buzzer
-displayName:
-  en: "Modulino Buzzer"
-  it: "Modulino Buzzer"
-category: "Modulino"
+category: "Sensors"
 docs:
   datasheet: "https://docs.arduino.cc/hardware/modulino-buzzer"
+  library: "https://www.arduino.cc/reference/en/libraries/modulino/"
   api: "https://github.com/arduino-libraries/Modulino/blob/main/docs/api.md"
 
 implementations:
@@ -39,7 +37,6 @@ implementations:
                       "word", "uint8_t", "uint16_t", "uint32_t", "int8_t", "int16_t", "int32_t"]
           previousStatement: null
           nextStatement: null
-          colour: 20
           tooltip: "Play a tone at the specified frequency (Hz) for a duration (ms) on Modulino Buzzer."
           inputsInline: true
         codegen:
@@ -55,7 +52,6 @@ implementations:
           message0: "🔔 buzzer stop"
           previousStatement: null
           nextStatement: null
-          colour: 20
           tooltip: "Stop any playing tone on Modulino Buzzer."
           inputsInline: true
         codegen:
@@ -85,7 +81,6 @@ implementations:
               name: DURATION
           previousStatement: null
           nextStatement: null
-          colour: 20
           tooltip: "Play a tone at the specified frequency (Hz) for a duration (ms) on Modulino Buzzer."
           inputsInline: true
         codegen:
@@ -101,7 +96,6 @@ implementations:
           message0: "🔔 buzzer stop"
           previousStatement: null
           nextStatement: null
-          colour: 20
           tooltip: "Stop any playing tone on Modulino Buzzer."
           inputsInline: true
         codegen:

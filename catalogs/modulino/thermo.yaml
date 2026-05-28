@@ -3,12 +3,10 @@
 # or RemoteSource (iteration 5) in production.
 
 id: modulino_thermo
-displayName:
-  en: "Modulino Thermo"
-  it: "Modulino Thermo"
-category: "Modulino"
+category: "Sensors"
 docs:
   datasheet: "https://docs.arduino.cc/hardware/modulino-thermo"
+  library: "https://www.arduino.cc/reference/en/libraries/modulino/"
   api: "https://github.com/arduino-libraries/Modulino/blob/main/docs/api.md"
 
 implementations:
@@ -33,7 +31,6 @@ implementations:
           type: modulino_thermo_temperature
           message0: "🌡 temperature (°C)"
           output: Number
-          colour: 20
           tooltip: "Read the temperature in Celsius from Modulino Thermo."
         codegen:
           body:
@@ -44,7 +41,6 @@ implementations:
           type: modulino_thermo_humidity
           message0: "💧 humidity (%)"
           output: Number
-          colour: 20
           tooltip: "Read the relative humidity from Modulino Thermo."
         codegen:
           body:
@@ -67,7 +63,6 @@ implementations:
           type: modulino_thermo_temperature
           message0: "🌡 temperature (°C)"
           output: Number
-          colour: 20
           tooltip: "Read the temperature in Celsius from Modulino Thermo."
         codegen:
           body:
@@ -78,7 +73,6 @@ implementations:
           type: modulino_thermo_humidity
           message0: "💧 humidity (%)"
           output: Number
-          colour: 20
           tooltip: "Read the relative humidity from Modulino Thermo."
         codegen:
           body:

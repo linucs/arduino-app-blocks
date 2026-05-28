@@ -1,10 +1,8 @@
 id: modulino-buttons
-displayName:
-  en: "Modulino Buttons"
-  it: "Modulino Buttons"
-category: "Modulino"
+category: "Sensors"
 docs:
   datasheet: "https://docs.arduino.cc/hardware/modulino-buttons"
+  library: "https://www.arduino.cc/reference/en/libraries/modulino/"
   api: "https://github.com/arduino-libraries/Modulino/blob/main/docs/api.md"
 
 implementations:
@@ -30,7 +28,6 @@ implementations:
           message0: "🔘 update buttons"
           previousStatement: null
           nextStatement: null
-          colour: 20
           tooltip: "Poll the Modulino Buttons module to refresh button states. Call once per loop iteration."
           inputsInline: true
         codegen:
@@ -49,7 +46,6 @@ implementations:
                 - ["B", "1"]
                 - ["C", "2"]
           output: Boolean
-          colour: 20
           tooltip: "True if the selected button on Modulino Buttons is currently pressed."
           inputsInline: true
         codegen:
@@ -79,7 +75,6 @@ implementations:
                 - ["off", "false"]
           previousStatement: null
           nextStatement: null
-          colour: 20
           tooltip: "Set the three LEDs on Modulino Buttons simultaneously."
           inputsInline: true
         codegen:
@@ -104,7 +99,6 @@ implementations:
           message0: "🔘 update buttons"
           previousStatement: null
           nextStatement: null
-          colour: 20
           tooltip: "Poll the Modulino Buttons module to refresh button states and trigger callbacks."
           inputsInline: true
         codegen:
@@ -123,7 +117,6 @@ implementations:
                 - ["B", "1"]
                 - ["C", "2"]
           output: Boolean
-          colour: 20
           tooltip: "True if the selected button on Modulino Buttons is currently pressed."
           inputsInline: true
         codegen:
@@ -153,7 +146,6 @@ implementations:
                 - ["off", "False"]
           previousStatement: null
           nextStatement: null
-          colour: 20
           tooltip: "Set the three LEDs on Modulino Buttons simultaneously."
           inputsInline: true
         codegen:

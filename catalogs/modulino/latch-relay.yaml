@@ -1,10 +1,8 @@
 id: modulino-latch-relay
-displayName:
-  en: "Modulino LatchRelay"
-  it: "Modulino LatchRelay"
-category: "Modulino"
+category: "Sensors"
 docs:
   datasheet: "https://docs.arduino.cc/hardware/modulino-latch-relay"
+  library: "https://www.arduino.cc/reference/en/libraries/modulino/"
   api: "https://github.com/arduino-libraries/Modulino/blob/main/docs/api.md"
 
 implementations:
@@ -30,7 +28,6 @@ implementations:
           message0: "🔌 relay on"
           previousStatement: null
           nextStatement: null
-          colour: 20
           tooltip: "Latch the Modulino Relay to the ON (closed) position."
           inputsInline: true
         codegen:
@@ -43,7 +40,6 @@ implementations:
           message0: "🔌 relay off"
           previousStatement: null
           nextStatement: null
-          colour: 20
           tooltip: "Latch the Modulino Relay to the OFF (open) position."
           inputsInline: true
         codegen:
@@ -55,7 +51,6 @@ implementations:
           type: modulino_relay_status
           message0: "🔌 relay status"
           output: Number
-          colour: 20
           tooltip: "Read the current relay status from Modulino LatchRelay."
           inputsInline: true
         codegen:
@@ -81,7 +76,6 @@ implementations:
           message0: "🔌 relay on"
           previousStatement: null
           nextStatement: null
-          colour: 20
           tooltip: "Turn on the Modulino Relay."
           inputsInline: true
         codegen:
@@ -94,7 +88,6 @@ implementations:
           message0: "🔌 relay off"
           previousStatement: null
           nextStatement: null
-          colour: 20
           tooltip: "Turn off the Modulino Relay."
           inputsInline: true
         codegen:
@@ -106,7 +99,6 @@ implementations:
           type: modulino_relay_status
           message0: "🔌 relay on?"
           output: Boolean
-          colour: 20
           tooltip: "True if the Modulino Relay is currently on."
           inputsInline: true
         codegen:

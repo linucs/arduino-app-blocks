@@ -81,7 +81,7 @@ For each block, produce two sections:
 - Standard input types (`input_value` with `check`, `input_statement`, `input_dummy`)
 - `colour` (HSV hue 0-360 or hex string) — keep consistent within a component family
 - `tooltip` — describe what the block does, not how
-- `helpUrl` — link to the component's documentation
+- `helpUrl` — link to a block-specific documentation page or anchor (see `schema-guide.md` § Documentation Links for when to set vs. omit)
 - `inputsInline: true` when the block has few short inputs
 - `extensions: ["hat_event_style"]` for event hat blocks
 
@@ -115,6 +115,7 @@ The `declarations` key is content-hashed for deduplication: two blocks with diff
 
 ### Step 4 — Add Metadata
 
+- `docs` — entry-level documentation links. Free-form key→URL map; keys become context menu labels (e.g. `library` → "Library", `datasheet` → "Datasheet"). Only include URLs you have verified — see `schema-guide.md` § Documentation Links for rules.
 - `tags` — for toolbox filtering: `"sensor"`, `"actuator"`, `"event"`, `"config"`, `"i2c"`, `"beginner"`, `"advanced"`, etc.
 - `dependencies` — what the component needs:
   - `{ "type": "library", "name": "...", "minVersion": "..." }` for C++ Arduino libraries → `sketch.yaml`
@@ -220,6 +221,8 @@ Before delivering, verify:
 - [ ] `tags` are assigned for toolbox filtering
 - [ ] The YAML validates against the schema (Step 5)
 - [ ] `# yaml-language-server` schema header is present at the top of each file
+- [ ] `docs` URLs are verified and specific to this entry (no generic/shared landing pages)
+- [ ] `helpUrl` is set only when a block-specific page or anchor exists (omit otherwise)
 - [ ] Tooltips are user-friendly (describe *what*, not *how*)
 - [ ] Block labels use Blockly `%N` placeholders correctly
 - [ ] Colour is consistent within the component family

@@ -1,10 +1,8 @@
 id: modulino-movement
-displayName:
-  en: "Modulino Movement"
-  it: "Modulino Movement"
-category: "Modulino"
+category: "Sensors"
 docs:
   datasheet: "https://docs.arduino.cc/hardware/modulino-movement"
+  library: "https://www.arduino.cc/reference/en/libraries/modulino/"
   api: "https://github.com/arduino-libraries/Modulino/blob/main/docs/api.md"
 
 implementations:
@@ -30,7 +28,6 @@ implementations:
           message0: "📐 update movement"
           previousStatement: null
           nextStatement: null
-          colour: 20
           tooltip: "Read new sensor data from Modulino Movement (IMU). Call once per loop iteration before reading axes."
           inputsInline: true
         codegen:
@@ -49,7 +46,6 @@ implementations:
                 - ["Y", "Y"]
                 - ["Z", "Z"]
           output: Number
-          colour: 20
           tooltip: "Read one acceleration axis (m/s²) from Modulino Movement. Call update() first."
           inputsInline: true
         codegen:
@@ -69,7 +65,6 @@ implementations:
                 - ["pitch", "Pitch"]
                 - ["yaw", "Yaw"]
           output: Number
-          colour: 20
           tooltip: "Read one gyroscope axis (°/s) from Modulino Movement. Call update() first."
           inputsInline: true
         codegen:
@@ -101,7 +96,6 @@ implementations:
                 - ["Y", "y"]
                 - ["Z", "z"]
           output: Number
-          colour: 20
           tooltip: "Read one acceleration axis from Modulino Movement. Returns a float (m/s²)."
           inputsInline: true
         codegen:
@@ -121,7 +115,6 @@ implementations:
                 - ["Y", "y"]
                 - ["Z", "z"]
           output: Number
-          colour: 20
           tooltip: "Read one gyroscope axis from Modulino Movement. Returns a float (°/s)."
           inputsInline: true
         codegen:

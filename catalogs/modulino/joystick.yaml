@@ -1,10 +1,8 @@
 id: modulino-joystick
-displayName:
-  en: "Modulino Joystick"
-  it: "Modulino Joystick"
-category: "Modulino"
+category: "Sensors"
 docs:
   datasheet: "https://docs.arduino.cc/hardware/modulino-joystick"
+  library: "https://www.arduino.cc/reference/en/libraries/modulino/"
   api: "https://github.com/arduino-libraries/Modulino/blob/main/docs/api.md"
 
 implementations:
@@ -30,7 +28,6 @@ implementations:
           message0: "🕹 update joystick"
           previousStatement: null
           nextStatement: null
-          colour: 20
           tooltip: "Poll the Modulino Joystick to refresh axis and button state. Call once per loop iteration."
           inputsInline: true
         codegen:
@@ -42,7 +39,6 @@ implementations:
           type: modulino_joystick_x
           message0: "🕹 joystick X"
           output: Number
-          colour: 20
           tooltip: "Read the horizontal axis of Modulino Joystick (-127 to 127, 0 = centre)."
           inputsInline: true
         codegen:
@@ -55,7 +51,6 @@ implementations:
           type: modulino_joystick_y
           message0: "🕹 joystick Y"
           output: Number
-          colour: 20
           tooltip: "Read the vertical axis of Modulino Joystick (-127 to 127, 0 = centre)."
           inputsInline: true
         codegen:
@@ -68,7 +63,6 @@ implementations:
           type: modulino_joystick_pressed
           message0: "🕹 joystick button pressed"
           output: Boolean
-          colour: 20
           tooltip: "True if the push-button on Modulino Joystick is currently pressed."
           inputsInline: true
         codegen:
@@ -94,7 +88,6 @@ implementations:
           message0: "🕹 update joystick"
           previousStatement: null
           nextStatement: null
-          colour: 20
           tooltip: "Poll the Modulino Joystick to refresh axis and button state."
           inputsInline: true
         codegen:
@@ -106,7 +99,6 @@ implementations:
           type: modulino_joystick_x
           message0: "🕹 joystick X"
           output: Number
-          colour: 20
           tooltip: "Read the horizontal axis of Modulino Joystick (-127 to 127, 0 = centre)."
           inputsInline: true
         codegen:
@@ -119,7 +111,6 @@ implementations:
           type: modulino_joystick_y
           message0: "🕹 joystick Y"
           output: Number
-          colour: 20
           tooltip: "Read the vertical axis of Modulino Joystick (-127 to 127, 0 = centre)."
           inputsInline: true
         codegen:
@@ -132,7 +123,6 @@ implementations:
           type: modulino_joystick_pressed
           message0: "🕹 joystick button pressed"
           output: Boolean
-          colour: 20
           tooltip: "True if the push-button on Modulino Joystick is currently pressed."
           inputsInline: true
         codegen:

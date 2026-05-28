@@ -1,10 +1,8 @@
 id: modulino-distance
-displayName:
-  en: "Modulino Distance"
-  it: "Modulino Distance"
-category: "Modulino"
+category: "Sensors"
 docs:
   datasheet: "https://docs.arduino.cc/hardware/modulino-distance"
+  library: "https://www.arduino.cc/reference/en/libraries/modulino/"
   api: "https://github.com/arduino-libraries/Modulino/blob/main/docs/api.md"
 
 implementations:
@@ -29,7 +27,6 @@ implementations:
           type: modulino_distance_available
           message0: "📏 distance ready"
           output: Boolean
-          colour: 20
           tooltip: "True if the Modulino Distance sensor has a fresh measurement ready to read."
           inputsInline: true
         codegen:
@@ -42,7 +39,6 @@ implementations:
           type: modulino_distance_get
           message0: "📏 distance (mm)"
           output: Number
-          colour: 20
           tooltip: "Read the measured distance in millimetres from Modulino Distance."
           inputsInline: true
         codegen:
@@ -67,7 +63,6 @@ implementations:
           type: modulino_distance_get
           message0: "📏 distance (cm)"
           output: Number
-          colour: 20
           tooltip: "Read the measured distance in centimetres from Modulino Distance. Returns None if no valid reading."
           inputsInline: true
         codegen:

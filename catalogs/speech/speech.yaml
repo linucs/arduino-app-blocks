@@ -1,10 +1,5 @@
 id: brick-speech
-displayName:
-  en: "Speech"
-  it: "Voce"
-category: "Speech"
-docs:
-  api: "https://docs.arduino.cc/software/app-lab/bricks"
+category: "Audio"
 
 implementations:
   - runtime: "arduino:python"
@@ -35,7 +30,6 @@ implementations:
           nextStatement: null
           extensions:
             - hat_event_style
-          colour: 120
           tooltip: "Stream microphone audio to the speech recognition model. Run blocks for each transcription chunk."
         codegen:
           declarations:
@@ -53,7 +47,6 @@ implementations:
               check: String
           previousStatement: null
           nextStatement: null
-          colour: 120
           tooltip: "Synthesise and play the given text as speech."
           inputsInline: true
         codegen:
@@ -68,7 +61,6 @@ implementations:
           message0: "cancel speech recognition"
           previousStatement: null
           nextStatement: null
-          colour: 120
           tooltip: "Stop the active speech recognition stream."
           inputsInline: true
         codegen:
@@ -81,7 +73,6 @@ implementations:
           message0: "cancel speech output"
           previousStatement: null
           nextStatement: null
-          colour: 120
           tooltip: "Stop the currently playing text-to-speech output."
           inputsInline: true
         codegen:

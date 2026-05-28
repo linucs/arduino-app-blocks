@@ -1,10 +1,5 @@
 id: brick-ai
-displayName:
-  en: "AI"
-  it: "IA"
-category: "AI"
-docs:
-  api: "https://docs.arduino.cc/software/app-lab/bricks"
+category: "Language"
 
 implementations:
   - runtime: "arduino:python"
@@ -55,7 +50,6 @@ implementations:
           nextStatement: null
           extensions:
             - hat_event_style
-          colour: 270
           tooltip: "Ask a cloud LLM a question. For each streamed response chunk, run the blocks."
         codegen:
           declarations:
@@ -94,7 +88,6 @@ implementations:
           nextStatement: null
           extensions:
             - hat_event_style
-          colour: 270
           tooltip: "Ask the on-device edge LLM a question. For each streamed response chunk, run the blocks."
         codegen:
           declarations:
@@ -113,7 +106,6 @@ implementations:
             - type: input_value
               name: IMAGE
           output: null
-          colour: 270
           tooltip: "Ask a vision-language model a question about an image. Returns the response text."
           inputsInline: true
         codegen:
@@ -130,7 +122,6 @@ implementations:
           message0: "clear AI memory"
           previousStatement: null
           nextStatement: null
-          colour: 270
           tooltip: "Clear the conversation history from the LLM so the next question starts fresh."
           inputsInline: true
         codegen:
@@ -143,7 +134,6 @@ implementations:
           message0: "stop AI response"
           previousStatement: null
           nextStatement: null
-          colour: 270
           tooltip: "Interrupt a running LLM stream response."
           inputsInline: true
         codegen:

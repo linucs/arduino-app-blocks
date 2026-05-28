@@ -1,9 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/arduino/arduino-app-lab/main/ui-packages/ui-components/lib/blockly-editor/schemas/block-catalog_v1.schema.json
 id: builtin_led_matrix
-displayName:
-  en: LED Matrix
-  it: Matrice LED
-category: "Display"
+category: "Displays"
 docs:
   library: https://www.arduino.cc/reference/en/libraries/arduino_led_matrix/
 implementations:
@@ -15,8 +12,6 @@ implementations:
       - type: library
         name: Arduino_LED_Matrix
         minVersion: "1.0.0"
-    apiReference: https://www.arduino.cc/reference/en/libraries/arduino_led_matrix/
-    repository: https://github.com/arduino-libraries/Arduino_LED_Matrix
     # ArduinoGraphics MUST be included before Arduino_LED_Matrix — the matrix
     # library uses a compile-time #if __has_include to conditionally inherit
     # from ArduinoGraphics, so header order matters.
@@ -39,9 +34,7 @@ implementations:
           args0: []
           previousStatement: null
           nextStatement: null
-          colour: 165
           tooltip: "Turn off all LEDs on the 8×13 matrix."
-          helpUrl: https://www.arduino.cc/reference/en/libraries/arduino_led_matrix/
         codegen:
           body:
             - "matrix.clear();"
@@ -83,9 +76,7 @@ implementations:
             - type: input_dummy
           previousStatement: null
           nextStatement: null
-          colour: 165
           tooltip: "Scroll (or display) text on the LED matrix. Blocking — the next block runs only after the full animation finishes."
-          helpUrl: https://www.arduino.cc/reference/en/libraries/arduino_led_matrix/
         codegen:
           body:
             - "matrix.beginDraw();"
@@ -117,9 +108,7 @@ implementations:
               name: COMMANDS
           previousStatement: null
           nextStatement: null
-          colour: 165
           tooltip: "Open a drawing session on the LED matrix. Place 'set pixel' and 'fill' blocks inside. The display updates when the block ends."
-          helpUrl: https://www.arduino.cc/reference/en/libraries/arduino_led_matrix/
         codegen:
           body:
             - "matrix.beginDraw();"
@@ -155,10 +144,8 @@ implementations:
                 - ["off", "0"]
           previousStatement: null
           nextStatement: null
-          colour: 165
           inputsInline: true
           tooltip: "Turn one LED on or off. Place inside 'LED Matrix: draw'. Col: 0–12 (left→right), Row: 0–7 (top→bottom)."
-          helpUrl: https://www.arduino.cc/reference/en/libraries/arduino_led_matrix/
         codegen:
           body:
             - "matrix.set({{COL}}, {{ROW}}, {{STATE}}, {{STATE}}, {{STATE}});"
@@ -185,9 +172,7 @@ implementations:
                 - ["off", "0"]
           previousStatement: null
           nextStatement: null
-          colour: 165
           tooltip: "Turn all LEDs on or off at once. Place inside 'LED Matrix: draw'."
-          helpUrl: https://www.arduino.cc/reference/en/libraries/arduino_led_matrix/
         codegen:
           body:
             - "matrix.background({{STATE}}, {{STATE}}, {{STATE}});"

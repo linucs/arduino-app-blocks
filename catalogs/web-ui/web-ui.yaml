@@ -1,10 +1,5 @@
 id: brick-web-ui
-displayName:
-  en: "Web UI"
-  it: "Web UI"
-category: "Web UI"
-docs:
-  api: "https://docs.arduino.cc/software/app-lab/bricks"
+category: "Interface"
 
 implementations:
   - runtime: "arduino:python"
@@ -36,7 +31,6 @@ implementations:
           nextStatement: null
           extensions:
             - hat_event_style
-          colour: 190
           tooltip: "Run blocks when the web UI sends a message with the given name."
         codegen:
           declarations:
@@ -60,7 +54,6 @@ implementations:
           nextStatement: null
           extensions:
             - hat_event_style
-          colour: 190
           tooltip: "Run blocks each time a new browser client connects to the web UI."
         codegen:
           declarations:
@@ -80,7 +73,6 @@ implementations:
               name: DATA
           previousStatement: null
           nextStatement: null
-          colour: 190
           tooltip: "Broadcast a message with data to all connected web UI clients."
           inputsInline: true
         codegen:
@@ -104,7 +96,6 @@ implementations:
               check: String
           previousStatement: null
           nextStatement: null
-          colour: 190
           tooltip: "Send a message with data to one specific web UI client."
           inputsInline: true
         codegen:
@@ -134,7 +125,6 @@ implementations:
           nextStatement: null
           extensions:
             - hat_event_style
-          colour: 190
           tooltip: "Expose a REST API endpoint. Run blocks each time the endpoint is called."
         codegen:
           declarations:

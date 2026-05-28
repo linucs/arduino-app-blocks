@@ -1,10 +1,5 @@
 id: brick-storage
-displayName:
-  en: "Storage"
-  it: "Storage"
 category: "Storage"
-docs:
-  api: "https://docs.arduino.cc/software/app-lab/bricks"
 
 implementations:
   - runtime: "arduino:python"
@@ -29,7 +24,6 @@ implementations:
               name: VALUE
           previousStatement: null
           nextStatement: null
-          colour: 60
           tooltip: "Write a sample to the time-series database with the current timestamp."
           inputsInline: true
         codegen:
@@ -54,7 +48,6 @@ implementations:
               value: 100
               min: 1
           output: null
-          colour: 60
           tooltip: "Read recent samples from the time-series database. Window format: '1h', '30m', '7d'."
           inputsInline: true
         codegen:
@@ -74,7 +67,6 @@ implementations:
               name: RECORD
           previousStatement: null
           nextStatement: null
-          colour: 60
           tooltip: "Insert a record (dict) into a SQL table."
           inputsInline: true
         codegen:
@@ -99,7 +91,6 @@ implementations:
               value: 10
               min: 1
           output: null
-          colour: 60
           tooltip: "Query rows from a SQL table. Returns a list of dicts."
           inputsInline: true
         codegen:

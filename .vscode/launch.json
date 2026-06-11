@@ -1,0 +1,31 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      // F5 — run the brick server as a plain Node process (no Docker), with
+      // breakpoints in server/**.ts and src/**.ts via esbuild source maps.
+      "name": "blocks-author (node)",
+      "type": "node",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/dist/server.js",
+      "cwd": "${workspaceFolder}",
+      "sourceMaps": true,
+      "outFiles": ["${workspaceFolder}/dist/server.js"],
+      "skipFiles": ["<node_internals>/**"],
+      "console": "integratedTerminal",
+      "env": {
+        "APP_HOME": "${workspaceFolder}/examples/sample-app",
+        "PORT": "7100",
+        "EDITABLE_EXTENSIONS": "ino,cpp,py",
+        "GENERATE_MODE": "auto",
+        "DEFAULT_FQBN": "arduino:zephyr:unoq"
+      },
+      "serverReadyAction": {
+        "pattern": "listening on :([0-9]+)",
+        "uriFormat": "http://localhost:%s",
+        "action": "openExternally"
+      }
+    }
+  ]
+}

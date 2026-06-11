@@ -1,0 +1,247 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "block-catalog_v1.schema.json",
+  "title": "Block Catalog Entry",
+  "description": "Schema for Arduino App Lab block catalog entries. Catalog files are authored as YAML; this JSON Schema validates the parsed data model.",
+  "type": "object",
+  "required": ["id", "category", "implementations"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+([_-][a-z0-9]+)*$",
+      "description": "Unique component identifier. Use kebab-case for external catalog entries (e.g. modulino-thermo). Built-in entries use snake_case (e.g. builtin_serial, cpp_math)."
+    },
+    "category": {
+      "type": "string",
+      "description": "Toolbox category for this entry's blocks. Use '::' to create subcategories (e.g. 'I/O::Digital', 'Communication::Serial'). Single-level values (e.g. 'Modulino', 'Detection') produce flat categories."
+    },
+    "description": {
+      "oneOf": [
+        { "type": "string" },
+        {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      ],
+      "description": "Human-readable description of this catalog entry. Used in the community catalog browser. Accepts a plain string or a locale map {en: '...', it: '...'}."
+    },
+    "colour": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$",
+      "description": "Hex colour for this entry's toolbox category. Optional — if omitted, the category uses its default colour from the theme. When multiple entries define a colour for the same category, the last one loaded wins."
+    },
+    "author": {
+      "type": "string",
+      "maxLength": 50,
+      "description": "Name or handle of the catalog author (e.g. 'Arduino', 'Jane Doe'). Shown in the community catalog browser."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version of this catalog entry (e.g. '1.0.0'). Used to detect available updates in the community catalog browser."
+    },
+    "docs": {
+      "type": "object",
+      "description": "External documentation links.",
+      "additionalProperties": { "type": "string", "format": "uri" }
+    },
+    "implementations": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/Implementation" }
+    }
+  },
+  "definitions": {
+    "Implementation": {
+      "type": "object",
+      "required": ["runtime", "blocks"],
+      "additionalProperties": false,
+      "properties": {
+        "runtime": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*:[a-z][a-z0-9]*$",
+          "description": "Target runtime as <framework>:<language> (e.g. 'arduino:cpp'). Implementations with unsupported runtimes are silently ignored."
+        },
+        "dependencies": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Dependency" },
+          "description": "Libraries, pip packages, or bricks required by this implementation."
+        },
+        "targets": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Optional list of supported targets or platforms (e.g. ['espressif32', 'ststm32']). If absent, the block is considered universal."
+        },
+        "codegen": {
+          "$ref": "#/definitions/CodegenSections",
+          "description": "Implementation-level codegen. Emitted once if any block from this implementation is used. Typical: shared imports, object construction, .begin() calls."
+        },
+        "blocks": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/BlockDefinition" }
+        }
+      }
+    },
+    "Dependency": {
+      "type": "object",
+      "required": ["type", "name"],
+      "oneOf": [
+        {
+          "properties": {
+            "type": { "const": "library" },
+            "name": { "type": "string" },
+            "minVersion": { "type": "string" },
+            "url": { "type": "string", "description": "Git/VCS URL for libraries not in the PlatformIO registry. Emitted as PlatformIO's 'name=url' form; minVersion is ignored (pin via 'ref')." },
+            "ref": { "type": "string", "description": "Optional git tag/branch/commit to pin the VCS dependency (e.g. 'v1.0.0')." }
+          },
+          "required": ["type", "name"],
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "type": { "const": "pip" },
+            "name": { "type": "string" },
+            "minVersion": { "type": "string" }
+          },
+          "required": ["type", "name"],
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "type": { "const": "brick" },
+            "name": { "type": "string" },
+            "variables": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            }
+          },
+          "required": ["type", "name"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "BlockDefinition": {
+      "type": "object",
+      "required": ["blockly"],
+      "additionalProperties": false,
+      "properties": {
+        "blockly": {
+          "type": "object",
+          "required": ["type"],
+          "description": "Verbatim Blockly JSON block definition. Passed directly to defineBlocksWithJsonArray() — the factory must not transform this. Any valid Blockly property is allowed.",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "Unique block type identifier. Convention: <component>_<action> in snake_case."
+            }
+          },
+          "additionalProperties": true
+        },
+        "codegen": {
+          "$ref": "#/definitions/BlockCodegen",
+          "description": "Declarative-tier code generation templates. Ignored if 'generator' is set."
+        },
+        "generator": {
+          "type": "string",
+          "description": "Imperative tier: name of a registered TypeScript class implementing IBlockCodeGenerator. Takes precedence over 'codegen' if both are present. First-party only — community catalog entries must not use this field."
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+          "description": "Kebab-case tags for toolbox filtering (e.g. 'sensor', 'actuator', 'event', 'beginner')."
+        }
+      }
+    },
+    "BlockCodegen": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Block-level code generation. Extends CodegenSections with body, precedence, and inputDefaults.",
+      "properties": {
+        "imports": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "#include or import lines. Deduplicated by resolved value."
+        },
+        "declarations": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Global/module-level declarations. Deduplicated by resolved value."
+        },
+        "setup": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "One-shot init code (runs in setup() for C++, before def loop() for Python). Deduplicated."
+        },
+        "helpers": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "description": "Utility functions. Key = function name (dedup key), value = function body. Use {{FUNCTION_NAME}} in the value."
+        },
+        "cleanup": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Teardown code. Deduplicated."
+        },
+        "body": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Inline code lines, joined with newline. Optional for setup-only blocks."
+        },
+        "precedence": {
+          "type": "string",
+          "enum": [
+            "ATOMIC",
+            "UNARY_PREFIX",
+            "MULTIPLICATION",
+            "ADDITION",
+            "RELATIONAL",
+            "EQUALITY",
+            "LOGICAL_AND",
+            "LOGICAL_OR",
+            "NONE"
+          ],
+          "description": "Operator precedence. Required for value blocks (blockly.output is set)."
+        },
+        "inputDefaults": {
+          "type": "object",
+          "additionalProperties": {},
+          "description": "Fallback values for unconnected value inputs."
+        }
+      }
+    },
+    "CodegenSections": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Code generation sections. All string values support {{placeholder}} syntax. Sections route through generator.definitions_ using conventional key prefixes (import_*, decl_*, setup_*, func_*).",
+      "properties": {
+        "imports": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "#include or import lines. Deduplicated by resolved value."
+        },
+        "declarations": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Global/module-level declarations. Deduplicated by resolved value."
+        },
+        "setup": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "One-shot init code (runs in setup() for C++, before def loop() for Python). Deduplicated."
+        },
+        "helpers": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "description": "Utility functions. Key = function name (dedup key), value = function body. Use {{FUNCTION_NAME}} in the value."
+        },
+        "cleanup": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Teardown code. Deduplicated."
+        }
+      }
+    }
+  }
+}

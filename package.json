@@ -1,0 +1,58 @@
+{
+  "name": "arduino-app-blocks-brick",
+  "displayName": "Visual Programming (Blockly) — App Lab brick",
+  "description": "HTTP/WebSocket host that serves the Blockly block-authoring UI as an Arduino App Lab custom brick.",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/linucs/arduino-app-blocks"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "sync-core": "tools/sync-core.sh --copy",
+    "check-core": "tools/sync-core.sh --check",
+    "check-types": "tsc --noEmit -p tsconfig.json",
+    "build": "node esbuild.js",
+    "build:prod": "node esbuild.js --production",
+    "watch": "node esbuild.js --watch",
+    "start": "node dist/server.js",
+    "preview": "APP_HOME=examples/sample-app PORT=7102 node dist/server.js"
+  },
+  "dependencies": {
+    "@blockly/block-dynamic-connection": "^0.8.9",
+    "@blockly/field-angle": "^6.0.9",
+    "@blockly/field-bitmap": "^6.0.9",
+    "@blockly/field-colour": "^6.0.12",
+    "@blockly/field-colour-hsv-sliders": "^6.0.12",
+    "@blockly/field-dependent-dropdown": "^5.0.10",
+    "@blockly/field-grid-dropdown": "^6.0.10",
+    "@blockly/field-multilineinput": "^6.0.9",
+    "@blockly/field-slider": "^8.0.9",
+    "@blockly/plugin-scroll-options": "^7.0.9",
+    "@blockly/plugin-typed-variable-modal": "^9.0.9",
+    "@blockly/shadow-block-converter": "^7.0.10",
+    "@blockly/toolbox-search": "^3.1.9",
+    "@blockly/workspace-backpack": "^7.0.11",
+    "@blockly/workspace-minimap": "^0.3.9",
+    "@mit-app-inventor/blockly-plugin-workspace-multiselect": "^1.0.2",
+    "@vscode/l10n": "^0.0.18",
+    "@vscode/webview-ui-toolkit": "^1.4.0",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "blockly": "^12.5.1",
+    "chokidar": "^4.0.3",
+    "js-yaml": "^4.1.1",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "22.x",
+    "@types/ws": "^8.5.13",
+    "esbuild": "^0.27.3",
+    "typescript": "^5.9.3"
+  }
+}

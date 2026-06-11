@@ -1,0 +1,24 @@
+# Local "plain container" mode — run the brick exactly as App Lab would, but
+# without App Lab. Mounts a sample app at /app and exposes the editor on :7100.
+#
+#   docker compose up --build
+#   open http://localhost:7100
+#
+# Point it at your own app by overriding the mount, e.g.:
+#   APP_DIR=/path/to/my/app docker compose up --build
+services:
+  blocks-author:
+    build:
+      context: .
+    image: blocks-author:dev
+    ports:
+      - "7100:7100"
+    volumes:
+      # The app folder the editor reads/writes (the brick writes .blk + source +
+      # sketch.yaml here, so it must be writable).
+      - "${APP_DIR:-./examples/sample-app}:/app"
+    environment:
+      EDITABLE_EXTENSIONS: "ino,cpp,py"
+      GENERATE_MODE: "auto"
+      SHOW_MINIMAP: "false"
+      DEFAULT_FQBN: "arduino:zephyr:unoq"

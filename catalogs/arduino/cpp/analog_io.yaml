@@ -1,0 +1,217 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/vscode-blockly/refs/heads/main/src/catalog/block-catalog_v1.schema.json
+id: arduino_analog_io
+category: "Input / Output::Analog"
+colour: "#FFB300"
+implementations:
+  - runtime: "arduino:cpp"
+    blocks:
+      # --- analogRead ---
+      - blockly:
+          type: cpp_analog_read
+          message0:
+            en: "analogRead %1"
+            it: "analogRead %1"
+            zh-cn: "analogRead %1"
+            zh-tw: "analogRead %1"
+            fr: "analogRead %1"
+            de: "analogRead %1"
+            es: "analogRead %1"
+            ja: "analogRead %1"
+            ko: "analogRead %1"
+            ru: "analogRead %1"
+            pt-br: "analogRead %1"
+            tr: "analogRead %1"
+            pl: "analogRead %1"
+            cs: "analogRead %1"
+            hu: "analogRead %1"
+          args0:
+            - type: input_value
+              name: PIN
+              check: ["Number", "int", "unsigned int", "long", "unsigned long", "byte", "word", "uint8_t", "uint16_t", "uint32_t", "int8_t", "int16_t", "int32_t"]
+          output: Number
+          inputsInline: true
+          tooltip:
+            en: "Read the analog voltage on a pin (0–4095 at 12-bit resolution)."
+            it: "Leggi la tensione analogica su un pin (0–4095 a risoluzione 12 bit)."
+            zh-cn: "读取引脚上的模拟电压（12 位分辨率下为 0–4095）。"
+            zh-tw: "讀取引腳上的類比電壓（12 位元解析度下為 0–4095）。"
+            fr: "Lit la tension analogique sur une broche (0–4095 en résolution 12 bits)."
+            de: "Liest die analoge Spannung an einem Pin (0–4095 bei 12-Bit-Auflösung)."
+            es: "Lee el voltaje analógico en un pin (0–4095 con resolución de 12 bits)."
+            ja: "ピンのアナログ電圧を読み取ります（12 ビット分解能で 0–4095）。"
+            ko: "핀의 아날로그 전압을 읽습니다 (12비트 해상도에서 0–4095)."
+            ru: "Считывает аналоговое напряжение на выводе (0–4095 при 12-битном разрешении)."
+            pt-br: "Lê a tensão analógica em um pino (0–4095 com resolução de 12 bits)."
+            tr: "Bir pindeki analog voltajı okur (12 bit çözünürlükte 0–4095)."
+            pl: "Odczytuje napięcie analogowe na pinie (0–4095 przy rozdzielczości 12-bitowej)."
+            cs: "Přečte analogové napětí na pinu (0–4095 při 12bitovém rozlišení)."
+            hu: "Beolvassa az analóg feszültséget egy tűn (0–4095, 12 bites felbontással)."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/analog-io/analogRead/"
+        codegen:
+          body:
+            - "analogRead({{PIN}})"
+          precedence: ATOMIC
+          inputDefaults:
+            PIN: "A0"
+
+      # --- analogWrite (PWM) ---
+      - blockly:
+          type: cpp_analog_write
+          message0:
+            en: "analogWrite pin %1 value %2"
+            it: "analogWrite pin %1 valore %2"
+            zh-cn: "analogWrite 引脚 %1 值 %2"
+            zh-tw: "analogWrite 引腳 %1 值 %2"
+            fr: "analogWrite broche %1 valeur %2"
+            de: "analogWrite Pin %1 Wert %2"
+            es: "analogWrite pin %1 valor %2"
+            ja: "analogWrite ピン %1 値 %2"
+            ko: "analogWrite 핀 %1 값 %2"
+            ru: "analogWrite вывод %1 значение %2"
+            pt-br: "analogWrite pino %1 valor %2"
+            tr: "analogWrite pin %1 değer %2"
+            pl: "analogWrite pin %1 wartość %2"
+            cs: "analogWrite pin %1 hodnota %2"
+            hu: "analogWrite tű %1 érték %2"
+          args0:
+            - type: input_value
+              name: PIN
+              check: ["Number", "int", "unsigned int", "long", "unsigned long", "byte", "word", "uint8_t", "uint16_t", "uint32_t", "int8_t", "int16_t", "int32_t"]
+            - type: input_value
+              name: VALUE
+              check: ["Number", "int", "unsigned int", "long", "unsigned long", "byte", "word", "uint8_t", "uint16_t", "uint32_t", "int8_t", "int16_t", "int32_t"]
+          previousStatement: null
+          nextStatement: null
+          inputsInline: true
+          tooltip:
+            en: "Write a PWM value (0–255) to a pin."
+            it: "Scrivi un valore PWM (0–255) su un pin."
+            zh-cn: "向引脚写入 PWM 值（0–255）。"
+            zh-tw: "向引腳寫入 PWM 值（0–255）。"
+            fr: "Écrit une valeur PWM (0–255) sur une broche."
+            de: "Schreibt einen PWM-Wert (0–255) auf einen Pin."
+            es: "Escribe un valor PWM (0–255) en un pin."
+            ja: "ピンに PWM 値（0–255）を書き込みます。"
+            ko: "핀에 PWM 값(0–255)을 씁니다."
+            ru: "Записывает значение ШИМ (0–255) на вывод."
+            pt-br: "Escreve um valor PWM (0–255) em um pino."
+            tr: "Bir pine PWM değeri (0–255) yazar."
+            pl: "Zapisuje wartość PWM (0–255) na pin."
+            cs: "Zapíše hodnotu PWM (0–255) na pin."
+            hu: "PWM értéket (0–255) ír egy tűre."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/analog-io/analogWrite/"
+        codegen:
+          body:
+            - "analogWrite({{PIN}}, {{VALUE}});"
+          inputDefaults:
+            PIN: "3"
+            VALUE: "128"
+
+      # --- analogReference (setup-only) ---
+      - blockly:
+          type: cpp_analog_reference
+          message0:
+            en: "analogReference %1"
+            it: "analogReference %1"
+            zh-cn: "analogReference %1"
+            zh-tw: "analogReference %1"
+            fr: "analogReference %1"
+            de: "analogReference %1"
+            es: "analogReference %1"
+            ja: "analogReference %1"
+            ko: "analogReference %1"
+            ru: "analogReference %1"
+            pt-br: "analogReference %1"
+            tr: "analogReference %1"
+            pl: "analogReference %1"
+            cs: "analogReference %1"
+            hu: "analogReference %1"
+          args0:
+            - type: field_dropdown
+              name: TYPE
+              options:
+                - ["DEFAULT", "DEFAULT"]
+                - ["INTERNAL", "INTERNAL"]
+                - ["INTERNAL1V1", "INTERNAL1V1"]
+                - ["INTERNAL2V56", "INTERNAL2V56"]
+                - ["EXTERNAL", "EXTERNAL"]
+          previousStatement: null
+          nextStatement: null
+          tooltip:
+            en: "Configure the reference voltage for analogRead. Place inside a 'setup' block to run once at startup."
+            it: "Configura la tensione di riferimento per analogRead. Posiziona dentro un blocco 'setup' per eseguirlo una sola volta all'avvio."
+            zh-cn: "配置 analogRead 的参考电压。放在 'setup' 块内，启动时只运行一次。"
+            zh-tw: "設定 analogRead 的參考電壓。放在 'setup' 區塊內，啟動時只執行一次。"
+            fr: "Configure la tension de référence pour analogRead. Placez dans un bloc 'setup' pour l'exécuter une seule fois au démarrage."
+            de: "Konfiguriert die Referenzspannung für analogRead. Im 'setup'-Block platzieren, um einmalig beim Start auszuführen."
+            es: "Configura el voltaje de referencia para analogRead. Colócalo dentro de un bloque 'setup' para ejecutarlo una sola vez al inicio."
+            ja: "analogRead の基準電圧を設定します。起動時に一度だけ実行するには 'setup' ブロック内に配置してください。"
+            ko: "analogRead의 기준 전압을 설정합니다. 시작 시 한 번만 실행하려면 'setup' 블록 안에 배치하세요."
+            ru: "Настраивает опорное напряжение для analogRead. Поместите в блок 'setup' для однократного выполнения при запуске."
+            pt-br: "Configura a tensão de referência para analogRead. Coloque dentro de um bloco 'setup' para executar uma vez na inicialização."
+            tr: "analogRead için referans voltajını yapılandırır. Başlangıçta bir kez çalıştırmak için 'setup' bloğunun içine yerleştirin."
+            pl: "Konfiguruje napięcie odniesienia dla analogRead. Umieść w bloku 'setup', aby wykonać raz przy uruchomieniu."
+            cs: "Nastaví referenční napětí pro analogRead. Umístěte do bloku 'setup' pro jednorázové spuštění při startu."
+            hu: "Beállítja az analogRead referenciafeszültségét. Helyezd a 'setup' blokkba, hogy indításkor egyszer fusson le."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/analog-io/analogReference/"
+        codegen:
+          body:
+            - "analogReference({{TYPE}});"
+
+      # --- analog resolution: read (ADC) / write (PWM) (consolidated) ---
+      # Bits is a union (8/10/12/14); the valid range depends on the chosen
+      # function and the board. ADC (read): 10/12/14; PWM (write): 8/10/12.
+      - blockly:
+          type: cpp_analog_resolution
+          message0:
+            en: "set analog %1 resolution %2 bits"
+            it: "imposta risoluzione analogica %1 %2 bit"
+            zh-cn: "设置模拟 %1 分辨率 %2 位"
+            zh-tw: "設定類比 %1 解析度 %2 位元"
+            fr: "définir la résolution analogique %1 %2 bits"
+            de: "analoge %1 Auflösung %2 Bit setzen"
+            es: "establecer resolución analógica %1 %2 bits"
+            ja: "アナログ %1 分解能を %2 ビットに設定"
+            ko: "아날로그 %1 해상도를 %2 비트로 설정"
+            ru: "установить аналоговое %1 разрешение %2 бит"
+            pt-br: "definir resolução analógica %1 %2 bits"
+            tr: "analog %1 çözünürlüğünü %2 bit olarak ayarla"
+            pl: "ustaw rozdzielczość analogową %1 %2 bitów"
+            cs: "nastavit analogové %1 rozlišení %2 bitů"
+            hu: "analóg %1 felbontás beállítása %2 bit"
+          args0:
+            - type: field_dropdown
+              name: FUNC
+              options:
+                - ["read (ADC)", "analogReadResolution"]
+                - ["write (PWM)", "analogWriteResolution"]
+            - type: field_dropdown
+              name: BITS
+              options:
+                - ["8 bits", "8"]
+                - ["10 bits", "10"]
+                - ["12 bits", "12"]
+                - ["14 bits", "14"]
+          previousStatement: null
+          nextStatement: null
+          inputsInline: true
+          tooltip:
+            en: "Set the ADC (read) or PWM (write) resolution in bits. Valid range depends on function/board. Place inside a 'setup' block."
+            it: "Imposta la risoluzione ADC (lettura) o PWM (scrittura) in bit. L'intervallo valido dipende dalla funzione e dalla scheda. Posiziona dentro un blocco 'setup'."
+            zh-cn: "设置 ADC（读取）或 PWM（写入）的分辨率（位）。有效范围取决于功能和开发板。放在 'setup' 块内。"
+            zh-tw: "設定 ADC（讀取）或 PWM（寫入）的解析度（位元）。有效範圍取決於功能和開發板。放在 'setup' 區塊內。"
+            fr: "Définit la résolution ADC (lecture) ou PWM (écriture) en bits. La plage valide dépend de la fonction et de la carte. Placez dans un bloc 'setup'."
+            de: "Setzt die ADC- (Lesen) oder PWM-Auflösung (Schreiben) in Bit. Der gültige Bereich hängt von Funktion und Board ab. Im 'setup'-Block platzieren."
+            es: "Establece la resolución ADC (lectura) o PWM (escritura) en bits. El rango válido depende de la función y la placa. Colócalo dentro de un bloque 'setup'."
+            ja: "ADC（読み取り）または PWM（書き込み）の分解能をビット単位で設定します。有効範囲は機能とボードに依存します。'setup' ブロック内に配置してください。"
+            ko: "ADC(읽기) 또는 PWM(쓰기) 해상도를 비트 단위로 설정합니다. 유효 범위는 기능과 보드에 따라 다릅니다. 'setup' 블록 안에 배치하세요."
+            ru: "Устанавливает разрешение АЦП (чтение) или ШИМ (запись) в битах. Допустимый диапазон зависит от функции и платы. Поместите в блок 'setup'."
+            pt-br: "Define a resolução do ADC (leitura) ou PWM (escrita) em bits. O intervalo válido depende da função e da placa. Coloque dentro de um bloco 'setup'."
+            tr: "ADC (okuma) veya PWM (yazma) çözünürlüğünü bit cinsinden ayarlar. Geçerli aralık fonksiyona ve karta bağlıdır. 'setup' bloğunun içine yerleştirin."
+            pl: "Ustawia rozdzielczość ADC (odczyt) lub PWM (zapis) w bitach. Prawidłowy zakres zależy od funkcji i płytki. Umieść w bloku 'setup'."
+            cs: "Nastaví rozlišení ADC (čtení) nebo PWM (zápis) v bitech. Platný rozsah závisí na funkci a desce. Umístěte do bloku 'setup'."
+            hu: "Beállítja az ADC (olvasás) vagy PWM (írás) felbontását bitben. Az érvényes tartomány a funkciótól és a laptól függ. Helyezd a 'setup' blokkba."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/zero-due-mkr-family/analogReadResolution/"
+        codegen:
+          body:
+            - "{{FUNC}}({{BITS}});"

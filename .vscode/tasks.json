@@ -1,0 +1,21 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      // Bundles dist/{server,webview}.js (dev build → source maps for F5 debugging).
+      "label": "build",
+      "type": "shell",
+      "command": "node esbuild.js",
+      "problemMatcher": [],
+      "presentation": { "reveal": "silent", "clear": true }
+    },
+    {
+      // Optional: keep bundles rebuilding while you iterate.
+      "label": "watch",
+      "type": "shell",
+      "command": "node esbuild.js --watch",
+      "isBackground": true,
+      "problemMatcher": []
+    }
+  ]
+}

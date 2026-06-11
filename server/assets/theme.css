@@ -1,0 +1,78 @@
+/*
+ * theme.css — the closed set of --vscode-* design tokens the webview reads (G9).
+ *
+ * The webview bundle (copied verbatim from vscode-blockly) and its ThemeAdapter
+ * read these tokens via getComputedStyle(document.body) and CSS var() fallbacks.
+ * In VS Code they are supplied by the host; in the brick we define them here.
+ *
+ * This list is the EXACT union of tokens referenced by webview/** and the host
+ * HTML template. If the webview starts referencing a new --vscode-* token, add
+ * it here (the CI grep guard fails the build otherwise). Do not fork ThemeAdapter
+ * or hardcode block colors elsewhere.
+ */
+
+:root {
+  /* typography */
+  --vscode-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+  --vscode-font-size: 13px;
+  --vscode-editor-fontFamily: "SF Mono", Menlo, Consolas, "Courier New", monospace;
+  --vscode-editor-fontSize: 13px;
+
+  /* editor surface (dark default) */
+  --vscode-editor-background: #1e1e1e;
+  --vscode-editor-foreground: #d4d4d4;
+  --vscode-editor-selectionBackground: #264f78;
+
+  /* widgets / panels */
+  --vscode-editorWidget-background: #252526;
+  --vscode-editorWidget-border: #454545;
+
+  /* focus */
+  --vscode-focusBorder: #007fd4;
+
+  /* buttons */
+  --vscode-button-background: #0e639c;
+  --vscode-button-foreground: #ffffff;
+  --vscode-button-hoverBackground: #1177bb;
+  --vscode-button-border: transparent;
+
+  /* inputs */
+  --vscode-input-background: #3c3c3c;
+  --vscode-input-foreground: #cccccc;
+  --vscode-input-border: #3c3c3c;
+  --vscode-input-placeholderForeground: rgba(204, 204, 204, 0.5);
+
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --vscode-editor-background: #ffffff;
+    --vscode-editor-foreground: #1f1f1f;
+    --vscode-editor-selectionBackground: #add6ff;
+
+    --vscode-editorWidget-background: #f3f3f3;
+    --vscode-editorWidget-border: #c8c8c8;
+
+    --vscode-focusBorder: #0090f1;
+
+    --vscode-button-background: #005fb8;
+    --vscode-button-foreground: #ffffff;
+    --vscode-button-hoverBackground: #0258a8;
+    --vscode-button-border: transparent;
+
+    --vscode-input-background: #ffffff;
+    --vscode-input-foreground: #1f1f1f;
+    --vscode-input-border: #cecece;
+    --vscode-input-placeholderForeground: rgba(31, 31, 31, 0.5);
+
+    color-scheme: light;
+  }
+}
+
+html, body {
+  background: var(--vscode-editor-background);
+  color: var(--vscode-editor-foreground);
+  font-family: var(--vscode-font-family);
+  font-size: var(--vscode-font-size);
+}

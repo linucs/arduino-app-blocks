@@ -1,0 +1,475 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/vscode-blockly/refs/heads/main/src/catalog/block-catalog_v1.schema.json
+id: arduino_string
+category: "Text::String"
+docs:
+  library: "https://docs.arduino.cc/language-reference/en/variables/data-types/stringObject/"
+implementations:
+  - runtime: "arduino:cpp"
+    blocks:
+      # --- compare/predicate: equals / equalsIgnoreCase / startsWith / endsWith ---
+      - blockly:
+          type: cpp_string_predicate
+          message0: "%1 %2 %3"
+          args0:
+            - type: input_value
+              name: STR
+              check: ["String"]
+            - type: field_dropdown
+              name: FUNC
+              options:
+                - ["equals", "equals"]
+                - ["equals (ignore case)", "equalsIgnoreCase"]
+                - ["starts with", "startsWith"]
+                - ["ends with", "endsWith"]
+            - type: input_value
+              name: ARG
+              check: ["String"]
+          output: Boolean
+          inputsInline: true
+          tooltip:
+            en: "Compare a String against another (equality, case-insensitive equality, prefix, or suffix)."
+            it: "Confronta una String con un'altra (uguaglianza, uguaglianza senza distinzione maiuscole/minuscole, prefisso o suffisso)."
+            zh-cn: "将一个 String 与另一个进行比较（相等、不区分大小写的相等、前缀或后缀）。"
+            zh-tw: "將一個 String 與另一個進行比較（相等、不區分大小寫的相等、前綴或後綴）。"
+            fr: "Compare une String avec une autre (égalité, égalité insensible à la casse, préfixe ou suffixe)."
+            de: "Vergleicht einen String mit einem anderen (Gleichheit, Gleichheit ohne Groß-/Kleinschreibung, Präfix oder Suffix)."
+            es: "Compara un String con otro (igualdad, igualdad sin distinción de mayúsculas/minúsculas, prefijo o sufijo)."
+            ja: "String を別の String と比較します（等価、大文字小文字を無視した等価、接頭辞、接尾辞）。"
+            ko: "String을 다른 String과 비교합니다(동일, 대소문자 무시 동일, 접두사 또는 접미사)."
+            ru: "Сравнивает String с другой строкой (равенство, равенство без учёта регистра, префикс или суффикс)."
+            pt-br: "Compara uma String com outra (igualdade, igualdade sem distinção de maiúsculas/minúsculas, prefixo ou sufixo)."
+            tr: "Bir String'i diğeriyle karşılaştırır (eşitlik, büyük/küçük harf duyarsız eşitlik, önek veya sonek)."
+            pl: "Porównuje String z innym (równość, równość bez rozróżniania wielkości liter, prefiks lub sufiks)."
+            cs: "Porovná String s jiným (rovnost, rovnost bez ohledu na velikost písmen, prefix nebo suffix)."
+            hu: "Összehasonlít egy Stringet egy másikkal (egyenlőség, kis-/nagybetű-érzéketlen egyenlőség, előtag vagy utótag)."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/variables/data-types/string/functions/equals/"
+        codegen:
+          body:
+            - "{{STR}}.{{FUNC}}({{ARG}})"
+          precedence: ATOMIC
+          inputDefaults:
+            STR: '""'
+            ARG: '""'
+
+      # --- compareTo ---
+      - blockly:
+          type: cpp_string_compare_to
+          message0:
+            en: "%1 compareTo %2"
+            it: "%1 compareTo %2"
+            zh-cn: "%1 compareTo %2"
+            zh-tw: "%1 compareTo %2"
+            fr: "%1 compareTo %2"
+            de: "%1 compareTo %2"
+            es: "%1 compareTo %2"
+            ja: "%1 compareTo %2"
+            ko: "%1 compareTo %2"
+            ru: "%1 compareTo %2"
+            pt-br: "%1 compareTo %2"
+            tr: "%1 compareTo %2"
+            pl: "%1 compareTo %2"
+            cs: "%1 compareTo %2"
+            hu: "%1 compareTo %2"
+          args0:
+            - type: input_value
+              name: STR
+              check: ["String"]
+            - type: input_value
+              name: ARG
+              check: ["String"]
+          output: Number
+          inputsInline: true
+          tooltip:
+            en: "Lexicographically compare two Strings: negative, zero, or positive."
+            it: "Confronta lessicograficamente due String: negativo, zero o positivo."
+            zh-cn: "按字典顺序比较两个 String：负数、零或正数。"
+            zh-tw: "按字典順序比較兩個 String：負數、零或正數。"
+            fr: "Compare deux Strings lexicographiquement : négatif, zéro ou positif."
+            de: "Vergleicht zwei Strings lexikographisch: negativ, null oder positiv."
+            es: "Compara dos Strings lexicográficamente: negativo, cero o positivo."
+            ja: "2つの String を辞書順で比較します：負、ゼロ、正。"
+            ko: "두 String을 사전순으로 비교합니다: 음수, 0 또는 양수."
+            ru: "Лексикографически сравнивает две String: отрицательное, ноль или положительное."
+            pt-br: "Compara duas Strings lexicograficamente: negativo, zero ou positivo."
+            tr: "İki String'i sözlük sırasına göre karşılaştırır: negatif, sıfır veya pozitif."
+            pl: "Porównuje leksykograficznie dwa Stringi: ujemna, zero lub dodatnia."
+            cs: "Lexikograficky porovná dva Stringy: záporné, nula nebo kladné."
+            hu: "Két Stringet lexikografikusan hasonlít össze: negatív, nulla vagy pozitív."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/variables/data-types/string/functions/compareTo/"
+        codegen:
+          body:
+            - "{{STR}}.compareTo({{ARG}})"
+          precedence: ATOMIC
+          inputDefaults:
+            STR: '""'
+            ARG: '""'
+
+      # --- lastIndexOf ---
+      - blockly:
+          type: cpp_string_last_index_of
+          message0:
+            en: "%1 lastIndexOf %2"
+            it: "%1 lastIndexOf %2"
+            zh-cn: "%1 lastIndexOf %2"
+            zh-tw: "%1 lastIndexOf %2"
+            fr: "%1 lastIndexOf %2"
+            de: "%1 lastIndexOf %2"
+            es: "%1 lastIndexOf %2"
+            ja: "%1 lastIndexOf %2"
+            ko: "%1 lastIndexOf %2"
+            ru: "%1 lastIndexOf %2"
+            pt-br: "%1 lastIndexOf %2"
+            tr: "%1 lastIndexOf %2"
+            pl: "%1 lastIndexOf %2"
+            cs: "%1 lastIndexOf %2"
+            hu: "%1 lastIndexOf %2"
+          args0:
+            - type: input_value
+              name: STR
+              check: ["String"]
+            - type: input_value
+              name: ARG
+          output: Number
+          inputsInline: true
+          tooltip:
+            en: "Index of the last occurrence of a character/substring, or -1 if not found."
+            it: "Indice dell'ultima occorrenza di un carattere/sottostringa, oppure -1 se non trovato."
+            zh-cn: "字符/子字符串最后一次出现的索引，如果未找到则返回 -1。"
+            zh-tw: "字元/子字串最後一次出現的索引，如果未找到則傳回 -1。"
+            fr: "Index de la dernière occurrence d'un caractère/sous-chaîne, ou -1 si non trouvé."
+            de: "Index des letzten Vorkommens eines Zeichens/Teilstrings, oder -1 wenn nicht gefunden."
+            es: "Índice de la última aparición de un carácter/subcadena, o -1 si no se encuentra."
+            ja: "文字/部分文字列の最後の出現位置のインデックス。見つからない場合は -1。"
+            ko: "문자/부분 문자열이 마지막으로 나타나는 인덱스, 찾지 못하면 -1."
+            ru: "Индекс последнего вхождения символа/подстроки или -1, если не найден."
+            pt-br: "Índice da última ocorrência de um caractere/substring, ou -1 se não encontrado."
+            tr: "Bir karakter/alt dizenin son bulunduğu indeks, bulunamazsa -1."
+            pl: "Indeks ostatniego wystąpienia znaku/podciągu lub -1, jeśli nie znaleziono."
+            cs: "Index posledního výskytu znaku/podřetězce, nebo -1, pokud nenalezeno."
+            hu: "Egy karakter/részlánc utolsó előfordulásának indexe, vagy -1, ha nem található."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/variables/data-types/string/functions/lastIndexOf/"
+        codegen:
+          body:
+            - "{{STR}}.lastIndexOf({{ARG}})"
+          precedence: ATOMIC
+          inputDefaults:
+            STR: '""'
+            ARG: "' '"
+
+      # --- toInt / toFloat / toDouble (consolidated, dropdown) ---
+      - blockly:
+          type: cpp_string_to_number
+          message0:
+            en: "%1 to %2"
+            it: "%1 a %2"
+            zh-cn: "%1 转为 %2"
+            zh-tw: "%1 轉為 %2"
+            fr: "%1 en %2"
+            de: "%1 zu %2"
+            es: "%1 a %2"
+            ja: "%1 を %2 に"
+            ko: "%1 을(를) %2 (으)로"
+            ru: "%1 в %2"
+            pt-br: "%1 para %2"
+            tr: "%1 → %2"
+            pl: "%1 na %2"
+            cs: "%1 na %2"
+            hu: "%1 → %2"
+          args0:
+            - type: input_value
+              name: STR
+              check: ["String"]
+            - type: field_dropdown
+              name: FUNC
+              options:
+                - ["integer", "toInt"]
+                - ["float", "toFloat"]
+                - ["double", "toDouble"]
+          output: Number
+          inputsInline: true
+          tooltip:
+            en: "Convert a String to an integer, float, or double."
+            it: "Converte una String in un intero, float o double."
+            zh-cn: "将 String 转换为整数、float 或 double。"
+            zh-tw: "將 String 轉換為整數、float 或 double。"
+            fr: "Convertit une String en entier, float ou double."
+            de: "Konvertiert einen String in eine Ganzzahl, float oder double."
+            es: "Convierte un String a entero, float o double."
+            ja: "String を整数、float、または double に変換します。"
+            ko: "String을 정수, float 또는 double로 변환합니다."
+            ru: "Преобразует String в целое число, float или double."
+            pt-br: "Converte uma String em inteiro, float ou double."
+            tr: "Bir String'i tamsayıya, float'a veya double'a dönüştürür."
+            pl: "Konwertuje String na liczbę całkowitą, float lub double."
+            cs: "Převede String na celé číslo, float nebo double."
+            hu: "Egy Stringet egész számmá, float-tá vagy double-lá alakít."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/variables/data-types/string/functions/toInt/"
+        codegen:
+          body:
+            - "{{STR}}.{{FUNC}}()"
+          precedence: ATOMIC
+          inputDefaults:
+            STR: '""'
+
+      # --- c_str ---
+      - blockly:
+          type: cpp_string_c_str
+          message0:
+            en: "%1 as C string"
+            it: "%1 come stringa C"
+            zh-cn: "%1 转为 C 字符串"
+            zh-tw: "%1 轉為 C 字串"
+            fr: "%1 en chaîne C"
+            de: "%1 als C-String"
+            es: "%1 como cadena C"
+            ja: "%1 を C 文字列として"
+            ko: "%1 을(를) C 문자열로"
+            ru: "%1 как строка C"
+            pt-br: "%1 como string C"
+            tr: "%1 C dizesi olarak"
+            pl: "%1 jako łańcuch C"
+            cs: "%1 jako řetězec C"
+            hu: "%1 C stringként"
+          args0:
+            - type: input_value
+              name: STR
+              check: ["String"]
+          output: null
+          inputsInline: true
+          tooltip:
+            en: "Return a const char* (null-terminated C string) view of the String, e.g. to pass to C APIs."
+            it: "Restituisce una vista const char* (stringa C con terminatore null) della String, ad es. per passarla ad API C."
+            zh-cn: "返回 String 的 const char*（以 null 结尾的 C 字符串）视图，例如传递给 C API。"
+            zh-tw: "傳回 String 的 const char*（以 null 結尾的 C 字串）視圖，例如傳遞給 C API。"
+            fr: "Renvoie une vue const char* (chaîne C terminée par null) du String, par ex. pour la passer à des API C."
+            de: "Gibt eine const char*-Ansicht (nullterminierter C-String) des Strings zurück, z. B. zur Übergabe an C-APIs."
+            es: "Devuelve una vista const char* (cadena C terminada en null) del String, p. ej. para pasarla a API C."
+            ja: "String の const char*（null 終端 C 文字列）ビューを返します。例：C API に渡す場合。"
+            ko: "String의 const char*(null 종료 C 문자열) 뷰를 반환합니다. 예: C API에 전달할 때."
+            ru: "Возвращает представление const char* (C-строка с завершающим null) строки String, например для передачи в C API."
+            pt-br: "Retorna uma visão const char* (string C terminada em null) da String, ex.: para passar a APIs C."
+            tr: "String'in const char* (null ile sonlandırılmış C dizesi) görünümünü döndürür, örn. C API'lerine geçirmek için."
+            pl: "Zwraca widok const char* (łańcuch C zakończony null) obiektu String, np. do przekazania do API C."
+            cs: "Vrátí pohled const char* (řetězec C ukončený null) na String, např. pro předání C API."
+            hu: "A String const char* (null-lezárt C string) nézetét adja vissza, pl. C API-knak történő átadáshoz."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/variables/data-types/string/functions/c_str/"
+        codegen:
+          body:
+            - "{{STR}}.c_str()"
+          precedence: ATOMIC
+          inputDefaults:
+            STR: '""'
+
+      # --- replace (in place) ---
+      - blockly:
+          type: cpp_string_replace
+          message0:
+            en: "%1 replace %2 with %3"
+            it: "%1 sostituisci %2 con %3"
+            zh-cn: "%1 将 %2 替换为 %3"
+            zh-tw: "%1 將 %2 替換為 %3"
+            fr: "%1 remplacer %2 par %3"
+            de: "%1 ersetze %2 durch %3"
+            es: "%1 reemplazar %2 por %3"
+            ja: "%1 の %2 を %3 に置換"
+            ko: "%1 에서 %2 을(를) %3 (으)로 교체"
+            ru: "%1 заменить %2 на %3"
+            pt-br: "%1 substituir %2 por %3"
+            tr: "%1 içinde %2 yerine %3 koy"
+            pl: "%1 zamień %2 na %3"
+            cs: "%1 nahraď %2 za %3"
+            hu: "%1 cseréld %2 erre: %3"
+          args0:
+            - type: input_value
+              name: STR
+              check: ["String"]
+            - type: input_value
+              name: FROM
+            - type: input_value
+              name: TO
+          previousStatement: null
+          nextStatement: null
+          inputsInline: true
+          tooltip:
+            en: "Replace all occurrences of a substring with another, modifying the String in place. STR must be a variable."
+            it: "Sostituisce tutte le occorrenze di una sottostringa con un'altra, modificando la String sul posto. STR deve essere una variabile."
+            zh-cn: "将子字符串的所有出现替换为另一个，直接修改 String。STR 必须是变量。"
+            zh-tw: "將子字串的所有出現替換為另一個，直接修改 String。STR 必須是變數。"
+            fr: "Remplace toutes les occurrences d'une sous-chaîne par une autre, en modifiant le String sur place. STR doit être une variable."
+            de: "Ersetzt alle Vorkommen eines Teilstrings durch einen anderen und modifiziert den String direkt. STR muss eine Variable sein."
+            es: "Reemplaza todas las apariciones de una subcadena por otra, modificando el String directamente. STR debe ser una variable."
+            ja: "部分文字列のすべての出現を別のものに置換し、String をその場で変更します。STR は変数でなければなりません。"
+            ko: "부분 문자열의 모든 출현을 다른 것으로 교체하여 String을 직접 수정합니다. STR은 변수여야 합니다."
+            ru: "Заменяет все вхождения подстроки другой, изменяя String на месте. STR должна быть переменной."
+            pt-br: "Substitui todas as ocorrências de uma substring por outra, modificando a String diretamente. STR deve ser uma variável."
+            tr: "Bir alt dizenin tüm geçişlerini başka biriyle değiştirir, String'i yerinde değiştirir. STR bir değişken olmalıdır."
+            pl: "Zamienia wszystkie wystąpienia podciągu na inny, modyfikując String w miejscu. STR musi być zmienną."
+            cs: "Nahradí všechny výskyty podřetězce jiným, přičemž String změní na místě. STR musí být proměnná."
+            hu: "Az összes részlánc-előfordulást lecseréli egy másikra, a Stringet helyben módosítva. STR-nek változónak kell lennie."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/variables/data-types/string/functions/replace/"
+        codegen:
+          body:
+            - "{{STR}}.replace({{FROM}}, {{TO}});"
+          inputDefaults:
+            FROM: '""'
+            TO: '""'
+
+      # --- remove (in place) ---
+      - blockly:
+          type: cpp_string_remove
+          message0:
+            en: "%1 remove from index %2 count %3"
+            it: "%1 rimuovi da indice %2 conteggio %3"
+            zh-cn: "%1 从索引 %2 移除 %3 个字符"
+            zh-tw: "%1 從索引 %2 移除 %3 個字元"
+            fr: "%1 supprimer depuis l'index %2 nombre %3"
+            de: "%1 entferne ab Index %2 Anzahl %3"
+            es: "%1 eliminar desde índice %2 cantidad %3"
+            ja: "%1 インデックス %2 から %3 文字を削除"
+            ko: "%1 인덱스 %2 부터 %3 개 제거"
+            ru: "%1 удалить с индекса %2 количество %3"
+            pt-br: "%1 remover do índice %2 quantidade %3"
+            tr: "%1 indeks %2 den %3 adet kaldır"
+            pl: "%1 usuń od indeksu %2 ilość %3"
+            cs: "%1 odstraň od indexu %2 počet %3"
+            hu: "%1 törlés a(z) %2 indextől %3 darab"
+          args0:
+            - type: input_value
+              name: STR
+              check: ["String"]
+            - type: input_value
+              name: INDEX
+            - type: input_value
+              name: COUNT
+          previousStatement: null
+          nextStatement: null
+          inputsInline: true
+          tooltip:
+            en: "Remove COUNT characters starting at INDEX, modifying the String in place. STR must be a variable."
+            it: "Rimuove COUNT caratteri a partire da INDEX, modificando la String sul posto. STR deve essere una variabile."
+            zh-cn: "从 INDEX 开始移除 COUNT 个字符，直接修改 String。STR 必须是变量。"
+            zh-tw: "從 INDEX 開始移除 COUNT 個字元，直接修改 String。STR 必須是變數。"
+            fr: "Supprime COUNT caractères à partir de INDEX, en modifiant le String sur place. STR doit être une variable."
+            de: "Entfernt COUNT Zeichen ab INDEX und modifiziert den String direkt. STR muss eine Variable sein."
+            es: "Elimina COUNT caracteres a partir de INDEX, modificando el String directamente. STR debe ser una variable."
+            ja: "INDEX から COUNT 文字を削除し、String をその場で変更します。STR は変数でなければなりません。"
+            ko: "INDEX부터 COUNT개의 문자를 제거하여 String을 직접 수정합니다. STR은 변수여야 합니다."
+            ru: "Удаляет COUNT символов начиная с INDEX, изменяя String на месте. STR должна быть переменной."
+            pt-br: "Remove COUNT caracteres a partir de INDEX, modificando a String diretamente. STR deve ser uma variável."
+            tr: "INDEX'ten başlayarak COUNT karakter kaldırır, String'i yerinde değiştirir. STR bir değişken olmalıdır."
+            pl: "Usuwa COUNT znaków zaczynając od INDEX, modyfikując String w miejscu. STR musi być zmienną."
+            cs: "Odstraní COUNT znaků od INDEX, přičemž String změní na místě. STR musí být proměnná."
+            hu: "INDEX-től COUNT karaktert töröl, a Stringet helyben módosítva. STR-nek változónak kell lennie."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/variables/data-types/string/functions/remove/"
+        codegen:
+          body:
+            - "{{STR}}.remove({{INDEX}}, {{COUNT}});"
+          inputDefaults:
+            INDEX: "0"
+            COUNT: "1"
+
+      # --- setCharAt (in place) ---
+      - blockly:
+          type: cpp_string_set_char_at
+          message0:
+            en: "%1 setCharAt %2 to %3"
+            it: "%1 setCharAt %2 a %3"
+            zh-cn: "%1 setCharAt %2 为 %3"
+            zh-tw: "%1 setCharAt %2 為 %3"
+            fr: "%1 setCharAt %2 à %3"
+            de: "%1 setCharAt %2 auf %3"
+            es: "%1 setCharAt %2 a %3"
+            ja: "%1 setCharAt %2 を %3 に"
+            ko: "%1 setCharAt %2 을(를) %3 (으)로"
+            ru: "%1 setCharAt %2 на %3"
+            pt-br: "%1 setCharAt %2 para %3"
+            tr: "%1 setCharAt %2 → %3"
+            pl: "%1 setCharAt %2 na %3"
+            cs: "%1 setCharAt %2 na %3"
+            hu: "%1 setCharAt %2 → %3"
+          args0:
+            - type: input_value
+              name: STR
+              check: ["String"]
+            - type: input_value
+              name: INDEX
+            - type: input_value
+              name: CHAR
+          previousStatement: null
+          nextStatement: null
+          inputsInline: true
+          tooltip:
+            en: "Set the character at INDEX, modifying the String in place. STR must be a variable."
+            it: "Imposta il carattere alla posizione INDEX, modificando la String sul posto. STR deve essere una variabile."
+            zh-cn: "设置 INDEX 处的字符，直接修改 String。STR 必须是变量。"
+            zh-tw: "設定 INDEX 處的字元，直接修改 String。STR 必須是變數。"
+            fr: "Définit le caractère à INDEX, en modifiant le String sur place. STR doit être une variable."
+            de: "Setzt das Zeichen an INDEX und modifiziert den String direkt. STR muss eine Variable sein."
+            es: "Establece el carácter en INDEX, modificando el String directamente. STR debe ser una variable."
+            ja: "INDEX の文字を設定し、String をその場で変更します。STR は変数でなければなりません。"
+            ko: "INDEX 위치의 문자를 설정하여 String을 직접 수정합니다. STR은 변수여야 합니다."
+            ru: "Устанавливает символ в позиции INDEX, изменяя String на месте. STR должна быть переменной."
+            pt-br: "Define o caractere em INDEX, modificando a String diretamente. STR deve ser uma variável."
+            tr: "INDEX konumundaki karakteri ayarlar, String'i yerinde değiştirir. STR bir değişken olmalıdır."
+            pl: "Ustawia znak na pozycji INDEX, modyfikując String w miejscu. STR musi być zmienną."
+            cs: "Nastaví znak na pozici INDEX, přičemž String změní na místě. STR musí být proměnná."
+            hu: "Az INDEX pozíción lévő karaktert állítja be, a Stringet helyben módosítva. STR-nek változónak kell lennie."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/variables/data-types/string/functions/setCharAt/"
+        codegen:
+          body:
+            - "{{STR}}.setCharAt({{INDEX}}, {{CHAR}});"
+          inputDefaults:
+            INDEX: "0"
+            CHAR: "' '"
+
+      # --- reserve ---
+      - blockly:
+          type: cpp_string_reserve
+          message0:
+            en: "%1 reserve %2 bytes"
+            it: "%1 reserve %2 byte"
+            zh-cn: "%1 reserve %2 字节"
+            zh-tw: "%1 reserve %2 位元組"
+            fr: "%1 reserve %2 octets"
+            de: "%1 reserve %2 Bytes"
+            es: "%1 reserve %2 bytes"
+            ja: "%1 reserve %2 バイト"
+            ko: "%1 reserve %2 바이트"
+            ru: "%1 reserve %2 байт"
+            pt-br: "%1 reserve %2 bytes"
+            tr: "%1 reserve %2 bayt"
+            pl: "%1 reserve %2 bajtów"
+            cs: "%1 reserve %2 bajtů"
+            hu: "%1 reserve %2 bájt"
+          args0:
+            - type: input_value
+              name: STR
+              check: ["String"]
+            - type: input_value
+              name: SIZE
+              check: ["Number", "int", "unsigned int", "long", "unsigned long"]
+          previousStatement: null
+          nextStatement: null
+          inputsInline: true
+          tooltip:
+            en: "Pre-allocate buffer memory for the String to avoid fragmentation. STR must be a variable."
+            it: "Pre-alloca memoria buffer per la String per evitare la frammentazione. STR deve essere una variabile."
+            zh-cn: "为 String 预分配缓冲区内存以避免碎片化。STR 必须是变量。"
+            zh-tw: "為 String 預先分配緩衝區記憶體以避免碎片化。STR 必須是變數。"
+            fr: "Pré-alloue la mémoire tampon pour le String afin d'éviter la fragmentation. STR doit être une variable."
+            de: "Reserviert Pufferspeicher für den String, um Fragmentierung zu vermeiden. STR muss eine Variable sein."
+            es: "Pre-asigna memoria de búfer para el String para evitar la fragmentación. STR debe ser una variable."
+            ja: "フラグメンテーションを避けるために String のバッファメモリを事前に確保します。STR は変数でなければなりません。"
+            ko: "단편화를 방지하기 위해 String의 버퍼 메모리를 사전 할당합니다. STR은 변수여야 합니다."
+            ru: "Предварительно выделяет буферную память для String, чтобы избежать фрагментации. STR должна быть переменной."
+            pt-br: "Pré-aloca memória de buffer para a String para evitar fragmentação. STR deve ser uma variável."
+            tr: "Parçalanmayı önlemek için String'e önceden tampon bellek ayırır. STR bir değişken olmalıdır."
+            pl: "Wstępnie alokuje pamięć buforową dla String, aby uniknąć fragmentacji. STR musi być zmienną."
+            cs: "Předem alokuje vyrovnávací paměť pro String, aby se zabránilo fragmentaci. STR musí být proměnná."
+            hu: "Előre lefoglalja a puffermemóriát a String számára a töredezettség elkerülése érdekében. STR-nek változónak kell lennie."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/variables/data-types/string/functions/reserve/"
+        codegen:
+          body:
+            - "{{STR}}.reserve({{SIZE}});"
+          inputDefaults:
+            SIZE: "32"

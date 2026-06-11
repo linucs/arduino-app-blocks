@@ -14,9 +14,12 @@
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
 
 # ---- Claude Code ----
 .claude/settings.local.json
+.claude/launch.json
 .claude/docs
 
 # ---- Python (catalog validation tooling) ----
@@ -34,6 +37,10 @@ dist/
 .mypy_cache/
 .pytest_cache/
 .ruff_cache/
+
+# ---- Node ----
+node_modules/
+out/
 
 # ---- Logs / temp ----
 *.log

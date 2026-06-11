@@ -1,0 +1,266 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/vscode-blockly/refs/heads/main/src/catalog/block-catalog_v1.schema.json
+id: arduino_bits_bytes
+category: "Math::Bits and Bytes"
+implementations:
+  - runtime: "arduino:cpp"
+    blocks:
+      # --- bit(n) ---
+      - blockly:
+          type: cpp_bit
+          message0:
+            en: "bit %1"
+            it: "bit %1"
+            zh-cn: "bit %1"
+            zh-tw: "bit %1"
+            fr: "bit %1"
+            de: "bit %1"
+            es: "bit %1"
+            ja: "bit %1"
+            ko: "bit %1"
+            ru: "bit %1"
+            pt-br: "bit %1"
+            tr: "bit %1"
+            pl: "bit %1"
+            cs: "bit %1"
+            hu: "bit %1"
+          args0:
+            - type: input_value
+              name: N
+              check: ["Number", "int", "unsigned int", "byte", "word", "uint8_t", "uint16_t", "uint32_t"]
+          output: Number
+          inputsInline: true
+          tooltip:
+            en: "The value of the given bit: bit 0 is 1, bit 1 is 2, bit 2 is 4, … (1 << n)."
+            it: "Il valore del bit indicato: bit 0 vale 1, bit 1 vale 2, bit 2 vale 4, … (1 << n)."
+            zh-cn: "指定位的值：bit 0 为 1，bit 1 为 2，bit 2 为 4，……（1 << n）。"
+            zh-tw: "指定位元的值：bit 0 為 1，bit 1 為 2，bit 2 為 4，……（1 << n）。"
+            fr: "La valeur du bit donné : bit 0 vaut 1, bit 1 vaut 2, bit 2 vaut 4, … (1 << n)."
+            de: "Der Wert des angegebenen Bits: Bit 0 ist 1, Bit 1 ist 2, Bit 2 ist 4, … (1 << n)."
+            es: "El valor del bit indicado: bit 0 es 1, bit 1 es 2, bit 2 es 4, … (1 << n)."
+            ja: "指定されたビットの値: bit 0 は 1、bit 1 は 2、bit 2 は 4、…（1 << n）。"
+            ko: "지정된 비트의 값: bit 0은 1, bit 1은 2, bit 2는 4, … (1 << n)."
+            ru: "Значение указанного бита: bit 0 равен 1, bit 1 равен 2, bit 2 равен 4, … (1 << n)."
+            pt-br: "O valor do bit indicado: bit 0 é 1, bit 1 é 2, bit 2 é 4, … (1 << n)."
+            tr: "Belirtilen bitin değeri: bit 0 = 1, bit 1 = 2, bit 2 = 4, … (1 << n)."
+            pl: "Wartość wskazanego bitu: bit 0 to 1, bit 1 to 2, bit 2 to 4, … (1 << n)."
+            cs: "Hodnota zadaného bitu: bit 0 je 1, bit 1 je 2, bit 2 je 4, … (1 << n)."
+            hu: "Az adott bit értéke: bit 0 = 1, bit 1 = 2, bit 2 = 4, … (1 << n)."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/bits-and-bytes/bit/"
+        codegen:
+          body:
+            - "bit({{N}})"
+          precedence: ATOMIC
+          inputDefaults:
+            N: "0"
+
+      # --- bitRead(x, n) ---
+      - blockly:
+          type: cpp_bit_read
+          message0:
+            en: "bitRead %1 bit %2"
+            it: "bitRead %1 bit %2"
+            zh-cn: "bitRead %1 bit %2"
+            zh-tw: "bitRead %1 bit %2"
+            fr: "bitRead %1 bit %2"
+            de: "bitRead %1 bit %2"
+            es: "bitRead %1 bit %2"
+            ja: "bitRead %1 bit %2"
+            ko: "bitRead %1 bit %2"
+            ru: "bitRead %1 bit %2"
+            pt-br: "bitRead %1 bit %2"
+            tr: "bitRead %1 bit %2"
+            pl: "bitRead %1 bit %2"
+            cs: "bitRead %1 bit %2"
+            hu: "bitRead %1 bit %2"
+          args0:
+            - type: input_value
+              name: X
+            - type: input_value
+              name: N
+          output: Number
+          inputsInline: true
+          tooltip:
+            en: "Read bit n of number x (0 or 1)."
+            it: "Legge il bit n del numero x (0 o 1)."
+            zh-cn: "读取数字 x 的第 n 位（0 或 1）。"
+            zh-tw: "讀取數字 x 的第 n 位元（0 或 1）。"
+            fr: "Lit le bit n du nombre x (0 ou 1)."
+            de: "Liest Bit n der Zahl x (0 oder 1)."
+            es: "Lee el bit n del número x (0 o 1)."
+            ja: "数値 x のビット n を読み取ります（0 または 1）。"
+            ko: "숫자 x의 비트 n을 읽습니다 (0 또는 1)."
+            ru: "Читает бит n числа x (0 или 1)."
+            pt-br: "Lê o bit n do número x (0 ou 1)."
+            tr: "x sayısının n. bitini okur (0 veya 1)."
+            pl: "Odczytuje bit n liczby x (0 lub 1)."
+            cs: "Přečte bit n čísla x (0 nebo 1)."
+            hu: "Az x szám n. bitjének olvasása (0 vagy 1)."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/bits-and-bytes/bitRead/"
+        codegen:
+          body:
+            - "bitRead({{X}}, {{N}})"
+          precedence: ATOMIC
+          inputDefaults:
+            X: "0"
+            N: "0"
+
+      # --- bitSet / bitClear (consolidated, dropdown) ---
+      - blockly:
+          type: cpp_bit_set_clear
+          message0:
+            en: "%1 bit %2 of %3"
+            it: "%1 bit %2 di %3"
+            zh-cn: "%1 bit %2 于 %3"
+            zh-tw: "%1 bit %2 於 %3"
+            fr: "%1 bit %2 de %3"
+            de: "%1 bit %2 von %3"
+            es: "%1 bit %2 de %3"
+            ja: "%1 bit %2 （%3 の）"
+            ko: "%1 bit %2 (%3 의)"
+            ru: "%1 bit %2 в %3"
+            pt-br: "%1 bit %2 de %3"
+            tr: "%1 bit %2 (%3)"
+            pl: "%1 bit %2 z %3"
+            cs: "%1 bit %2 z %3"
+            hu: "%1 bit %2 (%3)"
+          args0:
+            - type: field_dropdown
+              name: FUNC
+              options:
+                - ["set", "bitSet"]
+                - ["clear", "bitClear"]
+            - type: input_value
+              name: N
+            - type: input_value
+              name: X
+          previousStatement: null
+          nextStatement: null
+          inputsInline: true
+          tooltip:
+            en: "Set (to 1) or clear (to 0) bit n of the variable x. x must be a variable."
+            it: "Imposta (a 1) o azzera (a 0) il bit n della variabile x. x deve essere una variabile."
+            zh-cn: "将变量 x 的第 n 位置 1（set）或清零（clear）。x 必须是变量。"
+            zh-tw: "將變數 x 的第 n 位元設為 1（set）或清除為 0（clear）。x 必須是變數。"
+            fr: "Met à 1 (set) ou à 0 (clear) le bit n de la variable x. x doit être une variable."
+            de: "Setzt (auf 1) oder löscht (auf 0) Bit n der Variable x. x muss eine Variable sein."
+            es: "Establece (a 1) o borra (a 0) el bit n de la variable x. x debe ser una variable."
+            ja: "変数 x のビット n を 1 にセット、または 0 にクリアします。x は変数でなければなりません。"
+            ko: "변수 x의 비트 n을 1로 설정(set)하거나 0으로 지웁니다(clear). x는 변수여야 합니다."
+            ru: "Устанавливает (в 1) или сбрасывает (в 0) бит n переменной x. x должен быть переменной."
+            pt-br: "Define (para 1) ou limpa (para 0) o bit n da variável x. x deve ser uma variável."
+            tr: "x değişkeninin n. bitini 1'e ayarlar (set) veya 0'a temizler (clear). x bir değişken olmalıdır."
+            pl: "Ustawia (na 1) lub zeruje (na 0) bit n zmiennej x. x musi być zmienną."
+            cs: "Nastaví (na 1) nebo vynuluje (na 0) bit n proměnné x. x musí být proměnná."
+            hu: "Az x változó n. bitjét 1-re állítja (set) vagy 0-ra törli (clear). x-nek változónak kell lennie."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/bits-and-bytes/bitSet/"
+        codegen:
+          body:
+            - "{{FUNC}}({{X}}, {{N}});"
+          inputDefaults:
+            N: "0"
+
+      # --- bitWrite(x, n, b) ---
+      - blockly:
+          type: cpp_bit_write
+          message0:
+            en: "bitWrite %1 bit %2 = %3"
+            it: "bitWrite %1 bit %2 = %3"
+            zh-cn: "bitWrite %1 bit %2 = %3"
+            zh-tw: "bitWrite %1 bit %2 = %3"
+            fr: "bitWrite %1 bit %2 = %3"
+            de: "bitWrite %1 bit %2 = %3"
+            es: "bitWrite %1 bit %2 = %3"
+            ja: "bitWrite %1 bit %2 = %3"
+            ko: "bitWrite %1 bit %2 = %3"
+            ru: "bitWrite %1 bit %2 = %3"
+            pt-br: "bitWrite %1 bit %2 = %3"
+            tr: "bitWrite %1 bit %2 = %3"
+            pl: "bitWrite %1 bit %2 = %3"
+            cs: "bitWrite %1 bit %2 = %3"
+            hu: "bitWrite %1 bit %2 = %3"
+          args0:
+            - type: input_value
+              name: X
+            - type: input_value
+              name: N
+            - type: input_value
+              name: B
+          previousStatement: null
+          nextStatement: null
+          inputsInline: true
+          tooltip:
+            en: "Write bit b (0 or 1) into bit n of the variable x. x must be a variable."
+            it: "Scrive il bit b (0 o 1) nella posizione n della variabile x. x deve essere una variabile."
+            zh-cn: "将位 b（0 或 1）写入变量 x 的第 n 位。x 必须是变量。"
+            zh-tw: "將位元 b（0 或 1）寫入變數 x 的第 n 位元。x 必須是變數。"
+            fr: "Écrit le bit b (0 ou 1) dans le bit n de la variable x. x doit être une variable."
+            de: "Schreibt Bit b (0 oder 1) in Bit n der Variable x. x muss eine Variable sein."
+            es: "Escribe el bit b (0 o 1) en el bit n de la variable x. x debe ser una variable."
+            ja: "ビット b（0 または 1）を変数 x のビット n に書き込みます。x は変数でなければなりません。"
+            ko: "비트 b(0 또는 1)를 변수 x의 비트 n에 씁니다. x는 변수여야 합니다."
+            ru: "Записывает бит b (0 или 1) в бит n переменной x. x должен быть переменной."
+            pt-br: "Escreve o bit b (0 ou 1) no bit n da variável x. x deve ser uma variável."
+            tr: "b bitini (0 veya 1) x değişkeninin n. bitine yazar. x bir değişken olmalıdır."
+            pl: "Zapisuje bit b (0 lub 1) na pozycji n zmiennej x. x musi być zmienną."
+            cs: "Zapíše bit b (0 nebo 1) do bitu n proměnné x. x musí být proměnná."
+            hu: "A b bitet (0 vagy 1) az x változó n. bitjébe írja. x-nek változónak kell lennie."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/bits-and-bytes/bitWrite/"
+        codegen:
+          body:
+            - "bitWrite({{X}}, {{N}}, {{B}});"
+          inputDefaults:
+            N: "0"
+            B: "1"
+
+      # --- highByte / lowByte (consolidated, dropdown) ---
+      - blockly:
+          type: cpp_byte_of
+          message0:
+            en: "%1 byte of %2"
+            it: "%1 byte di %2"
+            zh-cn: "%1 byte （%2 的）"
+            zh-tw: "%1 byte （%2 的）"
+            fr: "%1 byte de %2"
+            de: "%1 byte von %2"
+            es: "%1 byte de %2"
+            ja: "%1 byte（%2 の）"
+            ko: "%1 byte (%2 의)"
+            ru: "%1 byte из %2"
+            pt-br: "%1 byte de %2"
+            tr: "%1 byte (%2)"
+            pl: "%1 byte z %2"
+            cs: "%1 byte z %2"
+            hu: "%1 byte (%2)"
+          args0:
+            - type: field_dropdown
+              name: FUNC
+              options:
+                - ["high", "highByte"]
+                - ["low", "lowByte"]
+            - type: input_value
+              name: X
+          output: Number
+          inputsInline: true
+          tooltip:
+            en: "Extract the high-order or low-order byte of a value."
+            it: "Estrae il byte alto o basso di un valore."
+            zh-cn: "提取值的高字节或低字节。"
+            zh-tw: "提取值的高位元組或低位元組。"
+            fr: "Extrait l'octet de poids fort ou de poids faible d'une valeur."
+            de: "Extrahiert das höherwertige oder niederwertige Byte eines Werts."
+            es: "Extrae el byte alto o bajo de un valor."
+            ja: "値の上位バイトまたは下位バイトを取得します。"
+            ko: "값의 상위 바이트 또는 하위 바이트를 추출합니다."
+            ru: "Извлекает старший или младший байт значения."
+            pt-br: "Extrai o byte alto ou baixo de um valor."
+            tr: "Bir değerin yüksek veya düşük byte'ını çıkarır."
+            pl: "Wyodrębnia starszy lub młodszy bajt wartości."
+            cs: "Extrahuje vyšší nebo nižší bajt hodnoty."
+            hu: "Egy érték felső vagy alsó bájtjának kinyerése."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/bits-and-bytes/highByte/"
+        codegen:
+          body:
+            - "{{FUNC}}({{X}})"
+          precedence: ATOMIC
+          inputDefaults:
+            X: "0"

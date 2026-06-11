@@ -30,7 +30,12 @@ import themeCss from './assets/theme.css';
 
 // --- configuration (brick variables → env vars) ----------------------------
 const PORT = parseInt(process.env.PORT || '7100', 10);
-const APP_ROOT = path.resolve(process.env.APP_HOME || process.env.APP_ROOT || '/app');
+// Container app root = the bind-mount target, always `/app`. Do NOT read
+// APP_HOME here: under the App Lab daemon APP_HOME is the *host* app dir (used
+// for `${APP_HOME}` volume interpolation), which does not exist inside the
+// container. APP_ROOT is our own override, only needed when running the server
+// outside a container (dev / `npm run preview`).
+const APP_ROOT = path.resolve(process.env.APP_ROOT || '/app');
 // Resources bundled with the brick (catalogs/, l10n/) live next to dist/.
 const RESOURCE_ROOT = path.resolve(process.env.RESOURCE_ROOT || path.join(__dirname, '..'));
 const BUILTIN_CATALOGS_DIR = path.join(RESOURCE_ROOT, 'catalogs');

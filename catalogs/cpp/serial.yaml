@@ -1,7 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/arduino-app-blocks/refs/heads/main/src/catalog/block-catalog_v1.schema.json
 id: arduino_serial
 category: "Communication::Serial"
-colour: "#5C6BC0"
 docs:
   library: "https://docs.arduino.cc/language-reference/en/functions/communication/serial/"
 implementations:

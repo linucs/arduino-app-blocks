@@ -18,7 +18,7 @@
     "build:prod": "node esbuild.js --production",
     "watch": "node esbuild.js --watch",
     "start": "node dist/server.js",
-    "preview": "APP_HOME=examples/sample-app PORT=7102 node dist/server.js"
+    "preview": "APP_ROOT=examples/sample-app PORT=7102 node dist/server.js"
   },
   "dependencies": {
     "@blockly/block-dynamic-connection": "^0.8.9",

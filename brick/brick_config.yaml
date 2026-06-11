@@ -1,0 +1,57 @@
+# blocks-author — Arduino App Lab custom brick (metadata).
+#
+# Fields map 1:1 to arduino-app-cli's brick index struct
+# (internal/orchestrator/bricksindex/bricks_index.go). App Lab discovers this
+# brick when the folder lives at <app>/bricks/blocks-author/ AND the app's
+# app.yaml lists `blocks-author` under `bricks:`.
+#
+# `variables` defaults are collected by the daemon into the `docker compose`
+# process environment (getAppEnvironmentVariables) and surfaced in App Lab's
+# per-app brick settings UI. They are NOT auto-injected into this brick's own
+# container — brick_compose.yaml forwards each one via `${VAR:-default}` in its
+# `environment:` block.
+id: blocks-author
+name: Visual Programming (Blockly)
+description: >-
+  Author your app's C++ (.ino) and Python (.py) sources with Blockly visual
+  blocks. Browse and install community block catalogs.
+category: ui
+requires_display: webview
+# IMPORTANT: ports is intentionally EMPTY.
+#
+# The daemon publishes brick_config `ports` on the MAIN app service
+# (provision.go:246-247,395) — correct for in-process UI bricks (web_ui /
+# streamlit_ui run their server INSIDE main). But this brick is a STANDALONE
+# container that publishes 7100 itself in brick_compose.yaml; declaring 7100
+# here too makes BOTH main and our container bind host 7100 → main fails with
+# "port is already allocated".
+#
+# Trade-off: with no port surfaced here, App Lab's app_ports.go won't auto-embed
+# the editor in the webview (open it directly at <board-ip>:7100). To restore
+# auto-embed, patch the daemon to skip main-publishing a brick's port when that
+# brick ships its own brick_compose service, then put `- "7100"` back here.
+ports: []
+
+variables:
+  - name: EDITABLE_EXTENSIONS
+    default_value: "ino,cpp,py"
+    description: Comma-separated file extensions the editor exposes in the file picker.
+  - name: GENERATE_MODE
+    default_value: "auto"
+    description: >-
+      auto = regenerate source on every block change; manual = only on the
+      Generate Code button.
+  - name: DEFAULT_FQBN
+    default_value: "arduino:zephyr:unoq"
+    description: >-
+      Fallback board context (C++ only) when sketch.yaml has no valid fqbn.
+  - name: SHOW_MINIMAP
+    default_value: "false"
+    description: Show the Blockly canvas minimap.
+  - name: LOCALE
+    default_value: ""
+    description: UI locale override (e.g. it, es). Empty = auto from the request.
+  - name: CATALOG_REGISTRY_URL
+    default_value: ""
+    description: >-
+      Community catalog index URL. Empty = built-in default GitHub index.

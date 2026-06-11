@@ -1,7 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/arduino-app-blocks/refs/heads/main/src/catalog/block-catalog_v1.schema.json
 id: arduino_digital_io
 category: "Input / Output::Digital"
-colour: "#FFB300"
 implementations:
   - runtime: "arduino:cpp"
     blocks:

@@ -133,7 +133,6 @@ implementations:
               name: PIN
               value: 7
           output: Number
-          colour: "#26A69A"
           tooltip: "Returns the distance measured by the Grove Ultrasonic Ranger in cm."
           helpUrl: "https://wiki.seeedstudio.com/Grove-Ultrasonic_Ranger/"
         codegen:

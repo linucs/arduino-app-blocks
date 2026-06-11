@@ -94,7 +94,6 @@ blockly:
   message0: "temperature °C"
   args0: []
   output: Number
-  colour: 30
   tooltip: Read temperature in Celsius.
   inputsInline: true
 codegen:
@@ -125,7 +124,6 @@ type: modulino_thermo_temperature
 message0: "temperature °C"
 args0: []
 output: Number
-colour: 30
 tooltip: Read temperature in Celsius.
 inputsInline: true
 extensions:

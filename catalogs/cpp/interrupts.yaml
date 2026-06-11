@@ -4,65 +4,91 @@ category: "Control::Interrupts"
 implementations:
   - runtime: "arduino:cpp"
     blocks:
-      # --- attachInterrupt(digitalPinToInterrupt(pin), ISR, mode) ---
+      # --- attachInterrupt hat (declarative ISR + flag-polling pattern) ---
+      # Hat block: declarations are content-hashed, so two hats on different pins
+      # produce separate `_isr_flag_N` declarations and `_isr_pinN` functions.
+      # The ISR only sets a flag; the user's blocks run from loop() when the flag
+      # is set — keeping interrupt context minimal and the body safe.
       - blockly:
           type: cpp_attach_interrupt
           message0:
-            en: "attachInterrupt pin %1 call %2 on %3"
-            it: "attachInterrupt pin %1 chiama %2 su %3"
-            zh-cn: "attachInterrupt 引脚 %1 调用 %2 于 %3"
-            zh-tw: "attachInterrupt 腳位 %1 呼叫 %2 於 %3"
-            fr: "attachInterrupt broche %1 appeler %2 sur %3"
-            de: "attachInterrupt Pin %1 rufe %2 auf bei %3"
-            es: "attachInterrupt pin %1 llamar %2 en %3"
-            ja: "attachInterrupt ピン %1 関数 %2 を %3 で呼出"
-            ko: "attachInterrupt 핀 %1 함수 %2 를 %3 에서 호출"
-            ru: "attachInterrupt пин %1 вызвать %2 при %3"
-            pt-br: "attachInterrupt pino %1 chamar %2 em %3"
-            tr: "attachInterrupt pin %1 çağır %2 durumda %3"
-            pl: "attachInterrupt pin %1 wywołaj %2 przy %3"
-            cs: "attachInterrupt pin %1 volat %2 při %3"
-            hu: "attachInterrupt láb %1 hívás %2 esetén %3"
+            en: "when pin %1 %2"
+            it: "quando pin %1 %2"
+            zh-cn: "当引脚 %1 %2 时"
+            zh-tw: "當腳位 %1 %2 時"
+            fr: "quand broche %1 %2"
+            de: "wenn Pin %1 %2"
+            es: "cuando pin %1 %2"
+            ja: "ピン %1 が %2 のとき"
+            ko: "핀 %1 이 %2 일 때"
+            ru: "когда пин %1 %2"
+            pt-br: "quando pino %1 %2"
+            tr: "pin %1 %2 olduğunda"
+            pl: "gdy pin %1 %2"
+            cs: "když pin %1 %2"
+            hu: "amikor a láb %1 %2"
           args0:
-            - type: input_value
+            - type: field_number
               name: PIN
-              check: ["Number", "int", "unsigned int", "byte", "word", "uint8_t", "uint16_t", "uint32_t"]
-            - type: field_input
-              name: ISR
-              text: "myISR"
+              value: 2
+              min: 0
+              max: 53
             - type: field_dropdown
               name: MODE
               options:
-                - ["change", "CHANGE"]
-                - ["rising", "RISING"]
-                - ["falling", "FALLING"]
-                - ["low", "LOW"]
-                - ["high", "HIGH"]
-          previousStatement: null
+                - ["RISING", "RISING"]
+                - ["FALLING", "FALLING"]
+                - ["CHANGE", "CHANGE"]
+          message1:
+            en: "do %1"
+            it: "esegui %1"
+            zh-cn: "执行 %1"
+            zh-tw: "執行 %1"
+            fr: "faire %1"
+            de: "tue %1"
+            es: "hacer %1"
+            ja: "実行 %1"
+            ko: "실행 %1"
+            ru: "выполнить %1"
+            pt-br: "fazer %1"
+            tr: "yap %1"
+            pl: "wykonaj %1"
+            cs: "proveď %1"
+            hu: "csináld %1"
+          args1:
+            - type: input_statement
+              name: BODY
           nextStatement: null
-          inputsInline: true
+          extensions:
+            - hat_event_style
           tooltip:
-            en: "Call the named function (you must define a 'void myISR()') when the pin changes. Place inside a 'setup' block."
-            it: "Chiama la funzione indicata (devi definire una 'void myISR()') quando il pin cambia stato. Posiziona dentro un blocco 'setup'."
-            zh-cn: "当引脚状态变化时调用指定函数（需定义 'void myISR()'）。放在 'setup' 块内。"
-            zh-tw: "當腳位狀態變化時呼叫指定函式（需定義 'void myISR()'）。放在 'setup' 區塊內。"
-            fr: "Appelle la fonction indiquée (vous devez définir un 'void myISR()') lorsque la broche change d'état. Placer dans un bloc 'setup'."
-            de: "Ruft die angegebene Funktion auf (Sie müssen 'void myISR()' definieren), wenn sich der Pin-Zustand ändert. In einen 'setup'-Block setzen."
-            es: "Llama a la función indicada (debes definir un 'void myISR()') cuando el pin cambia de estado. Colocar dentro de un bloque 'setup'."
-            ja: "ピンの状態が変化したとき指定の関数を呼び出します（'void myISR()' を定義する必要があります）。'setup' ブロック内に配置してください。"
-            ko: "핀 상태가 변할 때 지정한 함수를 호출합니다('void myISR()'를 정의해야 합니다). 'setup' 블록 안에 배치하세요."
-            ru: "Вызывает указанную функцию (необходимо определить 'void myISR()') при изменении состояния пина. Поместите внутрь блока 'setup'."
-            pt-br: "Chama a função indicada (você deve definir um 'void myISR()') quando o pino muda de estado. Coloque dentro de um bloco 'setup'."
-            tr: "Pin durumu değiştiğinde belirtilen fonksiyonu çağırır ('void myISR()' tanımlamanız gerekir). 'setup' bloğu içine yerleştirin."
-            pl: "Wywołuje wskazaną funkcję (musisz zdefiniować 'void myISR()') przy zmianie stanu pinu. Umieść wewnątrz bloku 'setup'."
-            cs: "Zavolá uvedenou funkci (musíte definovat 'void myISR()') při změně stavu pinu. Umístěte do bloku 'setup'."
-            hu: "A megadott függvényt hívja meg (definiálni kell egy 'void myISR()'-t) a láb állapotváltozásakor. Helyezd egy 'setup' blokkba."
-          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/external-interrupts/attachInterrupt/"
+            en: "Run the attached code whenever the pin changes to the selected state."
+            it: "Esegue il codice collegato ogni volta che il pin passa allo stato selezionato."
+            zh-cn: "每当引脚变为所选状态时运行附加的代码。"
+            zh-tw: "每當腳位變為所選狀態時執行附加的程式碼。"
+            fr: "Exécute le code attaché chaque fois que la broche passe à l'état sélectionné."
+            de: "Führt den angehängten Code aus, wenn der Pin in den ausgewählten Zustand wechselt."
+            es: "Ejecuta el código adjunto cada vez que el pin cambia al estado seleccionado."
+            ja: "ピンが選択した状態に変化するたびに、接続されたコードを実行します。"
+            ko: "핀이 선택한 상태로 바뀔 때마다 연결된 코드를 실행합니다."
+            ru: "Выполняет прикреплённый код каждый раз, когда пин переходит в выбранное состояние."
+            pt-br: "Executa o código anexado sempre que o pino muda para o estado selecionado."
+            tr: "Pin seçilen duruma her geçtiğinde ekli kodu çalıştırır."
+            pl: "Uruchamia dołączony kod za każdym razem, gdy pin zmienia się na wybrany stan."
+            cs: "Spustí připojený kód pokaždé, když pin přejde do vybraného stavu."
+            hu: "Lefuttatja a csatolt kódot, valahányszor a láb a kiválasztott állapotba vált."
+          helpUrl: "https://www.arduino.cc/reference/en/language/functions/external-interrupts/attachinterrupt/"
         codegen:
+          declarations:
+            - "volatile bool _isr_flag_{{PIN}} = false;"
+            - "void _isr_pin{{PIN}}() {\n  _isr_flag_{{PIN}} = true;\n}"
+          setup:
+            - "attachInterrupt(digitalPinToInterrupt({{PIN}}), _isr_pin{{PIN}}, {{MODE}});"
           body:
-            - "attachInterrupt(digitalPinToInterrupt({{PIN}}), {{ISR}}, {{MODE}});"
-          inputDefaults:
-            PIN: "2"
+            - "if (_isr_flag_{{PIN}}) {"
+            - "  _isr_flag_{{PIN}} = false;"
+            - "{{BODY}}"
+            - "}"
 
       # --- detachInterrupt(digitalPinToInterrupt(pin)) ---
       - blockly:

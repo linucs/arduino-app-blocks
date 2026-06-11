@@ -34,8 +34,10 @@ COPY catalogs ./catalogs
 COPY l10n ./l10n
 
 # Brick defaults (App Lab / compose can override).
+# APP_ROOT is the in-container app root (= the bind-mount target). NOT APP_HOME:
+# the daemon sets APP_HOME to the *host* app dir, which doesn't exist here.
 ENV PORT=7100 \
-    APP_HOME=/app \
+    APP_ROOT=/app \
     EDITABLE_EXTENSIONS=ino,cpp,py \
     GENERATE_MODE=auto \
     SHOW_MINIMAP=false \

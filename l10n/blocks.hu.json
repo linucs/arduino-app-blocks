@@ -28,7 +28,7 @@
   "CPP_PROC_CALL_RETURN_TOOLTIP": "Olyan függvény hívása, amely értéket ad vissza.",
   "CPP_PROC_CALL_TOOLTIP": "Függvény hívása.",
   "NEW_TYPED_VARIABLE": "Változó létrehozása…",
-  "FIELD_CODE_TITLE": "Egyéni kód (C++)",
+  "FIELD_CODE_TITLE": "Egyéni kód",
   "FIELD_CODE_DONE": "Kész",
   "FIELD_PARAM_NAME": "név",
   "FIELD_PARAM_TYPE": "típus",

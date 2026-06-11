@@ -28,7 +28,7 @@
   "CPP_PROC_CALL_RETURN_TOOLTIP": "Ruft eine Funktion auf, die einen Wert zurückgibt.",
   "CPP_PROC_CALL_TOOLTIP": "Ruft eine Funktion auf.",
   "NEW_TYPED_VARIABLE": "Variable erstellen…",
-  "FIELD_CODE_TITLE": "Eigener Code (C++)",
+  "FIELD_CODE_TITLE": "Eigener Code",
   "FIELD_CODE_DONE": "Fertig",
   "FIELD_PARAM_NAME": "Name",
   "FIELD_PARAM_TYPE": "Typ",

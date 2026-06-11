@@ -50,6 +50,36 @@ MANIFEST=(
   "catalogs/arduino/cpp"
 )
 
+# --- brick-owned forks: derived from upstream but intentionally diverged -----
+# These shared files had to gain multi-runtime (Python) support, which
+# vscode-blockly does not implement. They are OWNED by the brick now: the sync
+# neither overwrites them on --copy nor flags them on --check. New Python code
+# lives in NEW files (webview/codegen/generators/arduinoPython.ts, etc.) that the
+# manifest doesn't track, so only these two pre-existing files are forked.
+EXCLUDE=(
+  "webview/index.ts"
+  "webview/codegen/generatorRegistry.ts"
+  # Relabeled cpp_delay's display to "wait %1 ms" (still generates delay()) for
+  # beginner C++/Python parallelism with python_wait. Codegen unchanged.
+  "catalogs/arduino/cpp/time.yaml"
+  # Added brick catalog category colours to BUILTIN_DEFAULTS so the same category
+  # is coloured identically in C++ and Python (single source, no hex in catalogs).
+  "webview/ThemeAdapter.ts"
+  # code_setup moved from Control → Code so the whole code_* family lives in one
+  # category, consistently with the Python side (catalogs/arduino/python/code.yaml).
+  "catalogs/arduino/cpp/core.yaml"
+  # Removed the imperative code_statement/code_expression/code_declaration defs +
+  # handlers; the code_* family is now catalog-driven (catalogs/arduino/cpp/code.yaml)
+  # through the single routeToZone() factory, mirroring Python.
+  "webview/codegen/cppLanguageBlocks.ts"
+)
+
+is_excluded() {
+  local f="$1"
+  for e in "${EXCLUDE[@]}"; do [[ "$f" == "$e" ]] && return 0; done
+  return 1
+}
+
 MODE="${1:---check}"
 
 if [[ -z "${SRC}" || ! -d "${SRC}/.git" ]]; then
@@ -69,6 +99,7 @@ copied=0
 for entry in "${MANIFEST[@]}"; do
   while IFS= read -r f; do
     [[ -z "$f" ]] && continue
+    if is_excluded "$f"; then continue; fi
     upstream_blob="$(git -C "${SRC}" show "${UPSTREAM_SHA}:${f}")"
     dest_file="${DEST}/${f}"
     if [[ "${MODE}" == "--copy" ]]; then

@@ -102,7 +102,7 @@ export class FieldCode extends Blockly.Field<string> {
         });
 
         const title = document.createElement('span');
-        title.textContent = Blockly.Msg['FIELD_CODE_TITLE'] ?? 'Custom Code (C++)';
+        title.textContent = Blockly.Msg['FIELD_CODE_TITLE'] ?? 'Custom Code';
         Object.assign(title.style, {
             fontSize: '13px',
             fontWeight: '600',

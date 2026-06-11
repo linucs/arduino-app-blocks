@@ -28,7 +28,7 @@
   "CPP_PROC_CALL_RETURN_TOOLTIP": "값을 반환하는 함수를 호출합니다.",
   "CPP_PROC_CALL_TOOLTIP": "함수를 호출합니다.",
   "NEW_TYPED_VARIABLE": "변수 만들기…",
-  "FIELD_CODE_TITLE": "사용자 지정 코드 (C++)",
+  "FIELD_CODE_TITLE": "사용자 지정 코드",
   "FIELD_CODE_DONE": "완료",
   "FIELD_PARAM_NAME": "이름",
   "FIELD_PARAM_TYPE": "타입",

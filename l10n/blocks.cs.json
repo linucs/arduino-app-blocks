@@ -28,7 +28,7 @@
   "CPP_PROC_CALL_RETURN_TOOLTIP": "Zavolá funkci, která vrací hodnotu.",
   "CPP_PROC_CALL_TOOLTIP": "Zavolá funkci.",
   "NEW_TYPED_VARIABLE": "Vytvořit proměnnou…",
-  "FIELD_CODE_TITLE": "Vlastní kód (C++)",
+  "FIELD_CODE_TITLE": "Vlastní kód",
   "FIELD_CODE_DONE": "Hotovo",
   "FIELD_PARAM_NAME": "název",
   "FIELD_PARAM_TYPE": "typ",

@@ -28,7 +28,7 @@
   "CPP_PROC_CALL_RETURN_TOOLTIP": "値を返す関数を呼び出します。",
   "CPP_PROC_CALL_TOOLTIP": "関数を呼び出します。",
   "NEW_TYPED_VARIABLE": "変数を作成…",
-  "FIELD_CODE_TITLE": "カスタムコード (C++)",
+  "FIELD_CODE_TITLE": "カスタムコード",
   "FIELD_CODE_DONE": "完了",
   "FIELD_PARAM_NAME": "名前",
   "FIELD_PARAM_TYPE": "型",

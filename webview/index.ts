@@ -21,6 +21,12 @@ import { CodeFactory } from './codegen/CodeFactory';
 import { isRuntimeSupported } from './codegen/generatorRegistry';
 import { initTypedVariableModal, initWorkspacePlugins, pluginInjectOptions, CPP_VARIABLE_TYPES, ThemedMinimap } from './plugins';
 import { initCppProcedureFlyout } from './custom-blocks/cppProcedureBlocks';
+// Runtime-neutral block extensions registered at editor boot, available to both
+// the C++ and Python toolboxes (e.g. hat_event_style for event-handler blocks).
+import './custom-blocks/hatEventStyle';
+// Section-container first-party generators (code_includes / code_declaration),
+// registered at boot for both runtimes (extends FIRST_PARTY_GENERATORS).
+import './codegen/sectionGenerators';
 
 // ── i18n bootstrap (must happen before any Blockly block defs or UI) ───────
 const l10nDataEl = document.getElementById('l10n-data');
@@ -127,6 +133,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const blockMsgLocale: Record<string, string> = blockMsgLocaleEl ? JSON.parse(blockMsgLocaleEl.textContent || '{}') : {};
     Object.assign(Blockly.Msg, blockMsgEn);
     Object.assign(Blockly.Msg, blockMsgLocale);
+
+    // The custom-code field (FieldCode) is used by BOTH the C++ and Python code_*
+    // blocks, so drop the upstream "(C++)" qualifier from its title — keeping each
+    // locale's translation of "Custom Code". (Brick-specific; avoids forking all
+    // 16 l10n/blocks.*.json files for one string.)
+    if (typeof Blockly.Msg['FIELD_CODE_TITLE'] === 'string') {
+        Blockly.Msg['FIELD_CODE_TITLE'] = Blockly.Msg['FIELD_CODE_TITLE']
+            .replace(/\s*[（(]\s*C\+\+\s*[)）]\s*$/, '');
+    }
 
     const mergedBlockMessages = { ...blockMsgEn, ...blockMsgLocale };
     initTypedVariableModal(workspace, CPP_VARIABLE_TYPES, mergedBlockMessages);
@@ -252,8 +267,8 @@ document.addEventListener("DOMContentLoaded", () => {
         {
             kind: 'category', _key: 'Text', name: translateCategory('Text'), categorystyle: categoryStyleFor('Text'),
             contents: [
+                // Shared text blocks (same order as the Python toolbox)…
                 { kind: 'block', type: 'text' },
-                { kind: 'block', type: 'symbol_literal' },
                 { kind: 'block', type: 'text_join' },
                 { kind: 'block', type: 'text_append' },
                 { kind: 'block', type: 'text_length' },
@@ -263,12 +278,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 { kind: 'block', type: 'text_getSubstring' },
                 { kind: 'block', type: 'text_changeCase' },
                 { kind: 'block', type: 'text_trim' },
+                // …then the C++-specific extra (raw symbol literal).
+                { kind: 'block', type: 'symbol_literal' },
             ]
         },
-        {
-            kind: 'category', _key: 'Variables', name: translateCategory('Variables'), categorystyle: categoryStyleFor('Variables'),
-            custom: 'CREATE_TYPED_VARIABLE',
-        },
+        // Category order kept identical to the Python toolbox: Arrays before Variables.
         {
             kind: 'category', _key: 'Arrays', name: translateCategory('Arrays'), categorystyle: categoryStyleFor('Arrays'),
             contents: [
@@ -277,16 +291,104 @@ document.addEventListener("DOMContentLoaded", () => {
             ]
         },
         {
+            kind: 'category', _key: 'Variables', name: translateCategory('Variables'), categorystyle: categoryStyleFor('Variables'),
+            custom: 'CREATE_TYPED_VARIABLE',
+        },
+        {
             kind: 'category', _key: 'Functions', name: translateCategory('Functions'), categorystyle: categoryStyleFor('Functions'),
             custom: 'CPP_PROCEDURE',
         },
+        // The "Code" category is catalog-driven (catalogs/arduino/cpp/code.yaml) and
+        // appears as a standalone category, exactly like the Python side.
+    ];
+
+    // BRICK-OWNED FORK (see tools/sync-core.sh EXCLUDE): vscode-blockly's toolbox
+    // is C++-only. For the arduino:python runtime we present the stock Blockly
+    // primitive blocks (which the bundled PythonGenerator already supports) and
+    // the built-in VARIABLE / PROCEDURE flyouts — not the C++ typed-variable /
+    // CPP_PROCEDURE / bitwise / type-cast / code blocks.
+    const PYTHON_LANGUAGE_CATEGORIES = [
         {
-            kind: 'category', _key: 'Code', name: translateCategory('Code'), categorystyle: categoryStyleFor('Text'),
+            kind: 'category', _key: 'Logic', name: translateCategory('Logic'), categorystyle: categoryStyleFor('Logic'),
             contents: [
-                { kind: 'block', type: 'code_declaration' },
-                { kind: 'block', type: 'code_statement' },
-                { kind: 'block', type: 'code_expression' },
+                // Shared logic blocks (same order as the C++ toolbox)…
+                { kind: 'block', type: 'controls_if' },
+                { kind: 'block', type: 'controls_switch_case' },
+                { kind: 'block', type: 'logic_compare' },
+                { kind: 'block', type: 'logic_operation' },
+                { kind: 'block', type: 'logic_negate' },
+                { kind: 'block', type: 'logic_boolean' },
+                { kind: 'block', type: 'logic_ternary' },
+                // …then the Python-specific extra (None literal).
+                { kind: 'block', type: 'logic_null' },
             ]
+        },
+        {
+            kind: 'category', _key: 'Loops', name: translateCategory('Loops'), categorystyle: categoryStyleFor('Loops'),
+            contents: [
+                { kind: 'block', type: 'controls_repeat_ext' },
+                { kind: 'block', type: 'controls_whileUntil' },
+                { kind: 'block', type: 'controls_for' },
+                { kind: 'block', type: 'controls_forEach' },
+                { kind: 'block', type: 'controls_flow_statements' },
+            ]
+        },
+        {
+            kind: 'category', _key: 'Math', name: translateCategory('Math'), categorystyle: categoryStyleFor('Math'),
+            contents: [
+                // Shared math blocks (same order as the C++ toolbox)…
+                { kind: 'block', type: 'math_number' },
+                { kind: 'block', type: 'math_arithmetic' },
+                { kind: 'block', type: 'math_modulo' },
+                { kind: 'block', type: 'math_single' },
+                { kind: 'block', type: 'math_trig' },
+                { kind: 'block', type: 'math_constant' },
+                { kind: 'block', type: 'math_round' },
+                { kind: 'block', type: 'math_number_property' },
+                // …then the Python-specific extras (Blockly-stock constrain/random).
+                { kind: 'block', type: 'math_constrain' },
+                { kind: 'block', type: 'math_random_int' },
+                { kind: 'block', type: 'math_random_float' },
+            ]
+        },
+        {
+            kind: 'category', _key: 'Text', name: translateCategory('Text'), categorystyle: categoryStyleFor('Text'),
+            contents: [
+                { kind: 'block', type: 'text' },
+                { kind: 'block', type: 'text_join' },
+                { kind: 'block', type: 'text_append' },
+                { kind: 'block', type: 'text_length' },
+                { kind: 'block', type: 'text_isEmpty' },
+                { kind: 'block', type: 'text_indexOf' },
+                { kind: 'block', type: 'text_charAt' },
+                { kind: 'block', type: 'text_getSubstring' },
+                { kind: 'block', type: 'text_changeCase' },
+                { kind: 'block', type: 'text_trim' },
+                { kind: 'block', type: 'text_print' },
+            ]
+        },
+        {
+            kind: 'category', _key: 'Lists', name: translateCategory('Arrays'), categorystyle: categoryStyleFor('Arrays'),
+            contents: [
+                { kind: 'block', type: 'lists_create_with' },
+                { kind: 'block', type: 'lists_repeat' },
+                { kind: 'block', type: 'lists_length' },
+                { kind: 'block', type: 'lists_isEmpty' },
+                { kind: 'block', type: 'lists_indexOf' },
+                { kind: 'block', type: 'lists_getIndex' },
+                { kind: 'block', type: 'lists_setIndex' },
+                { kind: 'block', type: 'lists_getSublist' },
+                { kind: 'block', type: 'lists_sort' },
+                { kind: 'block', type: 'lists_reverse' },
+            ]
+        },
+        {
+            kind: 'category', _key: 'Variables', name: translateCategory('Variables'), categorystyle: categoryStyleFor('Variables'),
+            custom: 'VARIABLE',
+        },
+        {
+            kind: 'category', _key: 'Functions', name: translateCategory('Functions'), categorystyle: categoryStyleFor('Functions'),
+            custom: 'PROCEDURE',
         },
     ];
 
@@ -384,7 +486,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const catalogCategories = codeFactory.getCatalogToolboxCategories();
                 const merged = new Set<string>();
-                const languageCategories = LANGUAGE_CATEGORIES.map(cat => {
+                const baseCategories = runtime === 'arduino:python' ? PYTHON_LANGUAGE_CATEGORIES : LANGUAGE_CATEGORIES;
+                const languageCategories = baseCategories.map(cat => {
                     const key = (cat as any)._key as string;
                     const match = catalogCategories.find(c => c._key === key && Array.isArray(c.contents));
                     if (!match || !Array.isArray((cat as any).contents)) return cat;

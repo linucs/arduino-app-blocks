@@ -28,7 +28,7 @@
   "CPP_PROC_CALL_RETURN_TOOLTIP": "Вызвать функцию, возвращающую значение.",
   "CPP_PROC_CALL_TOOLTIP": "Вызвать функцию.",
   "NEW_TYPED_VARIABLE": "Создать переменную…",
-  "FIELD_CODE_TITLE": "Пользовательский код (C++)",
+  "FIELD_CODE_TITLE": "Пользовательский код",
   "FIELD_CODE_DONE": "Готово",
   "FIELD_PARAM_NAME": "имя",
   "FIELD_PARAM_TYPE": "тип",

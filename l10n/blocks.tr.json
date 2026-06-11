@@ -28,7 +28,7 @@
   "CPP_PROC_CALL_RETURN_TOOLTIP": "Bir değer döndüren bir fonksiyonu çağır.",
   "CPP_PROC_CALL_TOOLTIP": "Bir fonksiyonu çağır.",
   "NEW_TYPED_VARIABLE": "Değişken oluştur…",
-  "FIELD_CODE_TITLE": "Özel Kod (C++)",
+  "FIELD_CODE_TITLE": "Özel Kod",
   "FIELD_CODE_DONE": "Tamam",
   "FIELD_PARAM_NAME": "ad",
   "FIELD_PARAM_TYPE": "tür",

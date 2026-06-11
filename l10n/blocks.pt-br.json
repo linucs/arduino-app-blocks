@@ -28,7 +28,7 @@
   "CPP_PROC_CALL_RETURN_TOOLTIP": "Chama uma função que retorna um valor.",
   "CPP_PROC_CALL_TOOLTIP": "Chama uma função.",
   "NEW_TYPED_VARIABLE": "Criar variável…",
-  "FIELD_CODE_TITLE": "Código Personalizado (C++)",
+  "FIELD_CODE_TITLE": "Código Personalizado",
   "FIELD_CODE_DONE": "Concluído",
   "FIELD_PARAM_NAME": "nome",
   "FIELD_PARAM_TYPE": "tipo",

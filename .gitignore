@@ -47,3 +47,5 @@ out/
 *.tmp
 *.bak
 
+# ---- Others ----
+examples/

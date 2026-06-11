@@ -1,0 +1,120 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/vscode-blockly/refs/heads/main/src/catalog/block-catalog_v1.schema.json
+# Brick-authored (ported from arduino-app-lab): the App Lab MESSAGING layer for
+# C++, mirroring the Python builtin_communication blocks so both sides of the
+# Bridge are consistent. Distinct from the hardware buses under "Communication"
+# (Serial/SPI/I2C) — this is the high-level MCU<->SBC Bridge + Monitor print.
+id: arduino_messaging
+docs:
+  reference: "https://docs.arduino.cc/software/app-lab/bridge/bridge-api/"
+category: Messaging
+implementations:
+  - runtime: arduino:cpp
+    dependencies:
+      - type: library
+        name: Arduino_RouterBridge
+    codegen:
+      imports:
+        - "#include <Arduino_RouterBridge.h>"
+    blocks:
+      # print → Monitor (parallels Python Logger / print)
+      - blockly:
+          type: cpp_print
+          message0: "print %1 to Monitor"
+          args0:
+            - type: input_value
+              name: VALUE
+          previousStatement: null
+          nextStatement: null
+          inputsInline: true
+          tooltip: "Print a value to the serial monitor via the Arduino Router Bridge."
+          helpUrl: "https://docs.arduino.cc/software/app-lab/bridge/bridge-api/"
+        codegen:
+          setup:
+            - "Monitor.begin();"
+          body:
+            - "Monitor.println({{VALUE}});"
+          inputDefaults:
+            VALUE: '""'
+
+      # Bridge.notify (parallels python_bridge_notify)
+      - blockly:
+          type: cpp_bridge_notify
+          message0: "notify %1 of %2 through bridge"
+          args0:
+            - type: field_input
+              name: NAME
+              text: eventName
+            - type: input_value
+              name: ARGS
+          previousStatement: null
+          nextStatement: null
+          inputsInline: true
+          tooltip: "Send a notification event to the SBC side via the Bridge."
+          helpUrl: "https://docs.arduino.cc/software/app-lab/bridge/bridge-api/"
+        codegen:
+          setup:
+            - "Bridge.begin();"
+          body:
+            - 'Bridge.notify("{{NAME}}", {{ARGS}});'
+          inputDefaults:
+            ARGS: nullptr
+
+      # Bridge.provide handler (parallels python_bridge_provide) — hat block
+      - blockly:
+          type: cpp_bridge_provide
+          message0: "listen to bridge for %1 data %2"
+          args0:
+            - type: field_input
+              name: NAME
+              text: serviceName
+            - type: field_typed_param_input
+              name: PARAM
+              text: args
+              defaultType: String
+              options:
+                - ["String", "String"]
+                - ["int", "int"]
+                - ["float", "float"]
+                - ["double", "double"]
+                - ["bool", "bool"]
+                - ["bytes", "std::vector<uint8_t>"]
+          message1: "do %1"
+          args1:
+            - type: input_statement
+              name: BODY
+          nextStatement: null
+          extensions:
+            - hat_event_style
+          tooltip: "Register a handler for a Bridge service call from the SBC side."
+          helpUrl: "https://docs.arduino.cc/software/app-lab/bridge/bridge-api/"
+        codegen:
+          declarations:
+            - "void _bridgeHandler_{{NAME}}({{PARAM.type}} {{PARAM.name}}) {\n{{BODY}}\n}"
+          setup:
+            - "Bridge.begin();"
+            - 'Bridge.provide("{{NAME}}", _bridgeHandler_{{NAME}});'
+
+      # Bridge.call (parallels python_bridge_call)
+      - blockly:
+          type: cpp_bridge_call
+          message0: "call %1 through bridge with data %2 - results into %3"
+          args0:
+            - type: field_input
+              name: NAME
+              text: serviceName
+            - type: input_value
+              name: ARGS
+            - type: input_value
+              name: OUT_VAR
+          previousStatement: null
+          nextStatement: null
+          inputsInline: true
+          tooltip: "Call a Bridge service on the SBC and capture the result into a typed variable."
+          helpUrl: "https://docs.arduino.cc/software/app-lab/bridge/bridge-api/"
+        codegen:
+          setup:
+            - "Bridge.begin();"
+          body:
+            - 'Bridge.call("{{NAME}}", {{ARGS}}).result({{OUT_VAR}});'
+          inputDefaults:
+            ARGS: nullptr

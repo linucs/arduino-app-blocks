@@ -5,6 +5,8 @@ import { filterEntriesForRuntime } from '../src/catalog/boardFilter';
 import { collectRequirements } from '../src/catalog/requirements';
 import { collectUsedBlockTypes } from '../src/project/blockUsage';
 import { mergeSketchLibraries } from '../src/project/arduino/sketchYamlMerge';
+import { collectPipRequirements } from './pipRequirements';
+import { mergeRequirements } from './requirementsTxt';
 import { BoardContext } from '../src/project/projectConfig';
 import { CatalogEntry } from '../src/catalog/CatalogTypes';
 import { CatalogManager } from './catalogManager';
@@ -152,18 +154,32 @@ export class Session {
   }
 
   /**
-   * Add-only merge of the dependencies required by blocks in use (G8).
-   * cpp → sketch.yaml profile libraries (python → requirements.txt comes in M2).
-   * Fresh-read-before-write is preserved: read the config file immediately before
-   * the synchronous merge+write, never from a cached copy.
+   * Add-only merge of the dependencies required by blocks in use (G8), dispatched
+   * by runtime: cpp → sketch.yaml profile libraries; python → requirements.txt.
+   * Both are non-destructive and do a fresh read immediately before the merge+write
+   * (never from a cached copy).
    */
   private async syncDependencies(state: unknown): Promise<void> {
     const ctx = this.ctx;
-    if (!ctx || ctx.language !== 'cpp' || !ctx.project || !ctx.boardContext || !ctx.runtime) return;
-    if (!ctx.activeEnvName) return;
-
+    if (!ctx || !ctx.runtime) return;
+    const used = collectUsedBlockTypes(state);
     const allEntries = [...this.catalog.getEntries(), ...this.projectLocalEntries];
-    const reqs = collectRequirements(allEntries, collectUsedBlockTypes(state), ctx.runtime);
+
+    if (ctx.language === 'python') {
+      const specs = collectPipRequirements(allEntries, used, ctx.runtime);
+      if (specs.length === 0) return;
+      // requirements.txt lives next to the Python source.
+      const reqPath = path.join(path.dirname(this.sourcePath), 'requirements.txt');
+      let content = '';
+      try { content = await fs.readFile(reqPath, 'utf8'); } catch { /* create it */ }
+      const { content: merged, changed } = mergeRequirements(content, specs);
+      if (changed) await fs.writeFile(reqPath, merged, 'utf8');
+      return;
+    }
+
+    // cpp → sketch.yaml profile libraries.
+    if (ctx.language !== 'cpp' || !ctx.project || !ctx.boardContext || !ctx.activeEnvName) return;
+    const reqs = collectRequirements(allEntries, used, ctx.runtime);
     if (reqs.libDeps.length === 0) return;
 
     let content: string;

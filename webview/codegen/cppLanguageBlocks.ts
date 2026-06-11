@@ -76,31 +76,11 @@ function defineCustomBlocks(): void {
             style: blockStyleFor('Math'),
             tooltip: '%{BKY_SYMBOL_LITERAL_TOOLTIP}',
         },
-        // ── Custom code ──────────────────────────────────────────────
-        {
-            type: 'code_statement',
-            message0: '⟨ %1 ⟩',
-            args0: [{ type: 'field_code', name: 'CODE', text: '' }],
-            previousStatement: null,
-            nextStatement: null,
-            style: blockStyleFor('Text'),
-            tooltip: '%{BKY_CODE_STATEMENT_TOOLTIP}',
-        },
-        {
-            type: 'code_expression',
-            message0: '⟨ %1 ⟩',
-            args0: [{ type: 'field_input', name: 'CODE', text: 'expression' }],
-            output: null,
-            style: blockStyleFor('Text'),
-            tooltip: '%{BKY_CODE_EXPRESSION_TOOLTIP}',
-        },
-        {
-            type: 'code_declaration',
-            message0: '%{BKY_CODE_DECLARATION_MSG}',
-            args0: [{ type: 'input_statement', name: 'MEMBERS' }],
-            style: blockStyleFor('Text'),
-            tooltip: '%{BKY_CODE_DECLARATION_TOOLTIP}',
-        },
+        // BRICK-OWNED FORK (see tools/sync-core.sh): the code_* family
+        // (code_statement / code_expression / code_includes / code_declaration /
+        // code_setup) is now catalog-driven in catalogs/arduino/cpp/code.yaml,
+        // routed through the single routeToZone() factory — mirroring the Python
+        // side. Their imperative defs + handlers were removed from this file.
         // ── do...while ───────────────────────────────────────────────
         {
             type: 'controls_doWhile',
@@ -753,27 +733,6 @@ export function registerCppLanguageBlocks(
         return [sym || '0', ORDER.ATOMIC];
     };
 
-    // ── Custom code (raw C++) ───────────────────────────────────────────
-
-    f['code_statement'] = (b) => {
-        const code = String(b.getFieldValue('CODE') || '');
-        return code ? code + '\n' : '';
-    };
-
-    f['code_expression'] = (b) => {
-        const code = String(b.getFieldValue('CODE') || '0');
-        return [code, ORDER.ATOMIC];
-    };
-
-    f['code_declaration'] = (b) => {
-        // Use blockToCode (not statementToCode) to avoid the indentation that
-        // Blockly prepends for nested statements — file-scope declarations sit
-        // at column 0.
-        const target = b.getInputTargetBlock('MEMBERS');
-        let members = target ? g.blockToCode(target) : '';
-        if (Array.isArray(members)) members = members[0];
-        if (!members.trim()) return '';
-        (g as any).definitions_['decl_custom_' + b.id] = members.replace(/\n$/, '');
-        return '';
-    };
+    // The code_* family (raw code + section containers) is catalog-driven now —
+    // see catalogs/arduino/cpp/code.yaml + webview/codegen/sectionGenerators.ts.
 }

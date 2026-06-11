@@ -8,21 +8,21 @@ implementations:
       - blockly:
           type: cpp_delay
           message0:
-            en: "delay %1 ms"
-            it: "delay %1 ms"
-            zh-cn: "delay %1 ms"
-            zh-tw: "delay %1 ms"
-            fr: "delay %1 ms"
-            de: "delay %1 ms"
-            es: "delay %1 ms"
-            ja: "delay %1 ms"
-            ko: "delay %1 ms"
-            ru: "delay %1 мс"
-            pt-br: "delay %1 ms"
-            tr: "delay %1 ms"
-            pl: "delay %1 ms"
-            cs: "delay %1 ms"
-            hu: "delay %1 ms"
+            en: "wait %1 ms"
+            it: "wait %1 ms"
+            zh-cn: "wait %1 ms"
+            zh-tw: "wait %1 ms"
+            fr: "wait %1 ms"
+            de: "wait %1 ms"
+            es: "wait %1 ms"
+            ja: "wait %1 ms"
+            ko: "wait %1 ms"
+            ru: "wait %1 мс"
+            pt-br: "wait %1 ms"
+            tr: "wait %1 ms"
+            pl: "wait %1 ms"
+            cs: "wait %1 ms"
+            hu: "wait %1 ms"
           args0:
             - type: input_value
               name: DURATION

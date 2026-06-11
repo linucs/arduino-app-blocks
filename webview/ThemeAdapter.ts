@@ -23,6 +23,15 @@ const BUILTIN_DEFAULTS: Record<string, string> = {
     'Variables': '#4DB6D4',   // Deeper cyan (readable white text)
     'Arrays':    '#4EC9B0',   // VS Code type-annotation teal
     'Functions': '#B8A848',   // Deeper olive-yellow (readable white text)
+    // ── Brick catalog categories (BRICK-OWNED FORK — see tools/sync-core.sh) ──
+    // Centralized here so the SAME category gets the SAME colour in both the C++
+    // and Python toolboxes, and catalog YAML carries no per-block/per-entry hex.
+    // Values match what the catalogs previously declared (no visual change).
+    'Input / Output': '#FFB300', // amber
+    'Communication':  '#5C6BC0', // indigo (hardware buses: Serial/SPI/I2C)
+    'Control':        '#78909C', // blue-grey
+    'Messaging':      '#7E57C2', // purple (App Lab Bridge/Logger)
+    'Code':           '#5C81A6', // steel blue
 };
 
 /** Fallback colour for catalog-defined categories with no explicit colour. */

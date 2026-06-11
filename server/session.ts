@@ -11,6 +11,7 @@ import { BoardContext } from '../src/project/projectConfig';
 import { CatalogEntry } from '../src/catalog/CatalogTypes';
 import { CatalogManager } from './catalogManager';
 import { resolveFileContext, FileContext } from './fileContext';
+import { blocksDir } from './blocksDir';
 import {
   readCompanionWorkspace,
   writeCompanionWorkspace,
@@ -56,6 +57,16 @@ export class Session {
     });
   }
 
+  /**
+   * Re-read the project-local catalogs and re-push the filtered toolbox (M3 live
+   * update). Called when .blocks/ changes (install or hand-edit). No-op before the
+   * first `ready` resolved the file context.
+   */
+  async refreshCatalog(): Promise<void> {
+    if (!this.ctx) return;
+    await this.refresh();
+  }
+
   private post(msg: unknown): void {
     if (this.ws.readyState === this.ws.OPEN) this.ws.send(JSON.stringify(msg));
   }
@@ -96,8 +107,7 @@ export class Session {
       defaultFqbn: this.config.defaultFqbn,
       log: (m) => console.log(m),
     });
-    const blocksDir = path.join(this.config.appRoot, '.blocks');
-    this.projectLocalEntries = await this.catalog.loadEntriesFrom(blocksDir);
+    this.projectLocalEntries = await this.catalog.loadEntriesFrom(blocksDir(this.config.appRoot));
     this.sendCatalog();
   }
 

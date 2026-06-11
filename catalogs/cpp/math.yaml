@@ -1,0 +1,181 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/arduino-app-blocks/refs/heads/main/src/catalog/block-catalog_v1.schema.json
+id: arduino_math
+category: "Math::Arduino"
+implementations:
+  - runtime: "arduino:cpp"
+    blocks:
+      # --- min / max (consolidated, dropdown) ---
+      - blockly:
+          type: cpp_math_minmax
+          message0:
+            en: "%1 of %2 and %3"
+            it: "%1 tra %2 e %3"
+            zh-cn: "%2 和 %3 的 %1"
+            zh-tw: "%2 和 %3 的 %1"
+            fr: "%1 de %2 et %3"
+            de: "%1 von %2 und %3"
+            es: "%1 de %2 y %3"
+            ja: "%2 と %3 の %1"
+            ko: "%2 와 %3 의 %1"
+            ru: "%1 из %2 и %3"
+            pt-br: "%1 de %2 e %3"
+            tr: "%2 ve %3 arasındaki %1"
+            pl: "%1 z %2 i %3"
+            cs: "%1 z %2 a %3"
+            hu: "%2 és %3 közül a %1"
+          args0:
+            - type: field_dropdown
+              name: FUNC
+              options:
+                - ["min", "min"]
+                - ["max", "max"]
+            - type: input_value
+              name: A
+              check: ["Number", "int", "unsigned int", "long", "unsigned long", "byte", "word", "float", "double", "uint8_t", "uint16_t", "uint32_t", "int8_t", "int16_t", "int32_t"]
+            - type: input_value
+              name: B
+              check: ["Number", "int", "unsigned int", "long", "unsigned long", "byte", "word", "float", "double", "uint8_t", "uint16_t", "uint32_t", "int8_t", "int16_t", "int32_t"]
+          output: Number
+          inputsInline: true
+          tooltip:
+            en: "Smaller (min) or larger (max) of two numbers."
+            it: "Il minore (min) o il maggiore (max) tra due numeri."
+            zh-cn: "两个数中较小的（min）或较大的（max）。"
+            zh-tw: "兩個數中較小的（min）或較大的（max）。"
+            fr: "Le plus petit (min) ou le plus grand (max) de deux nombres."
+            de: "Die kleinere (min) oder größere (max) von zwei Zahlen."
+            es: "El menor (min) o el mayor (max) de dos números."
+            ja: "2つの数値のうち小さい方（min）または大きい方（max）。"
+            ko: "두 숫자 중 작은 값(min) 또는 큰 값(max)."
+            ru: "Меньшее (min) или большее (max) из двух чисел."
+            pt-br: "O menor (min) ou o maior (max) de dois números."
+            tr: "İki sayıdan küçük olan (min) veya büyük olan (max)."
+            pl: "Mniejsza (min) lub większa (max) z dwóch liczb."
+            cs: "Menší (min) nebo větší (max) ze dvou čísel."
+            hu: "Két szám közül a kisebb (min) vagy a nagyobb (max)."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/math/min/"
+        codegen:
+          body:
+            - "{{FUNC}}({{A}}, {{B}})"
+          precedence: ATOMIC
+          inputDefaults:
+            A: "0"
+            B: "0"
+
+      # --- constrain ---
+      - blockly:
+          type: cpp_constrain
+          message0:
+            en: "constrain %1 between %2 and %3"
+            it: "limita %1 tra %2 e %3"
+            zh-cn: "将 %1 限制在 %2 和 %3 之间"
+            zh-tw: "將 %1 限制在 %2 和 %3 之間"
+            fr: "limiter %1 entre %2 et %3"
+            de: "%1 begrenzen zwischen %2 und %3"
+            es: "limitar %1 entre %2 y %3"
+            ja: "%1 を %2 と %3 の間に制限"
+            ko: "%1 을 %2 와 %3 사이로 제한"
+            ru: "ограничить %1 между %2 и %3"
+            pt-br: "limitar %1 entre %2 e %3"
+            tr: "%1 değerini %2 ile %3 arasında sınırla"
+            pl: "ogranicz %1 między %2 a %3"
+            cs: "omezit %1 mezi %2 a %3"
+            hu: "%1 korlátozása %2 és %3 közé"
+          args0:
+            - type: input_value
+              name: X
+              check: ["Number", "int", "unsigned int", "long", "unsigned long", "byte", "word", "float", "double", "uint8_t", "uint16_t", "uint32_t", "int8_t", "int16_t", "int32_t"]
+            - type: input_value
+              name: LOW
+              check: ["Number", "int", "unsigned int", "long", "unsigned long", "byte", "word", "float", "double", "uint8_t", "uint16_t", "uint32_t", "int8_t", "int16_t", "int32_t"]
+            - type: input_value
+              name: HIGH
+              check: ["Number", "int", "unsigned int", "long", "unsigned long", "byte", "word", "float", "double", "uint8_t", "uint16_t", "uint32_t", "int8_t", "int16_t", "int32_t"]
+          output: Number
+          inputsInline: true
+          tooltip:
+            en: "Constrain a number to stay within the inclusive range [low, high]."
+            it: "Limita un numero affinché resti nell'intervallo inclusivo [minimo, massimo]."
+            zh-cn: "将数字限制在闭区间 [low, high] 内。"
+            zh-tw: "將數字限制在閉區間 [low, high] 內。"
+            fr: "Limite un nombre pour qu'il reste dans l'intervalle inclusif [low, high]."
+            de: "Begrenzt eine Zahl auf den inklusiven Bereich [low, high]."
+            es: "Limita un número para que permanezca en el rango inclusivo [low, high]."
+            ja: "数値を閉区間 [low, high] 内に制限します。"
+            ko: "숫자를 [low, high] 범위 내로 제한합니다."
+            ru: "Ограничивает число в пределах включительного диапазона [low, high]."
+            pt-br: "Limita um número ao intervalo inclusivo [low, high]."
+            tr: "Bir sayıyı [low, high] dahil aralığında tutar."
+            pl: "Ogranicza liczbę do zakresu domkniętego [low, high]."
+            cs: "Omezí číslo na uzavřený interval [low, high]."
+            hu: "Egy számot a [low, high] zárt tartományban tart."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/math/constrain/"
+        codegen:
+          body:
+            - "constrain({{X}}, {{LOW}}, {{HIGH}})"
+          precedence: ATOMIC
+          inputDefaults:
+            X: "0"
+            LOW: "0"
+            HIGH: "255"
+
+      # --- map ---
+      - blockly:
+          type: cpp_map
+          message0:
+            en: "map %1 from %2 .. %3 to %4 .. %5"
+            it: "mappa %1 da %2 .. %3 a %4 .. %5"
+            zh-cn: "将 %1 从 %2 .. %3 映射到 %4 .. %5"
+            zh-tw: "將 %1 從 %2 .. %3 映射到 %4 .. %5"
+            fr: "mapper %1 de %2 .. %3 vers %4 .. %5"
+            de: "%1 abbilden von %2 .. %3 auf %4 .. %5"
+            es: "mapear %1 de %2 .. %3 a %4 .. %5"
+            ja: "%1 を %2 .. %3 から %4 .. %5 にマッピング"
+            ko: "%1 을 %2 .. %3 에서 %4 .. %5 로 매핑"
+            ru: "отобразить %1 из %2 .. %3 в %4 .. %5"
+            pt-br: "mapear %1 de %2 .. %3 para %4 .. %5"
+            tr: "%1 değerini %2 .. %3 aralığından %4 .. %5 aralığına eşle"
+            pl: "mapuj %1 z %2 .. %3 na %4 .. %5"
+            cs: "mapovat %1 z %2 .. %3 na %4 .. %5"
+            hu: "%1 leképezése %2 .. %3 tartományból %4 .. %5 tartományba"
+          args0:
+            - type: input_value
+              name: VALUE
+              check: ["Number", "int", "unsigned int", "long", "unsigned long", "byte", "word", "uint8_t", "uint16_t", "uint32_t", "int8_t", "int16_t", "int32_t"]
+            - type: input_value
+              name: FROMLOW
+            - type: input_value
+              name: FROMHIGH
+            - type: input_value
+              name: TOLOW
+            - type: input_value
+              name: TOHIGH
+          output: Number
+          inputsInline: true
+          tooltip:
+            en: "Re-map a number from one range to another (integer math)."
+            it: "Rimappa un numero da un intervallo a un altro (matematica intera)."
+            zh-cn: "将数字从一个范围重新映射到另一个范围（整数运算）。"
+            zh-tw: "將數字從一個範圍重新映射到另一個範圍（整數運算）。"
+            fr: "Remapper un nombre d'une plage à une autre (arithmétique entière)."
+            de: "Eine Zahl von einem Bereich auf einen anderen abbilden (Ganzzahlarithmetik)."
+            es: "Remapear un número de un rango a otro (aritmética entera)."
+            ja: "数値をある範囲から別の範囲に再マッピングします（整数演算）。"
+            ko: "숫자를 한 범위에서 다른 범위로 재매핑합니다(정수 연산)."
+            ru: "Перенос числа из одного диапазона в другой (целочисленная арифметика)."
+            pt-br: "Remapeia um número de uma faixa para outra (aritmética inteira)."
+            tr: "Bir sayıyı bir aralıktan başka bir aralığa yeniden eşler (tamsayı aritmetiği)."
+            pl: "Przemapowuje liczbę z jednego zakresu na inny (arytmetyka całkowita)."
+            cs: "Přemapuje číslo z jednoho rozsahu do jiného (celočíselná aritmetika)."
+            hu: "Egy számot egyik tartományból a másikba képez le (egész aritmetika)."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/math/map/"
+        codegen:
+          body:
+            - "map({{VALUE}}, {{FROMLOW}}, {{FROMHIGH}}, {{TOLOW}}, {{TOHIGH}})"
+          precedence: ATOMIC
+          inputDefaults:
+            VALUE: "0"
+            FROMLOW: "0"
+            FROMHIGH: "1023"
+            TOLOW: "0"
+            TOHIGH: "255"

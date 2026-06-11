@@ -5,7 +5,8 @@ YAML files that describe hardware components, Python bricks, and AI patterns as 
 visual blocks. The App Lab binary loads these entries at runtime and adds them to the
 block toolbox alongside the built-in Arduino blocks.
 
-No local copy of `arduino-app-lab` is required to contribute here.
+This repository is self-contained — everything needed to author, validate, and build the
+catalog lives in-tree.
 
 ## Repository layout
 
@@ -34,7 +35,7 @@ Quick reference:
 1. Create `catalogs/<family>/<component>.yaml`
 2. Add the `# yaml-language-server` schema header (see skill)
 3. Follow the schema at:
-   `https://raw.githubusercontent.com/linucs/arduino-app-lab/main/ui-packages/ui-components/lib/blockly-editor/schemas/block-catalog_v1.schema.json`
+   `https://raw.githubusercontent.com/linucs/arduino-app-blocks/refs/heads/main/src/catalog/block-catalog_v1.schema.json`
 4. Validate before submitting (see below)
 
 ## Validating catalog files
@@ -45,20 +46,18 @@ Run from the repo root. Requires `python3`, `pyyaml`, `jsonschema`:
 pip install pyyaml jsonschema   # once
 
 python3 - <<'EOF'
-import yaml, json, jsonschema, urllib.request, glob, os, sys
+import yaml, json, jsonschema, glob, os, sys
 
-SCHEMA_URL = (
-    "https://raw.githubusercontent.com/linucs/arduino-app-lab/main"
-    "/app/common/schemas/v1/block-catalog_v1.schema.json"
-)
-schema = json.loads(urllib.request.urlopen(SCHEMA_URL).read())
+# The schema ships in this repo — validate against the local file (no network).
+schema = json.load(open("src/catalog/block-catalog_v1.schema.json"))
 
 files = sys.argv[1:] or glob.glob("catalogs/**/*.yaml", recursive=True)
 errors = []
 for f in sorted(files):
     try:
-        entry = yaml.safe_load(open(f))
-        jsonschema.validate(entry, schema)
+        for entry in yaml.safe_load_all(open(f)):
+            if entry:
+                jsonschema.validate(entry, schema)
         print(f"OK  {os.path.basename(f)}")
     except jsonschema.ValidationError as e:
         errors.append(f)
@@ -81,6 +80,5 @@ EOF
 
 ## Testing
 
-Smoke tests for compiled output live in the `arduino-app-lab` repository under
-`smoke-tests/`. Opening a PR here will eventually trigger a CI job that validates
-schema compliance; full smoke-test compilation is run on UNO Q hardware.
+Validate catalog files locally with the schema-validation snippet above before submitting.
+Compiled-output smoke tests run on UNO Q hardware as part of release verification.

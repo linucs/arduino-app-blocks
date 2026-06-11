@@ -50,6 +50,17 @@ export class CatalogManager extends EventEmitter {
     return this.entries;
   }
 
+  /**
+   * Validate a single parsed catalog document against block-catalog_v1, reusing
+   * the same compiled AJV the loader uses (G2 — no second validator). Returns the
+   * list of human-readable errors; empty means valid.
+   */
+  validateEntry(doc: unknown): string[] {
+    if (!doc || typeof doc !== 'object') return ['not an object'];
+    if (this.validate(doc)) return [];
+    return [this.ajv.errorsText(this.validate.errors)];
+  }
+
   /** Load+validate entries from a directory without mutating the global list. */
   async loadEntriesFrom(dirPath: string): Promise<CatalogEntry[]> {
     const entries: CatalogEntry[] = [];

@@ -1,0 +1,500 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/arduino-app-blocks/refs/heads/main/src/catalog/block-catalog_v1.schema.json
+id: arduino_spi
+category: "Communication::SPI"
+docs:
+  library: "https://docs.arduino.cc/language-reference/en/functions/communication/SPI/"
+implementations:
+  - runtime: "arduino:cpp"
+    codegen:
+      imports:
+        - "#include <SPI.h>"
+    blocks:
+      # --- SPISettings(clock, bitOrder, dataMode) ---
+      - blockly:
+          type: cpp_spi_settings
+          message0:
+            en: "SPISettings clock %1 order %2 mode %3"
+            it: "SPISettings clock %1 ordine %2 modo %3"
+            zh-cn: "SPISettings 时钟 %1 顺序 %2 模式 %3"
+            zh-tw: "SPISettings 時脈 %1 順序 %2 模式 %3"
+            fr: "SPISettings horloge %1 ordre %2 mode %3"
+            de: "SPISettings Takt %1 Reihenfolge %2 Modus %3"
+            es: "SPISettings reloj %1 orden %2 modo %3"
+            ja: "SPISettings クロック %1 順序 %2 モード %3"
+            ko: "SPISettings 클록 %1 순서 %2 모드 %3"
+            ru: "SPISettings частота %1 порядок %2 режим %3"
+            pt-br: "SPISettings clock %1 ordem %2 modo %3"
+            tr: "SPISettings saat %1 sıra %2 mod %3"
+            pl: "SPISettings zegar %1 kolejność %2 tryb %3"
+            cs: "SPISettings hodiny %1 pořadí %2 režim %3"
+            hu: "SPISettings órajel %1 sorrend %2 mód %3"
+          args0:
+            - type: input_value
+              name: CLOCK
+            - type: field_dropdown
+              name: BITORDER
+              options:
+                - ["MSBFIRST", "MSBFIRST"]
+                - ["LSBFIRST", "LSBFIRST"]
+            - type: field_dropdown
+              name: MODE
+              options:
+                - ["SPI_MODE0", "SPI_MODE0"]
+                - ["SPI_MODE1", "SPI_MODE1"]
+                - ["SPI_MODE2", "SPI_MODE2"]
+                - ["SPI_MODE3", "SPI_MODE3"]
+          output: null
+          inputsInline: true
+          tooltip:
+            en: "Bundle SPI clock speed, bit order, and data mode for use with beginTransaction."
+            it: "Raggruppa velocita di clock SPI, ordine dei bit e modalita dati per l'uso con beginTransaction."
+            zh-cn: "将 SPI 时钟速度、位顺序和数据模式打包，用于 beginTransaction。"
+            zh-tw: "將 SPI 時脈速度、位元順序和資料模式打包，用於 beginTransaction。"
+            fr: "Regroupe la vitesse d'horloge SPI, l'ordre des bits et le mode de données pour beginTransaction."
+            de: "Bündelt SPI-Taktgeschwindigkeit, Bit-Reihenfolge und Datenmodus für beginTransaction."
+            es: "Agrupa la velocidad de reloj SPI, el orden de bits y el modo de datos para beginTransaction."
+            ja: "SPI のクロック速度、ビット順序、データモードを beginTransaction 用にまとめます。"
+            ko: "beginTransaction에 사용할 SPI 클록 속도, 비트 순서, 데이터 모드를 묶습니다."
+            ru: "Объединяет тактовую частоту SPI, порядок бит и режим данных для использования с beginTransaction."
+            pt-br: "Agrupa a velocidade de clock SPI, ordem dos bits e modo de dados para uso com beginTransaction."
+            tr: "SPI saat hızını, bit sırasını ve veri modunu beginTransaction ile kullanmak üzere gruplar."
+            pl: "Łączy prędkość zegara SPI, kolejność bitów i tryb danych do użycia z beginTransaction."
+            cs: "Seskupí rychlost hodin SPI, pořadí bitů a datový režim pro použití s beginTransaction."
+            hu: "Összefogja az SPI órajel sebességét, bitsorrendjét és adatmódját a beginTransaction számára."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/communication/SPI/SPISettings/"
+        codegen:
+          body:
+            - "SPISettings({{CLOCK}}, {{BITORDER}}, {{MODE}})"
+          precedence: ATOMIC
+          inputDefaults:
+            CLOCK: "4000000"
+
+      # --- SPI.begin (place in a setup block) ---
+      - blockly:
+          type: cpp_spi_begin
+          message0:
+            en: "SPI.begin"
+            it: "SPI.begin"
+            zh-cn: "SPI.begin"
+            zh-tw: "SPI.begin"
+            fr: "SPI.begin"
+            de: "SPI.begin"
+            es: "SPI.begin"
+            ja: "SPI.begin"
+            ko: "SPI.begin"
+            ru: "SPI.begin"
+            pt-br: "SPI.begin"
+            tr: "SPI.begin"
+            pl: "SPI.begin"
+            cs: "SPI.begin"
+            hu: "SPI.begin"
+          args0: []
+          previousStatement: null
+          nextStatement: null
+          tooltip:
+            en: "Initialize the SPI bus (SCK, MOSI, SS as output). Place inside a 'setup' block."
+            it: "Inizializza il bus SPI (SCK, MOSI, SS come uscita). Posiziona dentro un blocco 'setup'."
+            zh-cn: "初始化 SPI 总线（SCK、MOSI、SS 作为输出）。放置在 'setup' 块中。"
+            zh-tw: "初始化 SPI 匯流排（SCK、MOSI、SS 作為輸出）。放置在 'setup' 區塊中。"
+            fr: "Initialise le bus SPI (SCK, MOSI, SS en sortie). Placer dans un bloc 'setup'."
+            de: "Initialisiert den SPI-Bus (SCK, MOSI, SS als Ausgang). In einen 'setup'-Block setzen."
+            es: "Inicializa el bus SPI (SCK, MOSI, SS como salida). Colocar dentro de un bloque 'setup'."
+            ja: "SPI バスを初期化します（SCK、MOSI、SS を出力に設定）。'setup' ブロック内に配置してください。"
+            ko: "SPI 버스를 초기화합니다(SCK, MOSI, SS를 출력으로 설정). 'setup' 블록 안에 배치하세요."
+            ru: "Инициализирует шину SPI (SCK, MOSI, SS как выход). Поместите в блок 'setup'."
+            pt-br: "Inicializa o barramento SPI (SCK, MOSI, SS como saída). Coloque dentro de um bloco 'setup'."
+            tr: "SPI veri yolunu başlatır (SCK, MOSI, SS çıkış olarak). 'setup' bloğunun içine yerleştirin."
+            pl: "Inicjalizuje magistralę SPI (SCK, MOSI, SS jako wyjście). Umieść wewnątrz bloku 'setup'."
+            cs: "Inicializuje sběrnici SPI (SCK, MOSI, SS jako výstup). Umístěte do bloku 'setup'."
+            hu: "Inicializálja az SPI buszt (SCK, MOSI, SS kimenetként). Helyezze egy 'setup' blokkba."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/communication/SPI/begin/"
+        codegen:
+          body:
+            - "SPI.begin();"
+
+      # --- SPI.end ---
+      - blockly:
+          type: cpp_spi_end
+          message0:
+            en: "SPI.end"
+            it: "SPI.end"
+            zh-cn: "SPI.end"
+            zh-tw: "SPI.end"
+            fr: "SPI.end"
+            de: "SPI.end"
+            es: "SPI.end"
+            ja: "SPI.end"
+            ko: "SPI.end"
+            ru: "SPI.end"
+            pt-br: "SPI.end"
+            tr: "SPI.end"
+            pl: "SPI.end"
+            cs: "SPI.end"
+            hu: "SPI.end"
+          args0: []
+          previousStatement: null
+          nextStatement: null
+          tooltip:
+            en: "Disable the SPI bus."
+            it: "Disabilita il bus SPI."
+            zh-cn: "禁用 SPI 总线。"
+            zh-tw: "停用 SPI 匯流排。"
+            fr: "Désactive le bus SPI."
+            de: "Deaktiviert den SPI-Bus."
+            es: "Desactiva el bus SPI."
+            ja: "SPI バスを無効にします。"
+            ko: "SPI 버스를 비활성화합니다."
+            ru: "Отключает шину SPI."
+            pt-br: "Desativa o barramento SPI."
+            tr: "SPI veri yolunu devre dışı bırakır."
+            pl: "Wyłącza magistralę SPI."
+            cs: "Deaktivuje sběrnici SPI."
+            hu: "Letiltja az SPI buszt."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/communication/SPI/end/"
+        codegen:
+          body:
+            - "SPI.end();"
+
+      # --- SPI.beginTransaction(settings) ---
+      - blockly:
+          type: cpp_spi_begin_transaction
+          message0:
+            en: "SPI.beginTransaction %1"
+            it: "SPI.beginTransaction %1"
+            zh-cn: "SPI.beginTransaction %1"
+            zh-tw: "SPI.beginTransaction %1"
+            fr: "SPI.beginTransaction %1"
+            de: "SPI.beginTransaction %1"
+            es: "SPI.beginTransaction %1"
+            ja: "SPI.beginTransaction %1"
+            ko: "SPI.beginTransaction %1"
+            ru: "SPI.beginTransaction %1"
+            pt-br: "SPI.beginTransaction %1"
+            tr: "SPI.beginTransaction %1"
+            pl: "SPI.beginTransaction %1"
+            cs: "SPI.beginTransaction %1"
+            hu: "SPI.beginTransaction %1"
+          args0:
+            - type: input_value
+              name: SETTINGS
+          previousStatement: null
+          nextStatement: null
+          inputsInline: true
+          tooltip:
+            en: "Begin using the SPI bus with the given SPISettings (reconfigures and holds the bus)."
+            it: "Inizia a utilizzare il bus SPI con le SPISettings fornite (riconfigura e mantiene il bus)."
+            zh-cn: "使用给定的 SPISettings 开始使用 SPI 总线（重新配置并占用总线）。"
+            zh-tw: "使用指定的 SPISettings 開始使用 SPI 匯流排（重新設定並佔用匯流排）。"
+            fr: "Commence à utiliser le bus SPI avec les SPISettings donnés (reconfigure et réserve le bus)."
+            de: "Beginnt die Nutzung des SPI-Bus mit den angegebenen SPISettings (konfiguriert und belegt den Bus)."
+            es: "Comienza a usar el bus SPI con los SPISettings dados (reconfigura y retiene el bus)."
+            ja: "指定した SPISettings で SPI バスの使用を開始します（バスを再設定して確保します）。"
+            ko: "주어진 SPISettings로 SPI 버스 사용을 시작합니다(버스를 재구성하고 점유합니다)."
+            ru: "Начинает использование шины SPI с указанными SPISettings (перенастраивает и удерживает шину)."
+            pt-br: "Inicia o uso do barramento SPI com as SPISettings fornecidas (reconfigura e mantém o barramento)."
+            tr: "Verilen SPISettings ile SPI veri yolunu kullanmaya başlar (yeniden yapılandırır ve yolu tutar)."
+            pl: "Rozpoczyna korzystanie z magistrali SPI z podanymi SPISettings (rekonfiguruje i zajmuje magistralę)."
+            cs: "Začne používat sběrnici SPI s danými SPISettings (překonfiguruje a drží sběrnici)."
+            hu: "Megkezdi az SPI busz használatát a megadott SPISettings értékekkel (újrakonfigurálja és foglalja a buszt)."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/communication/SPI/beginTransaction/"
+        codegen:
+          body:
+            - "SPI.beginTransaction({{SETTINGS}});"
+          inputDefaults:
+            SETTINGS: "SPISettings(4000000, MSBFIRST, SPI_MODE0)"
+
+      # --- SPI.endTransaction ---
+      - blockly:
+          type: cpp_spi_end_transaction
+          message0:
+            en: "SPI.endTransaction"
+            it: "SPI.endTransaction"
+            zh-cn: "SPI.endTransaction"
+            zh-tw: "SPI.endTransaction"
+            fr: "SPI.endTransaction"
+            de: "SPI.endTransaction"
+            es: "SPI.endTransaction"
+            ja: "SPI.endTransaction"
+            ko: "SPI.endTransaction"
+            ru: "SPI.endTransaction"
+            pt-br: "SPI.endTransaction"
+            tr: "SPI.endTransaction"
+            pl: "SPI.endTransaction"
+            cs: "SPI.endTransaction"
+            hu: "SPI.endTransaction"
+          args0: []
+          previousStatement: null
+          nextStatement: null
+          tooltip:
+            en: "Stop using the SPI bus, allowing other libraries to use it."
+            it: "Termina l'uso del bus SPI, consentendo ad altre librerie di utilizzarlo."
+            zh-cn: "停止使用 SPI 总线，允许其他库使用它。"
+            zh-tw: "停止使用 SPI 匯流排，允許其他函式庫使用它。"
+            fr: "Arrête d'utiliser le bus SPI, permettant à d'autres bibliothèques de l'utiliser."
+            de: "Beendet die Nutzung des SPI-Bus und gibt ihn für andere Bibliotheken frei."
+            es: "Deja de usar el bus SPI, permitiendo que otras bibliotecas lo utilicen."
+            ja: "SPI バスの使用を終了し、他のライブラリが使用できるようにします。"
+            ko: "SPI 버스 사용을 중지하여 다른 라이브러리가 사용할 수 있도록 합니다."
+            ru: "Прекращает использование шины SPI, позволяя другим библиотекам использовать её."
+            pt-br: "Para de usar o barramento SPI, permitindo que outras bibliotecas o utilizem."
+            tr: "SPI veri yolunu kullanmayı durdurur, diğer kütüphanelerin kullanmasına izin verir."
+            pl: "Kończy korzystanie z magistrali SPI, umożliwiając innym bibliotekom jej użycie."
+            cs: "Přestane používat sběrnici SPI a umožní ji používat jiným knihovnám."
+            hu: "Befejezi az SPI busz használatát, lehetővé téve más könyvtárak számára a használatát."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/communication/SPI/endTransaction/"
+        codegen:
+          body:
+            - "SPI.endTransaction();"
+
+      # --- SPI.transfer / transfer16 (consolidated, dropdown) ---
+      - blockly:
+          type: cpp_spi_transfer
+          message0:
+            en: "SPI.transfer %1 %2"
+            it: "SPI.transfer %1 %2"
+            zh-cn: "SPI.transfer %1 %2"
+            zh-tw: "SPI.transfer %1 %2"
+            fr: "SPI.transfer %1 %2"
+            de: "SPI.transfer %1 %2"
+            es: "SPI.transfer %1 %2"
+            ja: "SPI.transfer %1 %2"
+            ko: "SPI.transfer %1 %2"
+            ru: "SPI.transfer %1 %2"
+            pt-br: "SPI.transfer %1 %2"
+            tr: "SPI.transfer %1 %2"
+            pl: "SPI.transfer %1 %2"
+            cs: "SPI.transfer %1 %2"
+            hu: "SPI.transfer %1 %2"
+          args0:
+            - type: field_dropdown
+              name: FUNC
+              options:
+                - ["8-bit", "transfer"]
+                - ["16-bit", "transfer16"]
+            - type: input_value
+              name: VALUE
+          output: Number
+          inputsInline: true
+          tooltip:
+            en: "Simultaneously send and receive one byte (transfer) or 16-bit word (transfer16) over SPI."
+            it: "Invia e ricevi simultaneamente un byte (transfer) o una word a 16 bit (transfer16) tramite SPI."
+            zh-cn: "通过 SPI 同时发送和接收一个字节（transfer）或 16 位字（transfer16）。"
+            zh-tw: "透過 SPI 同時傳送和接收一個位元組（transfer）或 16 位元字組（transfer16）。"
+            fr: "Envoie et reçoit simultanément un octet (transfer) ou un mot 16 bits (transfer16) via SPI."
+            de: "Sendet und empfängt gleichzeitig ein Byte (transfer) oder ein 16-Bit-Wort (transfer16) über SPI."
+            es: "Envía y recibe simultáneamente un byte (transfer) o una palabra de 16 bits (transfer16) por SPI."
+            ja: "SPI 経由で 1 バイト（transfer）または 16 ビットワード（transfer16）を同時に送受信します。"
+            ko: "SPI를 통해 1바이트(transfer) 또는 16비트 워드(transfer16)를 동시에 송수신합니다."
+            ru: "Одновременно отправляет и принимает один байт (transfer) или 16-битное слово (transfer16) по SPI."
+            pt-br: "Envia e recebe simultaneamente um byte (transfer) ou uma palavra de 16 bits (transfer16) via SPI."
+            tr: "SPI üzerinden eş zamanlı olarak bir bayt (transfer) veya 16 bitlik sözcük (transfer16) gönderir ve alır."
+            pl: "Jednocześnie wysyła i odbiera jeden bajt (transfer) lub słowo 16-bitowe (transfer16) przez SPI."
+            cs: "Současně odesílá a přijímá jeden bajt (transfer) nebo 16bitové slovo (transfer16) přes SPI."
+            hu: "Egyidejűleg küld és fogad egy bájtot (transfer) vagy 16 bites szót (transfer16) az SPI-n keresztül."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/communication/SPI/transfer/"
+        codegen:
+          body:
+            - "SPI.{{FUNC}}({{VALUE}})"
+          precedence: ATOMIC
+          inputDefaults:
+            VALUE: "0"
+
+      # --- SPI.usingInterrupt(n) ---
+      - blockly:
+          type: cpp_spi_using_interrupt
+          message0:
+            en: "SPI.usingInterrupt %1"
+            it: "SPI.usingInterrupt %1"
+            zh-cn: "SPI.usingInterrupt %1"
+            zh-tw: "SPI.usingInterrupt %1"
+            fr: "SPI.usingInterrupt %1"
+            de: "SPI.usingInterrupt %1"
+            es: "SPI.usingInterrupt %1"
+            ja: "SPI.usingInterrupt %1"
+            ko: "SPI.usingInterrupt %1"
+            ru: "SPI.usingInterrupt %1"
+            pt-br: "SPI.usingInterrupt %1"
+            tr: "SPI.usingInterrupt %1"
+            pl: "SPI.usingInterrupt %1"
+            cs: "SPI.usingInterrupt %1"
+            hu: "SPI.usingInterrupt %1"
+          args0:
+            - type: input_value
+              name: N
+              check: ["Number", "int", "unsigned int", "byte", "word", "uint8_t", "uint16_t", "uint32_t"]
+          previousStatement: null
+          nextStatement: null
+          inputsInline: true
+          tooltip:
+            en: "Register an interrupt that uses SPI so the library disables it during transactions."
+            it: "Registra un interrupt che utilizza SPI in modo che la libreria lo disabiliti durante le transazioni."
+            zh-cn: "注册一个使用 SPI 的中断，以便库在事务期间禁用它。"
+            zh-tw: "註冊一個使用 SPI 的中斷，以便函式庫在交易期間停用它。"
+            fr: "Enregistre une interruption utilisant le SPI afin que la bibliothèque la désactive pendant les transactions."
+            de: "Registriert einen Interrupt, der SPI nutzt, damit die Bibliothek ihn während Transaktionen deaktiviert."
+            es: "Registra una interrupción que usa SPI para que la biblioteca la desactive durante las transacciones."
+            ja: "SPI を使用する割り込みを登録し、トランザクション中にライブラリが無効にするようにします。"
+            ko: "SPI를 사용하는 인터럽트를 등록하여 트랜잭션 중 라이브러리가 비활성화하도록 합니다."
+            ru: "Регистрирует прерывание, использующее SPI, чтобы библиотека отключала его во время транзакций."
+            pt-br: "Registra uma interrupção que usa SPI para que a biblioteca a desative durante as transações."
+            tr: "SPI kullanan bir kesmeyi kaydeder, böylece kütüphane işlemler sırasında onu devre dışı bırakır."
+            pl: "Rejestruje przerwanie korzystające z SPI, aby biblioteka wyłączała je podczas transakcji."
+            cs: "Zaregistruje přerušení používající SPI, aby ho knihovna během transakcí deaktivovala."
+            hu: "Regisztrál egy SPI-t használó megszakítást, hogy a könyvtár a tranzakciók alatt letiltsa azt."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/communication/SPI/usingInterrupt/"
+        codegen:
+          body:
+            - "SPI.usingInterrupt({{N}});"
+          inputDefaults:
+            N: "0"
+
+      # --- SPI.setBitOrder (legacy) ---
+      - blockly:
+          type: cpp_spi_set_bit_order
+          message0:
+            en: "SPI.setBitOrder %1"
+            it: "SPI.setBitOrder %1"
+            zh-cn: "SPI.setBitOrder %1"
+            zh-tw: "SPI.setBitOrder %1"
+            fr: "SPI.setBitOrder %1"
+            de: "SPI.setBitOrder %1"
+            es: "SPI.setBitOrder %1"
+            ja: "SPI.setBitOrder %1"
+            ko: "SPI.setBitOrder %1"
+            ru: "SPI.setBitOrder %1"
+            pt-br: "SPI.setBitOrder %1"
+            tr: "SPI.setBitOrder %1"
+            pl: "SPI.setBitOrder %1"
+            cs: "SPI.setBitOrder %1"
+            hu: "SPI.setBitOrder %1"
+          args0:
+            - type: field_dropdown
+              name: ORDER
+              options:
+                - ["MSBFIRST", "MSBFIRST"]
+                - ["LSBFIRST", "LSBFIRST"]
+          previousStatement: null
+          nextStatement: null
+          tooltip:
+            en: "(Legacy) Set whether data is shifted MSB- or LSB-first. Prefer SPISettings/beginTransaction."
+            it: "(Legacy) Imposta se i dati vengono trasmessi dal bit piu significativo o dal meno significativo. Preferire SPISettings/beginTransaction."
+            zh-cn: "（旧版）设置数据是 MSB 优先还是 LSB 优先传输。建议使用 SPISettings/beginTransaction。"
+            zh-tw: "（舊版）設定資料是 MSB 優先還是 LSB 優先傳輸。建議使用 SPISettings/beginTransaction。"
+            fr: "(Legacy) Définit si les données sont envoyées MSB ou LSB en premier. Préférer SPISettings/beginTransaction."
+            de: "(Legacy) Legt fest, ob Daten MSB- oder LSB-zuerst übertragen werden. SPISettings/beginTransaction bevorzugen."
+            es: "(Legacy) Establece si los datos se envían MSB o LSB primero. Preferir SPISettings/beginTransaction."
+            ja: "（レガシー）データを MSB または LSB の順に送信するかを設定します。SPISettings/beginTransaction の使用を推奨します。"
+            ko: "(레거시) 데이터를 MSB 우선 또는 LSB 우선으로 전송할지 설정합니다. SPISettings/beginTransaction 사용을 권장합니다."
+            ru: "(Устаревшее) Задаёт порядок передачи данных: MSB или LSB первым. Рекомендуется SPISettings/beginTransaction."
+            pt-br: "(Legado) Define se os dados são enviados MSB ou LSB primeiro. Prefira SPISettings/beginTransaction."
+            tr: "(Eski) Verilerin MSB veya LSB öncelikli gönderilip gönderilmeyeceğini ayarlar. SPISettings/beginTransaction tercih edin."
+            pl: "(Przestarzałe) Ustawia, czy dane są przesyłane od MSB czy LSB. Zalecane SPISettings/beginTransaction."
+            cs: "(Zastaralé) Nastaví, zda se data přenášejí od MSB nebo LSB. Doporučuje se SPISettings/beginTransaction."
+            hu: "(Elavult) Beállítja, hogy az adatok MSB- vagy LSB-először kerüljenek átvitelre. Használja inkább a SPISettings/beginTransaction-t."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/communication/SPI/setBitOrder/"
+        codegen:
+          body:
+            - "SPI.setBitOrder({{ORDER}});"
+
+      # --- SPI.setClockDivider (legacy) ---
+      - blockly:
+          type: cpp_spi_set_clock_divider
+          message0:
+            en: "SPI.setClockDivider %1"
+            it: "SPI.setClockDivider %1"
+            zh-cn: "SPI.setClockDivider %1"
+            zh-tw: "SPI.setClockDivider %1"
+            fr: "SPI.setClockDivider %1"
+            de: "SPI.setClockDivider %1"
+            es: "SPI.setClockDivider %1"
+            ja: "SPI.setClockDivider %1"
+            ko: "SPI.setClockDivider %1"
+            ru: "SPI.setClockDivider %1"
+            pt-br: "SPI.setClockDivider %1"
+            tr: "SPI.setClockDivider %1"
+            pl: "SPI.setClockDivider %1"
+            cs: "SPI.setClockDivider %1"
+            hu: "SPI.setClockDivider %1"
+          args0:
+            - type: field_dropdown
+              name: DIVIDER
+              options:
+                - ["DIV2", "SPI_CLOCK_DIV2"]
+                - ["DIV4", "SPI_CLOCK_DIV4"]
+                - ["DIV8", "SPI_CLOCK_DIV8"]
+                - ["DIV16", "SPI_CLOCK_DIV16"]
+                - ["DIV32", "SPI_CLOCK_DIV32"]
+                - ["DIV64", "SPI_CLOCK_DIV64"]
+                - ["DIV128", "SPI_CLOCK_DIV128"]
+          previousStatement: null
+          nextStatement: null
+          tooltip:
+            en: "(Legacy) Set the SPI clock relative to the system clock. Prefer SPISettings/beginTransaction."
+            it: "(Legacy) Imposta il clock SPI rispetto al clock di sistema. Preferire SPISettings/beginTransaction."
+            zh-cn: "（旧版）设置 SPI 时钟相对于系统时钟的分频。建议使用 SPISettings/beginTransaction。"
+            zh-tw: "（舊版）設定 SPI 時脈相對於系統時脈的分頻。建議使用 SPISettings/beginTransaction。"
+            fr: "(Legacy) Définit l'horloge SPI par rapport à l'horloge système. Préférer SPISettings/beginTransaction."
+            de: "(Legacy) Setzt den SPI-Takt relativ zum Systemtakt. SPISettings/beginTransaction bevorzugen."
+            es: "(Legacy) Establece el reloj SPI relativo al reloj del sistema. Preferir SPISettings/beginTransaction."
+            ja: "（レガシー）SPI クロックをシステムクロックに対して設定します。SPISettings/beginTransaction の使用を推奨します。"
+            ko: "(레거시) 시스템 클록 대비 SPI 클록을 설정합니다. SPISettings/beginTransaction 사용을 권장합니다."
+            ru: "(Устаревшее) Задаёт частоту SPI относительно системных часов. Рекомендуется SPISettings/beginTransaction."
+            pt-br: "(Legado) Define o clock SPI em relação ao clock do sistema. Prefira SPISettings/beginTransaction."
+            tr: "(Eski) SPI saatini sistem saatine göre ayarlar. SPISettings/beginTransaction tercih edin."
+            pl: "(Przestarzałe) Ustawia zegar SPI względem zegara systemowego. Zalecane SPISettings/beginTransaction."
+            cs: "(Zastaralé) Nastaví hodiny SPI vzhledem k systémovým hodinám. Doporučuje se SPISettings/beginTransaction."
+            hu: "(Elavult) Beállítja az SPI órajelet a rendszerórajelhez képest. Használja inkább a SPISettings/beginTransaction-t."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/communication/SPI/setClockDivider/"
+        codegen:
+          body:
+            - "SPI.setClockDivider({{DIVIDER}});"
+
+      # --- SPI.setDataMode (legacy) ---
+      - blockly:
+          type: cpp_spi_set_data_mode
+          message0:
+            en: "SPI.setDataMode %1"
+            it: "SPI.setDataMode %1"
+            zh-cn: "SPI.setDataMode %1"
+            zh-tw: "SPI.setDataMode %1"
+            fr: "SPI.setDataMode %1"
+            de: "SPI.setDataMode %1"
+            es: "SPI.setDataMode %1"
+            ja: "SPI.setDataMode %1"
+            ko: "SPI.setDataMode %1"
+            ru: "SPI.setDataMode %1"
+            pt-br: "SPI.setDataMode %1"
+            tr: "SPI.setDataMode %1"
+            pl: "SPI.setDataMode %1"
+            cs: "SPI.setDataMode %1"
+            hu: "SPI.setDataMode %1"
+          args0:
+            - type: field_dropdown
+              name: MODE
+              options:
+                - ["SPI_MODE0", "SPI_MODE0"]
+                - ["SPI_MODE1", "SPI_MODE1"]
+                - ["SPI_MODE2", "SPI_MODE2"]
+                - ["SPI_MODE3", "SPI_MODE3"]
+          previousStatement: null
+          nextStatement: null
+          tooltip:
+            en: "(Legacy) Set clock polarity and phase (SPI modes 0–3). Prefer SPISettings/beginTransaction."
+            it: "(Legacy) Imposta polarita e fase del clock (modalita SPI 0-3). Preferire SPISettings/beginTransaction."
+            zh-cn: "（旧版）设置时钟极性和相位（SPI 模式 0-3）。建议使用 SPISettings/beginTransaction。"
+            zh-tw: "（舊版）設定時脈極性和相位（SPI 模式 0-3）。建議使用 SPISettings/beginTransaction。"
+            fr: "(Legacy) Définit la polarité et la phase de l'horloge (modes SPI 0-3). Préférer SPISettings/beginTransaction."
+            de: "(Legacy) Setzt Polarität und Phase des Takts (SPI-Modi 0-3). SPISettings/beginTransaction bevorzugen."
+            es: "(Legacy) Establece la polaridad y fase del reloj (modos SPI 0-3). Preferir SPISettings/beginTransaction."
+            ja: "（レガシー）クロックの極性と位相を設定します（SPI モード 0-3）。SPISettings/beginTransaction の使用を推奨します。"
+            ko: "(레거시) 클록 극성과 위상을 설정합니다(SPI 모드 0-3). SPISettings/beginTransaction 사용을 권장합니다."
+            ru: "(Устаревшее) Задаёт полярность и фазу тактового сигнала (режимы SPI 0-3). Рекомендуется SPISettings/beginTransaction."
+            pt-br: "(Legado) Define a polaridade e fase do clock (modos SPI 0-3). Prefira SPISettings/beginTransaction."
+            tr: "(Eski) Saat polaritesini ve fazını ayarlar (SPI modları 0-3). SPISettings/beginTransaction tercih edin."
+            pl: "(Przestarzałe) Ustawia polaryzację i fazę zegara (tryby SPI 0-3). Zalecane SPISettings/beginTransaction."
+            cs: "(Zastaralé) Nastaví polaritu a fázi hodin (režimy SPI 0-3). Doporučuje se SPISettings/beginTransaction."
+            hu: "(Elavult) Beállítja az órajel polaritását és fázisát (SPI módok 0-3). Használja inkább a SPISettings/beginTransaction-t."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/communication/SPI/setDataMode/"
+        codegen:
+          body:
+            - "SPI.setDataMode({{MODE}});"

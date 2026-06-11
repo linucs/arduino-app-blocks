@@ -1,0 +1,107 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/arduino-app-blocks/refs/heads/main/src/catalog/block-catalog_v1.schema.json
+id: arduino_math_random
+category: "Math::Random"
+implementations:
+  - runtime: "arduino:cpp"
+    blocks:
+      # --- random(min, max) ---
+      - blockly:
+          type: cpp_random
+          message0:
+            en: "random from %1 to %2"
+            it: "random da %1 a %2"
+            zh-cn: "random 从 %1 到 %2"
+            zh-tw: "random 從 %1 到 %2"
+            fr: "random de %1 à %2"
+            de: "random von %1 bis %2"
+            es: "random de %1 a %2"
+            ja: "random %1 から %2 まで"
+            ko: "random %1 에서 %2 까지"
+            ru: "random от %1 до %2"
+            pt-br: "random de %1 a %2"
+            tr: "random %1 ile %2 arası"
+            pl: "random od %1 do %2"
+            cs: "random od %1 do %2"
+            hu: "random %1 -tól %2 -ig"
+          args0:
+            - type: input_value
+              name: MIN
+              check: ["Number", "int", "unsigned int", "long", "unsigned long", "byte", "word", "uint8_t", "uint16_t", "uint32_t", "int8_t", "int16_t", "int32_t"]
+            - type: input_value
+              name: MAX
+              check: ["Number", "int", "unsigned int", "long", "unsigned long", "byte", "word", "uint8_t", "uint16_t", "uint32_t", "int8_t", "int16_t", "int32_t"]
+          output: Number
+          inputsInline: true
+          tooltip:
+            en: "Pseudo-random number in [min, max) — the upper bound is exclusive."
+            it: "Numero pseudo-casuale nell'intervallo [min, max) — il limite superiore è escluso."
+            zh-cn: "伪随机数，范围 [min, max) — 上界不包含在内。"
+            zh-tw: "偽隨機數，範圍 [min, max) — 上界不包含在內。"
+            fr: "Nombre pseudo-aléatoire dans [min, max) — la borne supérieure est exclue."
+            de: "Pseudozufallszahl im Bereich [min, max) — die Obergrenze ist ausgeschlossen."
+            es: "Número pseudoaleatorio en [min, max) — el límite superior es exclusivo."
+            ja: "擬似乱数を [min, max) の範囲で生成 — 上限値は含まれません。"
+            ko: "의사 난수를 [min, max) 범위에서 생성 — 상한값은 포함되지 않습니다."
+            ru: "Псевдослучайное число в диапазоне [min, max) — верхняя граница не включена."
+            pt-br: "Número pseudoaleatório no intervalo [min, max) — o limite superior é exclusivo."
+            tr: "Sahte rastgele sayı [min, max) aralığında — üst sınır dahil değildir."
+            pl: "Liczba pseudolosowa z zakresu [min, max) — górna granica jest wyłączona."
+            cs: "Pseudonáhodné číslo v rozsahu [min, max) — horní mez není zahrnuta."
+            hu: "Pszeudovéletlen szám a [min, max) tartományban — a felső határ nincs benne."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/random-numbers/random/"
+        codegen:
+          body:
+            - "random({{MIN}}, {{MAX}})"
+          precedence: ATOMIC
+          inputDefaults:
+            MIN: "0"
+            MAX: "100"
+
+      # --- randomSeed (place in a setup block) ---
+      - blockly:
+          type: cpp_random_seed
+          message0:
+            en: "randomSeed %1"
+            it: "randomSeed %1"
+            zh-cn: "randomSeed %1"
+            zh-tw: "randomSeed %1"
+            fr: "randomSeed %1"
+            de: "randomSeed %1"
+            es: "randomSeed %1"
+            ja: "randomSeed %1"
+            ko: "randomSeed %1"
+            ru: "randomSeed %1"
+            pt-br: "randomSeed %1"
+            tr: "randomSeed %1"
+            pl: "randomSeed %1"
+            cs: "randomSeed %1"
+            hu: "randomSeed %1"
+          args0:
+            - type: input_value
+              name: SEED
+              check: ["Number", "int", "unsigned int", "long", "unsigned long", "byte", "word", "uint8_t", "uint16_t", "uint32_t", "int8_t", "int16_t", "int32_t"]
+          previousStatement: null
+          nextStatement: null
+          inputsInline: true
+          tooltip:
+            en: "Seed the pseudo-random generator. A common idiom is analogRead() on a floating pin. Place inside a 'setup' block."
+            it: "Inizializza il generatore pseudo-casuale. Un metodo comune è analogRead() su un pin non collegato. Posiziona dentro un blocco 'setup'."
+            zh-cn: "初始化伪随机数生成器。常见方法是对悬空引脚使用 analogRead()。放置在 'setup' 块中。"
+            zh-tw: "初始化偽隨機數生成器。常見方法是對懸空引腳使用 analogRead()。放置在 'setup' 區塊中。"
+            fr: "Initialise le générateur pseudo-aléatoire. Une méthode courante est analogRead() sur une broche flottante. À placer dans un bloc 'setup'."
+            de: "Initialisiert den Pseudozufallsgenerator. Eine gängige Methode ist analogRead() an einem unbeschalteten Pin. In einen 'setup'-Block setzen."
+            es: "Inicializa el generador pseudoaleatorio. Un método común es analogRead() en un pin flotante. Colocar dentro de un bloque 'setup'."
+            ja: "擬似乱数ジェネレータを初期化します。未接続ピンの analogRead() を使うのが一般的です。'setup' ブロック内に配置してください。"
+            ko: "의사 난수 생성기를 초기화합니다. 일반적으로 연결되지 않은 핀의 analogRead()를 사용합니다. 'setup' 블록 안에 배치하세요."
+            ru: "Инициализирует генератор псевдослучайных чисел. Распространённый приём — analogRead() на неподключённом пине. Поместите внутрь блока 'setup'."
+            pt-br: "Inicializa o gerador pseudoaleatório. Um método comum é analogRead() em um pino flutuante. Coloque dentro de um bloco 'setup'."
+            tr: "Sahte rastgele sayı üretecini başlatır. Yaygın bir yöntem bağlı olmayan bir pinde analogRead() kullanmaktır. 'setup' bloğunun içine yerleştirin."
+            pl: "Inicjalizuje generator liczb pseudolosowych. Popularną metodą jest analogRead() na niepodłączonym pinie. Umieść wewnątrz bloku 'setup'."
+            cs: "Inicializuje generátor pseudonáhodných čísel. Běžným postupem je analogRead() na nepřipojeném pinu. Umístěte do bloku 'setup'."
+            hu: "Inicializálja a pszeudovéletlen számgenerátort. Elterjedt módszer az analogRead() használata egy lebegő lábon. Helyezd egy 'setup' blokkba."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/random-numbers/randomSeed/"
+        codegen:
+          body:
+            - "randomSeed({{SEED}});"
+          inputDefaults:
+            SEED: "analogRead(A0)"

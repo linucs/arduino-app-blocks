@@ -87,7 +87,7 @@ Install the [Red Hat YAML extension](https://marketplace.visualstudio.com/items?
 for VS Code, then add this header to every new catalog file:
 
 ```yaml
-# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/arduino-app-lab/main/ui-packages/ui-components/lib/blockly-editor/schemas/block-catalog_v1.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/arduino-app-blocks/refs/heads/main/src/catalog/block-catalog_v1.schema.json
 ```
 
 The extension will validate your file in real time as you type.
@@ -105,7 +105,7 @@ For example: `catalogs/grove/ultrasonic.yaml`
 Every file has this top-level structure:
 
 ```yaml
-# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/arduino-app-lab/main/ui-packages/ui-components/lib/blockly-editor/schemas/block-catalog_v1.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/arduino-app-blocks/refs/heads/main/src/catalog/block-catalog_v1.schema.json
 id: grove-ultrasonic
 displayName:
   en: Grove Ultrasonic Ranger
@@ -209,20 +209,18 @@ options:
 pip install pyyaml jsonschema   # once
 
 python3 - <<'EOF'
-import yaml, json, jsonschema, urllib.request, glob, os, sys
+import yaml, json, jsonschema, glob, os, sys
 
-SCHEMA_URL = (
-    "https://raw.githubusercontent.com/linucs/arduino-app-lab/main"
-    "/ui-packages/ui-components/lib/blockly-editor/schemas/block-catalog_v1.schema.json"
-)
-schema = json.loads(urllib.request.urlopen(SCHEMA_URL).read())
+# The schema ships in this repo — validate against the local file (no network).
+schema = json.load(open("src/catalog/block-catalog_v1.schema.json"))
 
 files = sys.argv[1:] or glob.glob("catalogs/**/*.yaml", recursive=True)
 errors = []
 for f in sorted(files):
     try:
-        entry = yaml.safe_load(open(f))
-        jsonschema.validate(entry, schema)
+        for entry in yaml.safe_load_all(open(f)):
+            if entry:
+                jsonschema.validate(entry, schema)
         print(f"OK  {os.path.basename(f)}")
     except jsonschema.ValidationError as e:
         errors.append(f)
@@ -288,5 +286,4 @@ automatically by the AI-assisted workflow:
 4. Open a pull request
 
 CI will re-run schema validation on every PR. Smoke-test compilation on UNO Q hardware
-runs in the `arduino-app-lab` repository and is triggered automatically when a catalog
-release is published.
+runs as part of release verification.

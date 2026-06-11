@@ -70,8 +70,17 @@ export function renderEditorHtml(l10n: L10nData): string {
     <vscode-dropdown id="envSelect" style="display:none"></vscode-dropdown>
     <vscode-button id="docsBtn" appearance="icon" title="Documentation" style="display:none"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M14.5 1h-11a1.5 1.5 0 0 0-1.5 1.5v11a1.5 1.5 0 0 0 1.5 1.5h11a.5.5 0 0 0 .5-.5V1.5a.5.5 0 0 0-.5-.5zM3.5 2H14v12H3.5a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5zM5 4h7v1H5V4zm0 2h7v1H5V6zm0 2h4v1H5V8z"/></svg></vscode-button>
     <span class="spacer"></span>
+    <a class="back" id="communityBtn" href="/community" title="Browse and install community blocks">Community Blocks ▸</a>
     <vscode-button id="generateBtn" disabled>Generate Code</vscode-button>
   </div>
+  <script>
+    // Carry the open file through to the community page so it can label which
+    // catalogs apply to this file's runtime vs. others.
+    (function () {
+      var a = document.getElementById('communityBtn');
+      if (a && location.search) a.href = '/community' + location.search;
+    })();
+  </script>
   <div id="editorArea">
     <div id="blocklyDiv"></div>
     <div id="emptyState">

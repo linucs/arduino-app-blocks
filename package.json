@@ -13,8 +13,6 @@
     "node": ">=20"
   },
   "scripts": {
-    "sync-core": "tools/sync-core.sh --copy",
-    "check-core": "tools/sync-core.sh --check",
     "check-types": "tsc --noEmit -p tsconfig.json",
     "build": "node esbuild.js",
     "build:prod": "node esbuild.js --production",

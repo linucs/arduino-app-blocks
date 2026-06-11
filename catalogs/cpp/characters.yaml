@@ -1,0 +1,69 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/arduino-app-blocks/refs/heads/main/src/catalog/block-catalog_v1.schema.json
+id: arduino_characters
+category: "Text::Characters"
+implementations:
+  - runtime: "arduino:cpp"
+    blocks:
+      - blockly:
+          type: cpp_char_is
+          message0:
+            en: "%1 is %2 ?"
+            it: "%1 è %2 ?"
+            zh-cn: "%1 是 %2 ？"
+            zh-tw: "%1 是 %2 ？"
+            fr: "%1 est %2 ?"
+            de: "%1 ist %2 ?"
+            es: "%1 es %2 ?"
+            ja: "%1 は %2 ？"
+            ko: "%1 은(는) %2 ?"
+            ru: "%1 является %2 ?"
+            pt-br: "%1 é %2 ?"
+            tr: "%1 %2 mi?"
+            pl: "%1 jest %2 ?"
+            cs: "%1 je %2 ?"
+            hu: "%1 %2 ?"
+          args0:
+            - type: input_value
+              name: CHAR
+              check: ["Number", "char", "int", "byte", "uint8_t", "int8_t"]
+            - type: field_dropdown
+              name: FUNC
+              options:
+                - ["a letter", "isAlpha"]
+                - ["a letter or digit", "isAlphaNumeric"]
+                - ["ASCII", "isAscii"]
+                - ["a control character", "isControl"]
+                - ["a digit", "isDigit"]
+                - ["printable, not space", "isGraph"]
+                - ["a hex digit", "isHexadecimalDigit"]
+                - ["lowercase", "isLowerCase"]
+                - ["printable", "isPrintable"]
+                - ["punctuation", "isPunct"]
+                - ["a space", "isSpace"]
+                - ["uppercase", "isUpperCase"]
+                - ["whitespace", "isWhitespace"]
+          output: Boolean
+          inputsInline: true
+          tooltip:
+            en: "Test whether a character belongs to a class (Arduino is*() functions). Returns true/false."
+            it: "Verifica se un carattere appartiene a una classe (funzioni Arduino is*()). Restituisce true/false."
+            zh-cn: "测试字符是否属于某个类别（Arduino is*() 函数）。返回 true/false。"
+            zh-tw: "測試字元是否屬於某個類別（Arduino is*() 函式）。傳回 true/false。"
+            fr: "Vérifie si un caractère appartient à une classe (fonctions Arduino is*()). Renvoie true/false."
+            de: "Prüft, ob ein Zeichen zu einer Klasse gehört (Arduino is*()-Funktionen). Gibt true/false zurück."
+            es: "Comprueba si un carácter pertenece a una clase (funciones Arduino is*()). Devuelve true/false."
+            ja: "文字がクラスに属するかテストします（Arduino is*() 関数）。true/false を返します。"
+            ko: "문자가 특정 클래스에 속하는지 테스트합니다(Arduino is*() 함수). true/false를 반환합니다."
+            ru: "Проверяет, принадлежит ли символ к классу (функции Arduino is*()). Возвращает true/false."
+            pt-br: "Testa se um caractere pertence a uma classe (funções Arduino is*()). Retorna true/false."
+            tr: "Bir karakterin bir sınıfa ait olup olmadığını test eder (Arduino is*() fonksiyonları). true/false döndürür."
+            pl: "Sprawdza, czy znak należy do klasy (funkcje Arduino is*()). Zwraca true/false."
+            cs: "Testuje, zda znak patří do třídy (funkce Arduino is*()). Vrací true/false."
+            hu: "Ellenőrzi, hogy egy karakter egy osztályba tartozik-e (Arduino is*() függvények). true/false értéket ad vissza."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/characters/isAlpha/"
+        codegen:
+          body:
+            - "{{FUNC}}({{CHAR}})"
+          precedence: ATOMIC
+          inputDefaults:
+            CHAR: "'A'"

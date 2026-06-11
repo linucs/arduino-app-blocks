@@ -302,8 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // appears as a standalone category, exactly like the Python side.
     ];
 
-    // BRICK-OWNED FORK (see tools/sync-core.sh EXCLUDE): vscode-blockly's toolbox
-    // is C++-only. For the arduino:python runtime we present the stock Blockly
+    // For the arduino:python runtime we present the stock Blockly
     // primitive blocks (which the bundled PythonGenerator already supports) and
     // the built-in VARIABLE / PROCEDURE flyouts — not the C++ typed-variable /
     // CPP_PROCEDURE / bitwise / type-cast / code blocks.

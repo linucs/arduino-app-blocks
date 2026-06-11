@@ -19,7 +19,7 @@ const problemMatcher = {
 };
 
 async function main() {
-  // Browser-side Blockly UI — copied verbatim from vscode-blockly (G1).
+  // Browser-side Blockly UI bundle.
   // Runs against the acquireVsCodeApi() shim injected by the server before this loads.
   const webviewCtx = await esbuild.context({
     entryPoints: ['webview/index.ts'],

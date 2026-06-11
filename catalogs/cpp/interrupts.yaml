@@ -1,0 +1,211 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/arduino-app-blocks/refs/heads/main/src/catalog/block-catalog_v1.schema.json
+id: arduino_interrupts
+category: "Control::Interrupts"
+implementations:
+  - runtime: "arduino:cpp"
+    blocks:
+      # --- attachInterrupt(digitalPinToInterrupt(pin), ISR, mode) ---
+      - blockly:
+          type: cpp_attach_interrupt
+          message0:
+            en: "attachInterrupt pin %1 call %2 on %3"
+            it: "attachInterrupt pin %1 chiama %2 su %3"
+            zh-cn: "attachInterrupt 引脚 %1 调用 %2 于 %3"
+            zh-tw: "attachInterrupt 腳位 %1 呼叫 %2 於 %3"
+            fr: "attachInterrupt broche %1 appeler %2 sur %3"
+            de: "attachInterrupt Pin %1 rufe %2 auf bei %3"
+            es: "attachInterrupt pin %1 llamar %2 en %3"
+            ja: "attachInterrupt ピン %1 関数 %2 を %3 で呼出"
+            ko: "attachInterrupt 핀 %1 함수 %2 를 %3 에서 호출"
+            ru: "attachInterrupt пин %1 вызвать %2 при %3"
+            pt-br: "attachInterrupt pino %1 chamar %2 em %3"
+            tr: "attachInterrupt pin %1 çağır %2 durumda %3"
+            pl: "attachInterrupt pin %1 wywołaj %2 przy %3"
+            cs: "attachInterrupt pin %1 volat %2 při %3"
+            hu: "attachInterrupt láb %1 hívás %2 esetén %3"
+          args0:
+            - type: input_value
+              name: PIN
+              check: ["Number", "int", "unsigned int", "byte", "word", "uint8_t", "uint16_t", "uint32_t"]
+            - type: field_input
+              name: ISR
+              text: "myISR"
+            - type: field_dropdown
+              name: MODE
+              options:
+                - ["change", "CHANGE"]
+                - ["rising", "RISING"]
+                - ["falling", "FALLING"]
+                - ["low", "LOW"]
+                - ["high", "HIGH"]
+          previousStatement: null
+          nextStatement: null
+          inputsInline: true
+          tooltip:
+            en: "Call the named function (you must define a 'void myISR()') when the pin changes. Place inside a 'setup' block."
+            it: "Chiama la funzione indicata (devi definire una 'void myISR()') quando il pin cambia stato. Posiziona dentro un blocco 'setup'."
+            zh-cn: "当引脚状态变化时调用指定函数（需定义 'void myISR()'）。放在 'setup' 块内。"
+            zh-tw: "當腳位狀態變化時呼叫指定函式（需定義 'void myISR()'）。放在 'setup' 區塊內。"
+            fr: "Appelle la fonction indiquée (vous devez définir un 'void myISR()') lorsque la broche change d'état. Placer dans un bloc 'setup'."
+            de: "Ruft die angegebene Funktion auf (Sie müssen 'void myISR()' definieren), wenn sich der Pin-Zustand ändert. In einen 'setup'-Block setzen."
+            es: "Llama a la función indicada (debes definir un 'void myISR()') cuando el pin cambia de estado. Colocar dentro de un bloque 'setup'."
+            ja: "ピンの状態が変化したとき指定の関数を呼び出します（'void myISR()' を定義する必要があります）。'setup' ブロック内に配置してください。"
+            ko: "핀 상태가 변할 때 지정한 함수를 호출합니다('void myISR()'를 정의해야 합니다). 'setup' 블록 안에 배치하세요."
+            ru: "Вызывает указанную функцию (необходимо определить 'void myISR()') при изменении состояния пина. Поместите внутрь блока 'setup'."
+            pt-br: "Chama a função indicada (você deve definir um 'void myISR()') quando o pino muda de estado. Coloque dentro de um bloco 'setup'."
+            tr: "Pin durumu değiştiğinde belirtilen fonksiyonu çağırır ('void myISR()' tanımlamanız gerekir). 'setup' bloğu içine yerleştirin."
+            pl: "Wywołuje wskazaną funkcję (musisz zdefiniować 'void myISR()') przy zmianie stanu pinu. Umieść wewnątrz bloku 'setup'."
+            cs: "Zavolá uvedenou funkci (musíte definovat 'void myISR()') při změně stavu pinu. Umístěte do bloku 'setup'."
+            hu: "A megadott függvényt hívja meg (definiálni kell egy 'void myISR()'-t) a láb állapotváltozásakor. Helyezd egy 'setup' blokkba."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/external-interrupts/attachInterrupt/"
+        codegen:
+          body:
+            - "attachInterrupt(digitalPinToInterrupt({{PIN}}), {{ISR}}, {{MODE}});"
+          inputDefaults:
+            PIN: "2"
+
+      # --- detachInterrupt(digitalPinToInterrupt(pin)) ---
+      - blockly:
+          type: cpp_detach_interrupt
+          message0:
+            en: "detachInterrupt pin %1"
+            it: "detachInterrupt pin %1"
+            zh-cn: "detachInterrupt 引脚 %1"
+            zh-tw: "detachInterrupt 腳位 %1"
+            fr: "detachInterrupt broche %1"
+            de: "detachInterrupt Pin %1"
+            es: "detachInterrupt pin %1"
+            ja: "detachInterrupt ピン %1"
+            ko: "detachInterrupt 핀 %1"
+            ru: "detachInterrupt пин %1"
+            pt-br: "detachInterrupt pino %1"
+            tr: "detachInterrupt pin %1"
+            pl: "detachInterrupt pin %1"
+            cs: "detachInterrupt pin %1"
+            hu: "detachInterrupt láb %1"
+          args0:
+            - type: input_value
+              name: PIN
+              check: ["Number", "int", "unsigned int", "byte", "word", "uint8_t", "uint16_t", "uint32_t"]
+          previousStatement: null
+          nextStatement: null
+          inputsInline: true
+          tooltip:
+            en: "Turn off the interrupt attached to the given pin."
+            it: "Disattiva l'interrupt associato al pin indicato."
+            zh-cn: "关闭指定引脚上的中断。"
+            zh-tw: "關閉指定腳位上的中斷。"
+            fr: "Désactive l'interruption associée à la broche indiquée."
+            de: "Deaktiviert den Interrupt am angegebenen Pin."
+            es: "Desactiva la interrupción asociada al pin indicado."
+            ja: "指定したピンのインタラプトを無効にします。"
+            ko: "지정한 핀에 연결된 인터럽트를 해제합니다."
+            ru: "Отключает прерывание, привязанное к указанному пину."
+            pt-br: "Desativa a interrupção associada ao pino indicado."
+            tr: "Belirtilen pine bağlı kesmeyi devre dışı bırakır."
+            pl: "Wyłącza przerwanie powiązane z podanym pinem."
+            cs: "Vypne přerušení připojené k danému pinu."
+            hu: "Kikapcsolja a megadott lábhoz rendelt megszakítást."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/external-interrupts/detachInterrupt/"
+        codegen:
+          body:
+            - "detachInterrupt(digitalPinToInterrupt({{PIN}}));"
+          inputDefaults:
+            PIN: "2"
+
+      # --- digitalPinToInterrupt(pin) ---
+      - blockly:
+          type: cpp_digital_pin_to_interrupt
+          message0:
+            en: "digitalPinToInterrupt pin %1"
+            it: "digitalPinToInterrupt pin %1"
+            zh-cn: "digitalPinToInterrupt 引脚 %1"
+            zh-tw: "digitalPinToInterrupt 腳位 %1"
+            fr: "digitalPinToInterrupt broche %1"
+            de: "digitalPinToInterrupt Pin %1"
+            es: "digitalPinToInterrupt pin %1"
+            ja: "digitalPinToInterrupt ピン %1"
+            ko: "digitalPinToInterrupt 핀 %1"
+            ru: "digitalPinToInterrupt пин %1"
+            pt-br: "digitalPinToInterrupt pino %1"
+            tr: "digitalPinToInterrupt pin %1"
+            pl: "digitalPinToInterrupt pin %1"
+            cs: "digitalPinToInterrupt pin %1"
+            hu: "digitalPinToInterrupt láb %1"
+          args0:
+            - type: input_value
+              name: PIN
+              check: ["Number", "int", "unsigned int", "byte", "word", "uint8_t", "uint16_t", "uint32_t"]
+          output: Number
+          inputsInline: true
+          tooltip:
+            en: "Translate a digital pin number to the matching interrupt number for attachInterrupt."
+            it: "Converte un numero di pin digitale nel corrispondente numero di interrupt per attachInterrupt."
+            zh-cn: "将数字引脚编号转换为 attachInterrupt 所需的中断编号。"
+            zh-tw: "將數位腳位編號轉換為 attachInterrupt 所需的中斷編號。"
+            fr: "Convertit un numéro de broche numérique en numéro d'interruption correspondant pour attachInterrupt."
+            de: "Wandelt eine digitale Pin-Nummer in die zugehörige Interrupt-Nummer für attachInterrupt um."
+            es: "Convierte un número de pin digital en el número de interrupción correspondiente para attachInterrupt."
+            ja: "デジタルピン番号を attachInterrupt 用のインタラプト番号に変換します。"
+            ko: "디지털 핀 번호를 attachInterrupt에 사용할 인터럽트 번호로 변환합니다."
+            ru: "Преобразует номер цифрового пина в соответствующий номер прерывания для attachInterrupt."
+            pt-br: "Converte um número de pino digital no número de interrupção correspondente para attachInterrupt."
+            tr: "Dijital pin numarasını attachInterrupt için karşılık gelen kesme numarasına dönüştürür."
+            pl: "Konwertuje numer pinu cyfrowego na odpowiedni numer przerwania dla attachInterrupt."
+            cs: "Převede číslo digitálního pinu na odpovídající číslo přerušení pro attachInterrupt."
+            hu: "A digitális láb számát az attachInterrupt számára szükséges megszakítás-számra alakítja."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/external-interrupts/digitalPinToInterrupt/"
+        codegen:
+          body:
+            - "digitalPinToInterrupt({{PIN}})"
+          precedence: ATOMIC
+          inputDefaults:
+            PIN: "2"
+
+      # --- interrupts / noInterrupts (consolidated, dropdown) ---
+      - blockly:
+          type: cpp_interrupts
+          message0:
+            en: "%1 interrupts"
+            it: "%1 interrupt"
+            zh-cn: "%1 中断"
+            zh-tw: "%1 中斷"
+            fr: "%1 interruptions"
+            de: "%1 Interrupts"
+            es: "%1 interrupciones"
+            ja: "%1 インタラプト"
+            ko: "%1 인터럽트"
+            ru: "%1 прерывания"
+            pt-br: "%1 interrupções"
+            tr: "%1 kesmeler"
+            pl: "%1 przerwania"
+            cs: "%1 přerušení"
+            hu: "%1 megszakítások"
+          args0:
+            - type: field_dropdown
+              name: FUNC
+              options:
+                - ["enable", "interrupts"]
+                - ["disable", "noInterrupts"]
+          previousStatement: null
+          nextStatement: null
+          tooltip:
+            en: "Enable (interrupts) or disable (noInterrupts) interrupts globally. Keep disabled sections short."
+            it: "Abilita (interrupts) o disabilita (noInterrupts) gli interrupt globalmente. Mantieni brevi le sezioni disabilitate."
+            zh-cn: "全局启用 (interrupts) 或禁用 (noInterrupts) 中断。保持禁用区段尽量短。"
+            zh-tw: "全域啟用 (interrupts) 或停用 (noInterrupts) 中斷。保持停用區段盡量短。"
+            fr: "Active (interrupts) ou désactive (noInterrupts) les interruptions globalement. Gardez les sections désactivées courtes."
+            de: "Aktiviert (interrupts) oder deaktiviert (noInterrupts) Interrupts global. Deaktivierte Abschnitte kurz halten."
+            es: "Activa (interrupts) o desactiva (noInterrupts) las interrupciones globalmente. Mantén breves las secciones desactivadas."
+            ja: "インタラプトをグローバルに有効化 (interrupts) または無効化 (noInterrupts) します。無効区間は短く保ってください。"
+            ko: "인터럽트를 전역으로 활성화 (interrupts) 또는 비활성화 (noInterrupts) 합니다. 비활성화 구간은 짧게 유지하세요."
+            ru: "Включает (interrupts) или отключает (noInterrupts) прерывания глобально. Отключённые участки должны быть короткими."
+            pt-br: "Ativa (interrupts) ou desativa (noInterrupts) as interrupções globalmente. Mantenha as seções desativadas curtas."
+            tr: "Kesmeleri genel olarak etkinleştirir (interrupts) veya devre dışı bırakır (noInterrupts). Devre dışı bölümleri kısa tutun."
+            pl: "Włącza (interrupts) lub wyłącza (noInterrupts) przerwania globalnie. Wyłączone sekcje powinny być krótkie."
+            cs: "Globálně povolí (interrupts) nebo zakáže (noInterrupts) přerušení. Zakázané úseky udržujte krátké."
+            hu: "Globálisan engedélyezi (interrupts) vagy letiltja (noInterrupts) a megszakításokat. A letiltott szakaszokat tartsd rövidre."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/interrupts/interrupts/"
+        codegen:
+          body:
+            - "{{FUNC}}();"

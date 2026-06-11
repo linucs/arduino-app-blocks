@@ -1,13 +1,19 @@
 import * as http from 'http';
 import * as path from 'path';
 import * as fs from 'fs/promises';
+import chokidar from 'chokidar';
 import { WebSocketServer } from 'ws';
 import { CatalogManager } from './catalogManager';
+import { Registry } from './registry';
+import { handleRegistryApi } from './registryApi';
+import { renderCommunityHtml } from './community';
+import { blocksDir } from './blocksDir';
 import { Session, SessionConfig } from './session';
 import { renderEditorHtml } from './html';
 import { loadL10n } from './l10n';
 import { listEditableFiles } from './listFiles';
 import { languageForFile } from '../src/codegen/sourceLanguage';
+import { composeRuntime } from '../src/catalog/boardFilter';
 import themeCss from './assets/theme.css';
 
 /**
@@ -27,7 +33,7 @@ const PORT = parseInt(process.env.PORT || '7100', 10);
 const APP_ROOT = path.resolve(process.env.APP_HOME || process.env.APP_ROOT || '/app');
 // Resources bundled with the brick (catalogs/, l10n/) live next to dist/.
 const RESOURCE_ROOT = path.resolve(process.env.RESOURCE_ROOT || path.join(__dirname, '..'));
-const BUILTIN_CATALOGS_DIR = path.join(RESOURCE_ROOT, 'catalogs', 'arduino');
+const BUILTIN_CATALOGS_DIR = path.join(RESOURCE_ROOT, 'catalogs');
 const WEBVIEW_JS = path.join(__dirname, 'webview.js');
 
 const EDITABLE_EXTENSIONS = new Set(
@@ -44,7 +50,16 @@ function sessionConfig(): SessionConfig {
 
 // --- shared state ----------------------------------------------------------
 const catalog = new CatalogManager(BUILTIN_CATALOGS_DIR);
+const registry = new Registry(catalog);
 let catalogsReady = false;
+
+/** Active editing sessions — notified to re-filter their toolbox on .blocks/ changes. */
+const sessions = new Set<Session>();
+
+/** Re-push the filtered catalog to every open session (M3 live update). */
+function refreshAllSessions(): void {
+  for (const s of sessions) void s.refreshCatalog();
+}
 
 function localeFromRequest(req: http.IncomingMessage): string {
   if (process.env.LOCALE) return process.env.LOCALE;
@@ -95,6 +110,7 @@ function renderPicker(files: { relPath: string; language: string; hasSidecar: bo
     </style></head>
     <body><h1>Choose a file to edit with blocks</h1>
     ${files.length ? `<ul>${rows}</ul>` : '<p class="empty">No editable files found under the app folder.</p>'}
+    <p><a href="/community" style="color: var(--vscode-focusBorder); text-decoration: none;">Manage community blocks ▸</a></p>
     </body></html>`;
 }
 
@@ -120,6 +136,22 @@ const server = http.createServer(async (req, res) => {
       } catch {
         return send(res, 404, 'text/plain', 'not found');
       }
+    }
+
+    if (pathname.startsWith('/api/registry')) {
+      const owned = await handleRegistryApi(
+        req, res, url, registry, blocksDir(APP_ROOT), refreshAllSessions
+      );
+      if (owned) return;
+      return send(res, 404, 'text/plain', 'not found');
+    }
+
+    if (pathname === '/community') {
+      const rel = url.searchParams.get('file') || '';
+      const abs = rel ? resolveRequestedFile(rel) : undefined;
+      const language = abs ? languageForFile(abs) : undefined;
+      const runtimeHint = language ? composeRuntime('arduino', language) : undefined;
+      return send(res, 200, 'text/html; charset=utf-8', renderCommunityHtml(runtimeHint));
     }
 
     if (pathname === '/') {
@@ -153,12 +185,36 @@ wss.on('connection', (ws, req) => {
   const rel = url.searchParams.get('file') || '';
   const abs = resolveRequestedFile(rel);
   if (!abs) { ws.close(1008, 'invalid file'); return; }
-  new Session(ws, abs, catalog, sessionConfig()).attach();
+  const session = new Session(ws, abs, catalog, sessionConfig());
+  sessions.add(session);
+  ws.on('close', () => sessions.delete(session));
+  session.attach();
 });
+
+/**
+ * Watch the project-local .blocks/ for catalog changes (install or hand-edit) and
+ * re-push the filtered toolbox to every open session (M3 live update). One watcher
+ * for the whole server; the dir need not exist yet.
+ */
+function watchBlocksDir(): void {
+  const dir = blocksDir(APP_ROOT);
+  const watcher = chokidar.watch(dir, {
+    ignoreInitial: true,
+    depth: 10,
+    awaitWriteFinish: { stabilityThreshold: 200, pollInterval: 50 },
+  });
+  const onChange = (p: string) => {
+    if (!/\.ya?ml$/i.test(p)) return;
+    console.log(`[server] .blocks change: ${p}`);
+    refreshAllSessions();
+  };
+  watcher.on('add', onChange).on('change', onChange).on('unlink', onChange);
+}
 
 async function main(): Promise<void> {
   await catalog.init();
   catalogsReady = true;
+  watchBlocksDir();
   server.listen(PORT, () => {
     console.log(`[server] blocks-author listening on :${PORT}`);
     console.log(`[server] app root: ${APP_ROOT}`);

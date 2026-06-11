@@ -1,7 +1,7 @@
 # Block Catalog v1 Schema Guide
 
 Schema published at:
-`https://raw.githubusercontent.com/linucs/arduino-app-lab/main/ui-packages/ui-components/lib/blockly-editor/schemas/block-catalog_v1.schema.json`
+`https://raw.githubusercontent.com/linucs/arduino-app-blocks/refs/heads/main/src/catalog/block-catalog_v1.schema.json`
 
 Catalog files are authored as **YAML**; the JSON Schema validates the parsed data model.
 The `blockly` section inside each block is verbatim Blockly JSON (represented as a YAML
@@ -9,13 +9,13 @@ mapping — no special syntax needed).
 
 Add this header to every catalog file for in-editor schema validation:
 ```yaml
-# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/arduino-app-lab/main/ui-packages/ui-components/lib/blockly-editor/schemas/block-catalog_v1.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/arduino-app-blocks/refs/heads/main/src/catalog/block-catalog_v1.schema.json
 ```
 
 ## Catalog Entry (top level)
 
 ```yaml
-# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/arduino-app-lab/main/ui-packages/ui-components/lib/blockly-editor/schemas/block-catalog_v1.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/arduino-app-blocks/refs/heads/main/src/catalog/block-catalog_v1.schema.json
 id: modulino-thermo
 category: Sensors
 docs:
@@ -278,24 +278,22 @@ individual sensor reads go in block-level.
 
 ## Validation Command
 
-Run from the root of the `arduino-app-blocks` repository. Fetches the schema automatically:
+Run from the root of the `arduino-app-blocks` repository. Validates against the bundled schema:
 
 ```bash
 python3 - <<'EOF'
-import yaml, json, jsonschema, urllib.request, glob, os, sys
+import yaml, json, jsonschema, glob, os, sys
 
-SCHEMA_URL = (
-    "https://raw.githubusercontent.com/linucs/arduino-app-lab/main"
-    "/app/common/schemas/v1/block-catalog_v1.schema.json"
-)
-schema = json.loads(urllib.request.urlopen(SCHEMA_URL).read())
+# The schema ships in this repo — validate against the local file (no network).
+schema = json.load(open("src/catalog/block-catalog_v1.schema.json"))
 
 files = sys.argv[1:] or glob.glob("catalogs/**/*.yaml", recursive=True)
 errors = []
 for f in sorted(files):
     try:
-        entry = yaml.safe_load(open(f))
-        jsonschema.validate(entry, schema)
+        for entry in yaml.safe_load_all(open(f)):
+            if entry:
+                jsonschema.validate(entry, schema)
         print(f"OK  {os.path.basename(f)}")
     except jsonschema.ValidationError as e:
         errors.append(f)

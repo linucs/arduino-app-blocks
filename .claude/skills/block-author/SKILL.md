@@ -69,7 +69,7 @@ For each block, decide:
 Start each file with the language-server schema header for in-editor validation:
 
 ```yaml
-# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/arduino-app-lab/main/ui-packages/ui-components/lib/blockly-editor/schemas/block-catalog_v1.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/arduino-app-blocks/refs/heads/main/src/catalog/block-catalog_v1.schema.json
 ```
 
 For each block, produce two sections:
@@ -124,25 +124,23 @@ The `declarations` key is content-hashed for deduplication: two blocks with diff
 
 ### Step 5 — Validate
 
-Always validate the generated YAML against the published schema before presenting it to the user:
+Always validate the generated YAML against the bundled schema before presenting it to the user:
 
 ```bash
 python3 - <<'EOF'
-import yaml, json, jsonschema, urllib.request, sys
+import yaml, json, jsonschema, sys
 
-SCHEMA_URL = (
-    "https://raw.githubusercontent.com/linucs/arduino-app-lab/main"
-    "/app/common/schemas/v1/block-catalog_v1.schema.json"
-)
-schema = json.loads(urllib.request.urlopen(SCHEMA_URL).read())
+# The schema ships in this repo — validate against the local file (no network).
+schema = json.load(open("src/catalog/block-catalog_v1.schema.json"))
 
 import glob, os
 files = sys.argv[1:] or glob.glob("catalogs/**/*.yaml", recursive=True)
 errors = []
 for f in sorted(files):
     try:
-        entry = yaml.safe_load(open(f))
-        jsonschema.validate(entry, schema)
+        for entry in yaml.safe_load_all(open(f)):
+            if entry:
+                jsonschema.validate(entry, schema)
         print(f"OK  {os.path.basename(f)}")
     except jsonschema.ValidationError as e:
         errors.append(f)

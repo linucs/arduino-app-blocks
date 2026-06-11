@@ -76,9 +76,8 @@ function defineCustomBlocks(): void {
             style: blockStyleFor('Math'),
             tooltip: '%{BKY_SYMBOL_LITERAL_TOOLTIP}',
         },
-        // BRICK-OWNED FORK (see tools/sync-core.sh): the code_* family
-        // (code_statement / code_expression / code_includes / code_declaration /
-        // code_setup) is now catalog-driven in catalogs/arduino/cpp/code.yaml,
+        // The code_* family (code_statement / code_expression / code_includes /
+        // code_declaration / code_setup) is catalog-driven in catalogs/cpp/code.yaml,
         // routed through the single routeToZone() factory — mirroring the Python
         // side. Their imperative defs + handlers were removed from this file.
         // ── do...while ───────────────────────────────────────────────

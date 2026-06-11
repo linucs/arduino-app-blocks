@@ -6,9 +6,7 @@ import { createArduinoPythonGenerator, ARDUINO_PYTHON_RUNTIME } from './generato
  * Registry of generation engines keyed by `runtime` (`<framework>:<language>`).
  * Add a builder here to support a new framework/language combination.
  *
- * BRICK-OWNED FORK (see tools/sync-core.sh EXCLUDE): this file diverges from
- * vscode-blockly to register the Python runtime, which upstream does not
- * implement. The Python generator itself lives in new, un-tracked files.
+ * Registers both the Arduino C++ and Python runtimes.
  */
 const builders: Record<string, () => RuntimeGenerator> = {
     [ARDUINO_CPP_RUNTIME]: createArduinoCppGenerator,

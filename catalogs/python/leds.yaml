@@ -1,0 +1,46 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/arduino-app-blocks/refs/heads/main/src/catalog/block-catalog_v1.schema.json
+id: builtin_utility
+category: Control
+implementations:
+- runtime: arduino:python
+  blocks:
+  - blockly:
+      type: python_led
+      message0: set LED %1  R %2  G %3  B %4
+      args0:
+      - type: field_dropdown
+        name: LED
+        options:
+        - - '1'
+          - '1'
+        - - '2'
+          - '2'
+      - type: field_dropdown
+        name: R
+        options:
+        - - 'ON'
+          - 'True'
+        - - 'OFF'
+          - 'False'
+      - type: field_dropdown
+        name: G
+        options:
+        - - 'ON'
+          - 'True'
+        - - 'OFF'
+          - 'False'
+      - type: field_dropdown
+        name: B
+        options:
+        - - 'ON'
+          - 'True'
+        - - 'OFF'
+          - 'False'
+      previousStatement: null
+      nextStatement: null
+      tooltip: Set the R / G / B channels of a CPU-side onboard RGB LED (1 or 2).
+    codegen:
+      imports:
+      - from arduino.app_utils import Leds
+      body:
+      - Leds.set_led{{LED}}_color({{R}}, {{G}}, {{B}})

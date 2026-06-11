@@ -1,0 +1,67 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/arduino-app-blocks/refs/heads/main/src/catalog/block-catalog_v1.schema.json
+# The Python "Code" family, named & categorized identically to the C++ side (all under Code,
+# matching core.yaml where code_setup also lives in Code):
+#   code_statement / code_expression — raw code leaves
+#   code_includes / code_declaration / code_setup — section containers that route
+#     their nested blocks to the import / module-level / pre-loop zones via
+#     first-party generators (webview/codegen/sectionGenerators.ts + code_setup).
+# Colours come from ThemeAdapter (the Code category default) — no hex here.
+id: builtin_code
+category: Code
+implementations:
+  - runtime: arduino:python
+    blocks:
+      - blockly:
+          type: code_statement
+          message0: "⟨ %1 ⟩"
+          args0:
+            - type: field_code
+              name: CODE
+              text: ""
+          previousStatement: null
+          nextStatement: null
+          tooltip: "Insert raw Python statement(s) verbatim. Place inside a section container to target the import / module / setup zone."
+        codegen:
+          body:
+            - "{{CODE}}"
+
+      - blockly:
+          type: code_expression
+          message0: "⟨ %1 ⟩"
+          args0:
+            - type: field_input
+              name: CODE
+              text: expression
+          output: null
+          tooltip: "Raw Python expression inserted as-is as a value."
+        codegen:
+          body:
+            - "{{CODE}}"
+          precedence: ATOMIC
+
+      - blockly:
+          type: code_includes
+          message0: "includes %1"
+          args0:
+            - type: input_statement
+              name: MEMBERS
+          tooltip: "Python: blocks inside go to the import zone at the top of the file. Put 'import ...' / 'from ... import ...' lines here using a custom code block."
+        generator: code_includes
+
+      - blockly:
+          type: code_declaration
+          message0: "globals %1"
+          args0:
+            - type: input_statement
+              name: MEMBERS
+          tooltip: "Python: blocks inside go to module level, after the imports (e.g. global constants or helper definitions)."
+        generator: code_declaration
+
+      - blockly:
+          type: code_setup
+          message0: "setup %1"
+          args0:
+            - type: input_statement
+              name: MEMBERS
+          tooltip: "Python: blocks inside run once at startup, before def loop() — the parallel of C++ setup(). Use for one-time initialization."
+        generator: code_setup

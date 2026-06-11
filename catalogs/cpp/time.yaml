@@ -1,0 +1,151 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/arduino-app-blocks/refs/heads/main/src/catalog/block-catalog_v1.schema.json
+id: arduino_time
+category: "Control::Time"
+implementations:
+  - runtime: "arduino:cpp"
+    blocks:
+      # --- delay ---
+      - blockly:
+          type: cpp_delay
+          message0:
+            en: "wait %1 ms"
+            it: "wait %1 ms"
+            zh-cn: "wait %1 ms"
+            zh-tw: "wait %1 ms"
+            fr: "wait %1 ms"
+            de: "wait %1 ms"
+            es: "wait %1 ms"
+            ja: "wait %1 ms"
+            ko: "wait %1 ms"
+            ru: "wait %1 мс"
+            pt-br: "wait %1 ms"
+            tr: "wait %1 ms"
+            pl: "wait %1 ms"
+            cs: "wait %1 ms"
+            hu: "wait %1 ms"
+          args0:
+            - type: input_value
+              name: DURATION
+              check: ["Number", "int", "unsigned int", "long", "unsigned long", "byte", "word", "uint8_t", "uint16_t", "uint32_t", "int8_t", "int16_t", "int32_t"]
+          previousStatement: null
+          nextStatement: null
+          inputsInline: true
+          tooltip:
+            en: "Pause execution for the given number of milliseconds."
+            it: "Metti in pausa l'esecuzione per il numero di millisecondi indicato."
+            zh-cn: "暂停执行指定的毫秒数。"
+            zh-tw: "暫停執行指定的毫秒數。"
+            fr: "Met en pause l'exécution pendant le nombre de millisecondes indiqué."
+            de: "Pausiert die Ausführung für die angegebene Anzahl von Millisekunden."
+            es: "Pausa la ejecución durante el número de milisegundos indicado."
+            ja: "指定されたミリ秒数だけ実行を一時停止します。"
+            ko: "지정된 밀리초 동안 실행을 일시 중지합니다."
+            ru: "Приостанавливает выполнение на указанное количество миллисекунд."
+            pt-br: "Pausa a execução pelo número de milissegundos indicado."
+            tr: "Belirtilen milisaniye sayısı kadar yürütmeyi duraklatır."
+            pl: "Wstrzymuje wykonanie na podaną liczbę milisekund."
+            cs: "Pozastaví provádění na zadaný počet milisekund."
+            hu: "Szünetelteti a végrehajtást a megadott számú milliszekundumra."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/time/delay/"
+        codegen:
+          body:
+            - "delay({{DURATION}});"
+          inputDefaults:
+            DURATION: "1000"
+
+      # --- delayMicroseconds ---
+      - blockly:
+          type: cpp_delay_microseconds
+          message0:
+            en: "delayMicroseconds %1 µs"
+            it: "delayMicroseconds %1 µs"
+            zh-cn: "delayMicroseconds %1 µs"
+            zh-tw: "delayMicroseconds %1 µs"
+            fr: "delayMicroseconds %1 µs"
+            de: "delayMicroseconds %1 µs"
+            es: "delayMicroseconds %1 µs"
+            ja: "delayMicroseconds %1 µs"
+            ko: "delayMicroseconds %1 µs"
+            ru: "delayMicroseconds %1 мкс"
+            pt-br: "delayMicroseconds %1 µs"
+            tr: "delayMicroseconds %1 µs"
+            pl: "delayMicroseconds %1 µs"
+            cs: "delayMicroseconds %1 µs"
+            hu: "delayMicroseconds %1 µs"
+          args0:
+            - type: input_value
+              name: US
+              check: ["Number", "int", "unsigned int", "long", "unsigned long", "byte", "word", "uint8_t", "uint16_t", "uint32_t", "int8_t", "int16_t", "int32_t"]
+          previousStatement: null
+          nextStatement: null
+          inputsInline: true
+          tooltip:
+            en: "Pause execution for the given number of microseconds."
+            it: "Metti in pausa l'esecuzione per il numero di microsecondi indicato."
+            zh-cn: "暂停执行指定的微秒数。"
+            zh-tw: "暫停執行指定的微秒數。"
+            fr: "Met en pause l'exécution pendant le nombre de microsecondes indiqué."
+            de: "Pausiert die Ausführung für die angegebene Anzahl von Mikrosekunden."
+            es: "Pausa la ejecución durante el número de microsegundos indicado."
+            ja: "指定されたマイクロ秒数だけ実行を一時停止します。"
+            ko: "지정된 마이크로초 동안 실행을 일시 중지합니다."
+            ru: "Приостанавливает выполнение на указанное количество микросекунд."
+            pt-br: "Pausa a execução pelo número de microssegundos indicado."
+            tr: "Belirtilen mikrosaniye sayısı kadar yürütmeyi duraklatır."
+            pl: "Wstrzymuje wykonanie na podaną liczbę mikrosekund."
+            cs: "Pozastaví provádění na zadaný počet mikrosekund."
+            hu: "Szünetelteti a végrehajtást a megadott számú mikroszekundumra."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/time/delayMicroseconds/"
+        codegen:
+          body:
+            - "delayMicroseconds({{US}});"
+          inputDefaults:
+            US: "100"
+
+      # --- time since start: millis / micros (consolidated, dropdown) ---
+      - blockly:
+          type: cpp_time_since_start
+          message0:
+            en: "time since start %1"
+            it: "tempo dall'avvio %1"
+            zh-cn: "启动以来的时间 %1"
+            zh-tw: "啟動以來的時間 %1"
+            fr: "temps depuis le démarrage %1"
+            de: "Zeit seit dem Start %1"
+            es: "tiempo desde el inicio %1"
+            ja: "起動からの経過時間 %1"
+            ko: "시작 이후 경과 시간 %1"
+            ru: "время с момента запуска %1"
+            pt-br: "tempo desde o início %1"
+            tr: "başlangıçtan bu yana geçen süre %1"
+            pl: "czas od uruchomienia %1"
+            cs: "čas od spuštění %1"
+            hu: "indítás óta eltelt idő %1"
+          args0:
+            - type: field_dropdown
+              name: UNIT
+              options:
+                - ["milliseconds", "millis"]
+                - ["microseconds", "micros"]
+          output: Number
+          tooltip:
+            en: "Number of milliseconds (millis) or microseconds (micros) since the board started running."
+            it: "Numero di millisecondi (millis) o microsecondi (micros) da quando la scheda ha iniziato a funzionare."
+            zh-cn: "自板卡开始运行以来的毫秒数 (millis) 或微秒数 (micros)。"
+            zh-tw: "自板卡開始運行以來的毫秒數 (millis) 或微秒數 (micros)。"
+            fr: "Nombre de millisecondes (millis) ou de microsecondes (micros) depuis le démarrage de la carte."
+            de: "Anzahl der Millisekunden (millis) oder Mikrosekunden (micros) seit dem Start des Boards."
+            es: "Número de milisegundos (millis) o microsegundos (micros) desde que la placa comenzó a funcionar."
+            ja: "ボードが動作を開始してからのミリ秒数 (millis) またはマイクロ秒数 (micros)。"
+            ko: "보드가 실행을 시작한 이후의 밀리초 (millis) 또는 마이크로초 (micros) 수입니다."
+            ru: "Количество миллисекунд (millis) или микросекунд (micros) с момента запуска платы."
+            pt-br: "Número de milissegundos (millis) ou microssegundos (micros) desde que a placa começou a funcionar."
+            tr: "Kart çalışmaya başladığından beri geçen milisaniye (millis) veya mikrosaniye (micros) sayısı."
+            pl: "Liczba milisekund (millis) lub mikrosekund (micros) od momentu uruchomienia płytki."
+            cs: "Počet milisekund (millis) nebo mikrosekund (micros) od spuštění desky."
+            hu: "A tábla indítása óta eltelt milliszekundumok (millis) vagy mikroszekundumok (micros) száma."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/time/millis/"
+        codegen:
+          body:
+            - "{{UNIT}}()"
+          precedence: ATOMIC

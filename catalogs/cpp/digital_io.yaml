@@ -1,0 +1,164 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/arduino-app-blocks/refs/heads/main/src/catalog/block-catalog_v1.schema.json
+id: arduino_digital_io
+category: "Input / Output::Digital"
+colour: "#FFB300"
+implementations:
+  - runtime: "arduino:cpp"
+    blocks:
+      # --- pinMode (setup-only) ---
+      - blockly:
+          type: cpp_pin_mode
+          message0:
+            en: "pinMode pin %1 mode %2"
+            it: "pinMode pin %1 modalità %2"
+            zh-cn: "pinMode 引脚 %1 模式 %2"
+            zh-tw: "pinMode 腳位 %1 模式 %2"
+            fr: "pinMode broche %1 mode %2"
+            de: "pinMode Pin %1 Modus %2"
+            es: "pinMode pin %1 modo %2"
+            ja: "pinMode ピン %1 モード %2"
+            ko: "pinMode 핀 %1 모드 %2"
+            ru: "pinMode пин %1 режим %2"
+            pt-br: "pinMode pino %1 modo %2"
+            tr: "pinMode pin %1 mod %2"
+            pl: "pinMode pin %1 tryb %2"
+            cs: "pinMode pin %1 režim %2"
+            hu: "pinMode láb %1 mód %2"
+          args0:
+            - type: input_value
+              name: PIN
+              check: ["Number", "int", "unsigned int", "long", "unsigned long", "byte", "word", "uint8_t", "uint16_t", "uint32_t", "int8_t", "int16_t", "int32_t"]
+            - type: field_dropdown
+              name: MODE
+              options:
+                - ["INPUT", "INPUT"]
+                - ["OUTPUT", "OUTPUT"]
+                - ["INPUT_PULLUP", "INPUT_PULLUP"]
+          previousStatement: null
+          nextStatement: null
+          inputsInline: true
+          tooltip:
+            en: "Configure a digital pin as INPUT, OUTPUT, or INPUT_PULLUP. Place inside a 'setup' block to run once at startup."
+            it: "Configura un pin digitale come INPUT, OUTPUT o INPUT_PULLUP. Posiziona dentro un blocco 'setup' per eseguire una sola volta all'avvio."
+            zh-cn: "将数字引脚配置为 INPUT、OUTPUT 或 INPUT_PULLUP。放置在 'setup' 块中以在启动时运行一次。"
+            zh-tw: "將數位腳位設定為 INPUT、OUTPUT 或 INPUT_PULLUP。放置在 'setup' 區塊中以在啟動時執行一次。"
+            fr: "Configure une broche numérique en INPUT, OUTPUT ou INPUT_PULLUP. Placer dans un bloc 'setup' pour exécuter une seule fois au démarrage."
+            de: "Konfiguriert einen digitalen Pin als INPUT, OUTPUT oder INPUT_PULLUP. In einen 'setup'-Block setzen, um beim Start einmal auszuführen."
+            es: "Configura un pin digital como INPUT, OUTPUT o INPUT_PULLUP. Coloca dentro de un bloque 'setup' para ejecutar una sola vez al inicio."
+            ja: "デジタルピンを INPUT、OUTPUT、または INPUT_PULLUP に設定します。'setup' ブロック内に配置すると起動時に一度だけ実行されます。"
+            ko: "디지털 핀을 INPUT, OUTPUT 또는 INPUT_PULLUP으로 설정합니다. 'setup' 블록 안에 배치하면 시작 시 한 번만 실행됩니다."
+            ru: "Настраивает цифровой пин как INPUT, OUTPUT или INPUT_PULLUP. Поместите в блок 'setup' для однократного выполнения при запуске."
+            pt-br: "Configura um pino digital como INPUT, OUTPUT ou INPUT_PULLUP. Coloque dentro de um bloco 'setup' para executar uma vez na inicialização."
+            tr: "Bir dijital pini INPUT, OUTPUT veya INPUT_PULLUP olarak yapılandırır. Başlangıçta bir kez çalıştırmak için 'setup' bloğuna yerleştirin."
+            pl: "Konfiguruje pin cyfrowy jako INPUT, OUTPUT lub INPUT_PULLUP. Umieść w bloku 'setup', aby wykonać raz przy uruchomieniu."
+            cs: "Nakonfiguruje digitální pin jako INPUT, OUTPUT nebo INPUT_PULLUP. Umístěte do bloku 'setup' pro jednorázové spuštění při startu."
+            hu: "Beállít egy digitális lábat INPUT, OUTPUT vagy INPUT_PULLUP módba. Helyezd egy 'setup' blokkba, hogy indításkor egyszer fusson le."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/digital-io/pinMode/"
+        codegen:
+          body:
+            - "pinMode({{PIN}}, {{MODE}});"
+          inputDefaults:
+            PIN: "13"
+
+      # --- digitalWrite ---
+      - blockly:
+          type: cpp_digital_write
+          message0:
+            en: "digitalWrite pin %1 %2"
+            it: "digitalWrite pin %1 %2"
+            zh-cn: "digitalWrite 引脚 %1 %2"
+            zh-tw: "digitalWrite 腳位 %1 %2"
+            fr: "digitalWrite broche %1 %2"
+            de: "digitalWrite Pin %1 %2"
+            es: "digitalWrite pin %1 %2"
+            ja: "digitalWrite ピン %1 %2"
+            ko: "digitalWrite 핀 %1 %2"
+            ru: "digitalWrite пин %1 %2"
+            pt-br: "digitalWrite pino %1 %2"
+            tr: "digitalWrite pin %1 %2"
+            pl: "digitalWrite pin %1 %2"
+            cs: "digitalWrite pin %1 %2"
+            hu: "digitalWrite láb %1 %2"
+          args0:
+            - type: input_value
+              name: PIN
+              check: ["Number", "int", "unsigned int", "long", "unsigned long", "byte", "word", "uint8_t", "uint16_t", "uint32_t", "int8_t", "int16_t", "int32_t"]
+            - type: field_dropdown
+              name: VALUE
+              options:
+                - ["HIGH", "HIGH"]
+                - ["LOW", "LOW"]
+          previousStatement: null
+          nextStatement: null
+          inputsInline: true
+          tooltip:
+            en: "Write HIGH or LOW to a digital pin."
+            it: "Scrivi HIGH o LOW su un pin digitale."
+            zh-cn: "向数字引脚写入 HIGH 或 LOW。"
+            zh-tw: "向數位腳位寫入 HIGH 或 LOW。"
+            fr: "Écrit HIGH ou LOW sur une broche numérique."
+            de: "Schreibt HIGH oder LOW auf einen digitalen Pin."
+            es: "Escribe HIGH o LOW en un pin digital."
+            ja: "デジタルピンに HIGH または LOW を書き込みます。"
+            ko: "디지털 핀에 HIGH 또는 LOW를 씁니다."
+            ru: "Записывает HIGH или LOW на цифровой пин."
+            pt-br: "Escreve HIGH ou LOW em um pino digital."
+            tr: "Bir dijital pine HIGH veya LOW yazar."
+            pl: "Zapisuje HIGH lub LOW na pinie cyfrowym."
+            cs: "Zapíše HIGH nebo LOW na digitální pin."
+            hu: "HIGH vagy LOW értéket ír egy digitális lábra."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/digital-io/digitalWrite/"
+        codegen:
+          body:
+            - "digitalWrite({{PIN}}, {{VALUE}});"
+          inputDefaults:
+            PIN: "13"
+
+      # --- digitalRead ---
+      - blockly:
+          type: cpp_digital_read
+          message0:
+            en: "digitalRead pin %1"
+            it: "digitalRead pin %1"
+            zh-cn: "digitalRead 引脚 %1"
+            zh-tw: "digitalRead 腳位 %1"
+            fr: "digitalRead broche %1"
+            de: "digitalRead Pin %1"
+            es: "digitalRead pin %1"
+            ja: "digitalRead ピン %1"
+            ko: "digitalRead 핀 %1"
+            ru: "digitalRead пин %1"
+            pt-br: "digitalRead pino %1"
+            tr: "digitalRead pin %1"
+            pl: "digitalRead pin %1"
+            cs: "digitalRead pin %1"
+            hu: "digitalRead láb %1"
+          args0:
+            - type: input_value
+              name: PIN
+              check: ["Number", "int", "unsigned int", "long", "unsigned long", "byte", "word", "uint8_t", "uint16_t", "uint32_t", "int8_t", "int16_t", "int32_t"]
+          output: Number
+          inputsInline: true
+          tooltip:
+            en: "Read the value from a digital pin (HIGH or LOW)."
+            it: "Leggi il valore da un pin digitale (HIGH o LOW)."
+            zh-cn: "从数字引脚读取值（HIGH 或 LOW）。"
+            zh-tw: "從數位腳位讀取值（HIGH 或 LOW）。"
+            fr: "Lit la valeur d'une broche numérique (HIGH ou LOW)."
+            de: "Liest den Wert eines digitalen Pins (HIGH oder LOW)."
+            es: "Lee el valor de un pin digital (HIGH o LOW)."
+            ja: "デジタルピンの値を読み取ります（HIGH または LOW）。"
+            ko: "디지털 핀의 값을 읽습니다 (HIGH 또는 LOW)."
+            ru: "Считывает значение с цифрового пина (HIGH или LOW)."
+            pt-br: "Lê o valor de um pino digital (HIGH ou LOW)."
+            tr: "Bir dijital pinden değer okur (HIGH veya LOW)."
+            pl: "Odczytuje wartość z pinu cyfrowego (HIGH lub LOW)."
+            cs: "Přečte hodnotu z digitálního pinu (HIGH nebo LOW)."
+            hu: "Beolvassa egy digitális láb értékét (HIGH vagy LOW)."
+          helpUrl: "https://docs.arduino.cc/language-reference/en/functions/digital-io/digitalRead/"
+        codegen:
+          body:
+            - "digitalRead({{PIN}})"
+          precedence: ATOMIC
+          inputDefaults:
+            PIN: "2"

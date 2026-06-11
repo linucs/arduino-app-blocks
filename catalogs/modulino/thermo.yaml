@@ -14,8 +14,8 @@ implementations:
   - runtime: "arduino:cpp"
     dependencies:
       - type: library
-        name: "Modulino"
-        minVersion: "0.5.0"
+        name: "Arduino_Modulino"
+        minVersion: "0.8.0"
     codegen:
       imports:
         - "#include <Modulino.h>"

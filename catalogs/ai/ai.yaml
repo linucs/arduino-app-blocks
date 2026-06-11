@@ -40,9 +40,9 @@ implementations:
               text: "You are a helpful assistant."
           message3: "for each response %1 do"
           args3:
-            - type: field_variable
+            - type: field_param_input
               name: RESULT_VAR
-              variable: response
+              text: "response"
           message4: "%1"
           args4:
             - type: input_statement
@@ -78,9 +78,9 @@ implementations:
               text: "You are a helpful assistant."
           message3: "for each response %1 do"
           args3:
-            - type: field_variable
+            - type: field_param_input
               name: RESULT_VAR
-              variable: response
+              text: "response"
           message4: "%1"
           args4:
             - type: input_statement

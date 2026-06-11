@@ -64,9 +64,9 @@ implementations:
               max: 100
           message2: "for each result %1"
           args2:
-            - type: field_variable
+            - type: field_param_input
               name: RESULT_VAR
-              variable: detection
+              text: "detection"
           message3: "do %1"
           args3:
             - type: input_statement
@@ -106,9 +106,9 @@ implementations:
               max: 100
           message2: "for each result %1"
           args2:
-            - type: field_variable
+            - type: field_param_input
               name: RESULT_VAR
-              variable: classification
+              text: "classification"
           message3: "do %1"
           args3:
             - type: input_statement
@@ -144,9 +144,9 @@ implementations:
                 - ["start", "start"]
           message1: "for each result %1"
           args1:
-            - type: field_variable
+            - type: field_param_input
               name: RESULT_VAR
-              variable: keyword
+              text: "keyword"
           message2: "do %1"
           args2:
             - type: input_statement
@@ -178,9 +178,9 @@ implementations:
                 - ["closed fist", "closed_fist"]
           message1: "for each result %1"
           args1:
-            - type: field_variable
+            - type: field_param_input
               name: RESULT_VAR
-              variable: gesture
+              text: "gesture"
           message2: "do %1"
           args2:
             - type: input_statement
@@ -215,9 +215,9 @@ implementations:
               max: 100
           message2: "for each result %1"
           args2:
-            - type: field_variable
+            - type: field_param_input
               name: RESULT_VAR
-              variable: motion
+              text: "motion"
           message3: "do %1"
           args3:
             - type: input_statement
@@ -263,9 +263,9 @@ implementations:
           message0: "when QR or barcode detected"
           message1: "for each result %1"
           args1:
-            - type: field_variable
+            - type: field_param_input
               name: RESULT_VAR
-              variable: code
+              text: "code"
           message2: "do %1"
           args2:
             - type: input_statement

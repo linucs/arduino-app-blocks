@@ -20,9 +20,9 @@ implementations:
           message0: "when speech detected"
           message1: "chunk in %1 do"
           args1:
-            - type: field_variable
+            - type: field_param_input
               name: TRANSCRIPT_VAR
-              variable: transcript
+              text: "transcript"
           message2: "%1"
           args2:
             - type: input_statement

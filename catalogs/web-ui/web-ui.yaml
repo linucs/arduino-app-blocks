@@ -21,9 +21,9 @@ implementations:
               text: "message"
           message1: "data in %1 do"
           args1:
-            - type: field_variable
+            - type: field_param_input
               name: DATA_VAR
-              variable: data
+              text: "data"
           message2: "%1"
           args2:
             - type: input_statement
@@ -44,9 +44,9 @@ implementations:
           message0: "when web UI client connects"
           message1: "client id in %1 do"
           args1:
-            - type: field_variable
+            - type: field_param_input
               name: CLIENT_VAR
-              variable: client_id
+              text: "client_id"
           message2: "%1"
           args2:
             - type: input_statement

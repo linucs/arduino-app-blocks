@@ -77,7 +77,7 @@ For each block, produce two sections:
 **`blockly`** — the verbatim Blockly block definition. This is passed directly to `defineBlocksWithJsonArray()`. Use:
 - `message0` / `args0` (and `message1` / `args1` for multi-row blocks)
 - Standard Blockly field types (`field_dropdown`, `field_number`, `field_input`, `field_checkbox`, `field_variable`, `field_image`)
-- Plugin field types (`field_dependent_dropdown` for cascading choices, `field_grid_dropdown` for icon/image grids, `field_date` for date pickers, `field_multilineinput` for multi-line text)
+- Plugin field types (`field_dependent_dropdown` for cascading choices, `field_grid_dropdown` for icon/image grids, `field_date` for date pickers, `field_multilineinput` for multi-line text, `field_angle` for angle picker, `field_bitmap` for pixel grid / LED matrix, `field_colour_hsv_sliders` for HSV colour picker, `field_slider` for numeric slider)
 - Standard input types (`input_value` with `check`, `input_statement`, `input_dummy`)
 - `colour` (HSV hue 0-360 or hex string) — keep consistent within a component family
 - `tooltip` — describe what the block does, not how

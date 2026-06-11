@@ -21,9 +21,9 @@ implementations:
               text: "temperature"
           message1: "new value in %1"
           args1:
-            - type: field_variable
+            - type: field_param_input
               name: VALUE_VAR
-              variable: value
+              text: "value"
           message2: "initial value %1"
           args2:
             - type: input_value

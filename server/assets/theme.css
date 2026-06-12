@@ -11,36 +11,71 @@
  * or hardcode block colors elsewhere.
  */
 
+/*
+ * Arduino webfonts — Open Sans (UI) + Roboto Mono (code), the same faces App Lab
+ * loads from content.arduino.cc. The standalone webview doesn't inherit App Lab's
+ * fonts, so we declare them here. font-display: swap + the fallback stacks below
+ * mean text still renders if the device has no network.
+ */
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://content.arduino.cc/fonts/OpenSans-Regular-webfont.woff") format("woff");
+}
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("https://content.arduino.cc/fonts/OpenSans-Semibold-webfont.woff") format("woff");
+}
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("https://content.arduino.cc/fonts/OpenSans-Bold-webfont.woff") format("woff");
+}
+@font-face {
+  font-family: "Roboto Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://content.arduino.cc/fonts/Roboto-Mono-Regular-webfont.woff") format("woff");
+}
+
 :root {
-  /* typography */
-  --vscode-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+  /* typography — Arduino: Open Sans (UI) / Roboto Mono (code) */
+  --vscode-font-family: "Open Sans", "Lucida Grande", lucida, verdana, sans-serif;
   --vscode-font-size: 13px;
-  --vscode-editor-fontFamily: "SF Mono", Menlo, Consolas, "Courier New", monospace;
+  --vscode-editor-fontFamily: "Roboto Mono", monospace, "Courier New", "Lucida Console";
   --vscode-editor-fontSize: 13px;
 
   /* editor surface (dark default) */
-  --vscode-editor-background: #1e1e1e;
-  --vscode-editor-foreground: #d4d4d4;
-  --vscode-editor-selectionBackground: #264f78;
+  --vscode-editor-background: #171E21;
+  --vscode-editor-foreground: #dae3e3;
+  --vscode-editor-selectionBackground: #AEB8B826;
 
   /* widgets / panels */
-  --vscode-editorWidget-background: #252526;
-  --vscode-editorWidget-border: #454545;
+  --vscode-editorWidget-background: #1f272a;
+  --vscode-editorWidget-border: #434f54;
 
-  /* focus */
-  --vscode-focusBorder: #007fd4;
+  /* focus (Arduino teal) */
+  --vscode-focusBorder: #25c2c7;
 
   /* buttons */
-  --vscode-button-background: #0e639c;
-  --vscode-button-foreground: #ffffff;
-  --vscode-button-hoverBackground: #1177bb;
+  --vscode-button-background: #25c2c7;
+  --vscode-button-foreground: #1f272a;
+  --vscode-button-hoverBackground: #7fcbcd;
   --vscode-button-border: transparent;
 
   /* inputs */
-  --vscode-input-background: #3c3c3c;
-  --vscode-input-foreground: #cccccc;
-  --vscode-input-border: #3c3c3c;
-  --vscode-input-placeholderForeground: rgba(204, 204, 204, 0.5);
+  --vscode-input-background: #1f272a;
+  --vscode-input-foreground: #dae3e3;
+  --vscode-input-border: #4e5b61;
+  --vscode-input-placeholderForeground: #95a5a6;
 
   color-scheme: dark;
 }
@@ -48,23 +83,23 @@
 @media (prefers-color-scheme: light) {
   :root {
     --vscode-editor-background: #ffffff;
-    --vscode-editor-foreground: #1f1f1f;
-    --vscode-editor-selectionBackground: #add6ff;
+    --vscode-editor-foreground: #374146;
+    --vscode-editor-selectionBackground: #c8e9ea;
 
-    --vscode-editorWidget-background: #f3f3f3;
-    --vscode-editorWidget-border: #c8c8c8;
+    --vscode-editorWidget-background: #f7f9f9;
+    --vscode-editorWidget-border: #bdc7c7;
 
-    --vscode-focusBorder: #0090f1;
+    --vscode-focusBorder: #008184;
 
-    --vscode-button-background: #005fb8;
+    --vscode-button-background: #008184;
     --vscode-button-foreground: #ffffff;
-    --vscode-button-hoverBackground: #0258a8;
+    --vscode-button-hoverBackground: #005c5f;
     --vscode-button-border: transparent;
 
     --vscode-input-background: #ffffff;
-    --vscode-input-foreground: #1f1f1f;
-    --vscode-input-border: #cecece;
-    --vscode-input-placeholderForeground: rgba(31, 31, 31, 0.5);
+    --vscode-input-foreground: #374146;
+    --vscode-input-border: #bdc7c7;
+    --vscode-input-placeholderForeground: #7f8c8d;
 
     color-scheme: light;
   }

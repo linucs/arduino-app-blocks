@@ -154,12 +154,16 @@ const server = http.createServer(async (req, res) => {
       const abs = rel ? resolveRequestedFile(rel) : undefined;
       const language = abs ? languageForFile(abs) : undefined;
       const runtimeHint = language ? composeRuntime('arduino', language) : undefined;
-      return send(res, 200, 'text/html; charset=utf-8', renderCommunityHtml(runtimeHint));
+      const embed = url.searchParams.get('embed') === '1';
+      return send(res, 200, 'text/html; charset=utf-8', renderCommunityHtml(runtimeHint, embed));
     }
 
     if (pathname === '/') {
       const files = await listEditableFiles(APP_ROOT, EDITABLE_EXTENSIONS);
-      if (files.length === 1) {
+      // Open straight into the IDE on the first editable file; the file explorer
+      // lets the user switch. Only fall back to the empty-state notice when the
+      // project has no editable files at all.
+      if (files.length >= 1) {
         res.writeHead(302, { Location: `/edit?file=${encodeURIComponent(files[0].relPath)}` });
         return res.end();
       }
@@ -171,7 +175,8 @@ const server = http.createServer(async (req, res) => {
       const abs = resolveRequestedFile(rel);
       if (!abs) return send(res, 400, 'text/plain', 'invalid file');
       const l10n = await loadL10n(RESOURCE_ROOT, localeFromRequest(req));
-      return send(res, 200, 'text/html; charset=utf-8', renderEditorHtml(l10n));
+      const files = await listEditableFiles(APP_ROOT, EDITABLE_EXTENSIONS);
+      return send(res, 200, 'text/html; charset=utf-8', renderEditorHtml(l10n, files, rel));
     }
 
     return send(res, 404, 'text/plain', 'not found');

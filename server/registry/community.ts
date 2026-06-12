@@ -9,8 +9,13 @@
  * `runtimeHint` (optional) is the open file's runtime (e.g. `arduino:python`) when
  * the page is opened from the editor — used to label "applies to this file / other
  * files" so the user understands why an installed catalog may not appear yet.
+ *
+ * `embed` (default false) renders the page chrome-free (no back link / page title,
+ * tighter padding, full-width search) for hosting inside the editor's right-side
+ * Community panel as an <iframe>. Install still POSTs the same /api/registry/install,
+ * so the host server re-pushes the filtered catalog to the open session live.
  */
-export function renderCommunityHtml(runtimeHint?: string): string {
+export function renderCommunityHtml(runtimeHint?: string, embed = false): string {
   const hint = runtimeHint ? JSON.stringify(runtimeHint) : 'null';
   return /* html */ `<!DOCTYPE html>
 <html lang="en">
@@ -21,6 +26,7 @@ export function renderCommunityHtml(runtimeHint?: string): string {
   <link rel="stylesheet" href="/assets/theme.css">
   <style>
     body { font-family: var(--vscode-font-family, sans-serif); color: var(--vscode-editor-foreground, #d4d4d4); padding: 24px; margin: 0; }
+    body.embed { padding: 12px; }
     header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
     h1 { font-size: 16px; margin: 0; flex: 1; }
     a.back { font-size: 12px; opacity: 0.85; text-decoration: none; color: var(--vscode-focusBorder, #007fd4); }
@@ -28,6 +34,7 @@ export function renderCommunityHtml(runtimeHint?: string): string {
       border: 1px solid var(--vscode-input-border, rgba(255,255,255,0.2)); border-radius: 4px;
       background: var(--vscode-input-background, rgba(0,0,0,0.3)); color: var(--vscode-input-foreground, inherit);
       font-size: 13px; outline: none; margin-bottom: 16px; }
+    body.embed #search { max-width: none; }
     #search:focus { border-color: var(--vscode-focusBorder, #007fd4); }
     .vendor { font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6; margin: 16px 0 6px; }
     .entry { display: flex; align-items: flex-start; gap: 12px; padding: 10px 12px;
@@ -47,11 +54,11 @@ export function renderCommunityHtml(runtimeHint?: string): string {
     .empty { opacity: 0.7; }
   </style>
 </head>
-<body>
-  <header>
+<body class="${embed ? 'embed' : ''}">
+  ${embed ? '' : `<header>
     <a class="back" href="javascript:history.length>1?history.back():location.assign('/')">‹ Back</a>
     <h1>Community Blocks</h1>
-  </header>
+  </header>`}
   <input id="search" type="search" placeholder="Search community blocks…" autocomplete="off">
   <div class="status" id="status">Loading…</div>
   <div id="list"></div>

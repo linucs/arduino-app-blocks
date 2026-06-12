@@ -2,8 +2,8 @@
  * acquireVsCodeApi() shim (G3).
  *
  * The webview bundle talks to its host ONLY through acquireVsCodeApi().postMessage
- * and window 'message' events. In VS Code that bridge is native; in the brick we
- * provide an identical surface backed by the /session WebSocket.
+ * and window 'message' events. This shim provides that surface, backed by the
+ * /session WebSocket.
  *
  * The WS is a DUMB PIPE for the messages that genuinely need the host
  * (`ready`, `change`, `select_env`, `load_error`) — one JSON object per frame,

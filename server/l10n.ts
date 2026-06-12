@@ -2,9 +2,8 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 
 /**
- * Host-side l10n bundle loading (ports BlocksEditorProvider.getL10nBundle /
- * getBlockMessages). The bundles ship next to the server under `l10n/` and are
- * injected into the webview HTML as JSON <script> tags at boot.
+ * Host-side l10n bundle loading. The bundles ship next to the server under
+ * `l10n/` and are injected into the webview HTML as JSON <script> tags at boot.
  */
 async function readJsonBundle(baseDir: string, relativePath: string): Promise<string> {
   try {

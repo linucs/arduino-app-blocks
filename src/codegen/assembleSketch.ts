@@ -6,8 +6,8 @@
  * blocks — every top-level statement becomes the `loop()` body, while the
  * `codegen.setup` sections collected from blocks become the `setup()` body.
  *
- * This module is intentionally pure (no Blockly/VS Code deps) so it is unit
- * testable and shared between the webview generator and tests.
+ * This module is intentionally pure (no Blockly deps) so it is unit testable and
+ * shared between the webview generator and tests.
  */
 
 export interface SketchSections {

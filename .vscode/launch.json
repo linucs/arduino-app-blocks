@@ -15,7 +15,7 @@
       "skipFiles": ["<node_internals>/**"],
       "console": "integratedTerminal",
       "env": {
-        "APP_HOME": "${workspaceFolder}/examples/sample-app",
+        "APP_ROOT": "${workspaceFolder}/examples/sample-app",
         "PORT": "7100",
         "EDITABLE_EXTENSIONS": "ino,cpp,py",
         "GENERATE_MODE": "auto",

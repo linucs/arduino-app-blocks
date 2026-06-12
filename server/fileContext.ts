@@ -7,7 +7,7 @@ import {
   resolveActiveEnv,
   toBoardContext,
 } from '../src/project/projectConfig';
-import { loadArduinoProject } from '../src/project/arduino/sketchYaml';
+import { loadArduinoProject } from './arduinoProject';
 import { companionPathFor } from './companion';
 
 /**

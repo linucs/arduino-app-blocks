@@ -24,10 +24,9 @@ export interface LibraryDependency {
     name: string;
     minVersion?: string;
     /**
-     * Git/VCS URL for libraries not in the PlatformIO registry (e.g. brand-new
-     * board libraries like Arduino_Nesso_N1). When set, the dependency is
-     * emitted as PlatformIO's `name=url` form and `minVersion` is ignored —
-     * pin via `ref` instead. See .claude/docs/01-library-resolution.md.
+     * Git/VCS URL for libraries not in the Arduino library index (e.g. brand-new
+     * board libraries like Arduino_Nesso_N1). Optionally pin a git tag/branch/
+     * commit via `ref`. See .claude/docs/01-library-resolution.md.
      */
     url?: string;
     /** Optional git tag/branch/commit to pin the VCS dependency (e.g. `v1.0.0`). */

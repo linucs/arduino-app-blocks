@@ -3,7 +3,7 @@ import { FIRST_PARTY_GENERATORS, FirstPartyGenerator } from './firstPartyGenerat
 /**
  * Section-container first-party generators, registered at editor boot for BOTH
  * runtimes. These extend the shared FIRST_PARTY_GENERATORS map at runtime (it's a
- * plain object) so the copied firstPartyGenerators.ts stays byte-identical (G1).
+ * plain object), keeping the section-routing logic in one place.
  *
  * A section container is a "phantom" block: it emits nothing inline; instead it
  * captures its nested statements and routes them into a generation zone via the
@@ -30,9 +30,9 @@ function routeToZone(prefix: string): FirstPartyGenerator {
 }
 
 // All three section containers go through the ONE factory, for both runtimes.
-// (code_setup overrides the identical upstream codeSetup in firstPartyGenerators.ts
-// so there is a single implementation; the only difference between the three is
-// the target section prefix.)
+// (code_setup overrides the matching codeSetup in firstPartyGenerators.ts so there
+// is a single implementation; the only difference between the three is the target
+// section prefix.)
 FIRST_PARTY_GENERATORS.code_includes = routeToZone('import_');
 FIRST_PARTY_GENERATORS.code_declaration = routeToZone('decl_');
 FIRST_PARTY_GENERATORS.code_setup = routeToZone('setup_');

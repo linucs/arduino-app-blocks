@@ -4,9 +4,7 @@ import * as fs from 'fs/promises';
 import chokidar from 'chokidar';
 import { WebSocketServer } from 'ws';
 import { CatalogManager } from './catalogManager';
-import { Registry } from './registry';
-import { handleRegistryApi } from './registryApi';
-import { renderCommunityHtml } from './community';
+import { Registry, handleRegistryApi, renderCommunityHtml } from './registry';
 import { blocksDir } from './blocksDir';
 import { Session, SessionConfig } from './session';
 import { renderEditorHtml } from './html';
@@ -17,7 +15,7 @@ import { composeRuntime } from '../src/catalog/boardFilter';
 import themeCss from './assets/theme.css';
 
 /**
- * Brick HTTP/WebSocket host (replaces the VS Code extension host).
+ * Brick HTTP/WebSocket host.
  *
  * Routes:
  *   GET /            → file picker (or redirect to the single editable file)

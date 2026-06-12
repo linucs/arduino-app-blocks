@@ -1,0 +1,88 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/vscode-blockly/refs/heads/main/src/catalog/block-catalog_v1.schema.json
+id: modulino-buttons
+author: Lino Moretto
+version: 0.0.1
+category: "Modulino::Input"
+colour: "#26A69A"
+description: "Modulino Buttons"
+docs:
+  datasheet: "https://docs.arduino.cc/hardware/modulino-buttons"
+  library: "https://www.arduino.cc/reference/en/libraries/modulino/"
+  api: "https://github.com/arduino-libraries/Modulino/blob/main/docs/api.md"
+
+implementations:
+  # ─── C++ (MCU side) ───
+  - runtime: "arduino:cpp"
+    dependencies:
+      - type: library
+        name: "Arduino_Modulino"
+        minVersion: "0.8.0"
+    codegen:
+      imports:
+        - "#include <Modulino.h>"
+        - "#include <Wire.h>"
+      declarations:
+        - "ModulinoButtons _buttons;"
+      setup:
+        - "Wire.begin();"
+        - "Modulino.begin(Wire);"
+        - "_buttons.begin();"
+    blocks:
+      - blockly:
+          type: modulino_buttons_update
+          message0: "🔘 update buttons"
+          previousStatement: null
+          nextStatement: null
+          tooltip: "Poll the Modulino Buttons module to refresh button states. Call once per loop iteration."
+          inputsInline: true
+        codegen:
+          body:
+            - "_buttons.update();"
+        tags: [actuator, i2c]
+
+      - blockly:
+          type: modulino_buttons_pressed
+          message0: "🔘 button %1 pressed"
+          args0:
+            - type: field_dropdown
+              name: BUTTON
+              options:
+                - ["A", "0"]
+                - ["B", "1"]
+                - ["C", "2"]
+          output: Boolean
+          tooltip: "True if the selected button on Modulino Buttons is currently pressed."
+          inputsInline: true
+        codegen:
+          body:
+            - "_buttons.isPressed({{BUTTON}})"
+          precedence: ATOMIC
+        tags: [sensor, input, i2c, beginner]
+
+      - blockly:
+          type: modulino_buttons_set_leds
+          message0: "🔘 set button LEDs A %1 B %2 C %3"
+          args0:
+            - type: field_dropdown
+              name: LED_A
+              options:
+                - ["on", "true"]
+                - ["off", "false"]
+            - type: field_dropdown
+              name: LED_B
+              options:
+                - ["on", "true"]
+                - ["off", "false"]
+            - type: field_dropdown
+              name: LED_C
+              options:
+                - ["on", "true"]
+                - ["off", "false"]
+          previousStatement: null
+          nextStatement: null
+          tooltip: "Set the three LEDs on Modulino Buttons simultaneously."
+          inputsInline: true
+        codegen:
+          body:
+            - "_buttons.setLeds({{LED_A}}, {{LED_B}}, {{LED_C}});"
+        tags: [actuator, i2c]

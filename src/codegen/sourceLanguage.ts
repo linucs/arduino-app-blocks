@@ -6,7 +6,7 @@ import * as path from 'path';
  * global mapping — decides the generation language and which catalog
  * implementations apply.
  *
- *   .cpp / .ino  -> cpp   (Arduino framework compiles C++; PlatformIO recommends .cpp)
+ *   .cpp / .ino  -> cpp   (Arduino compiles C++; .ino and .cpp both map here)
  *   .py          -> python
  */
 export const SOURCE_LANGUAGE_BY_EXT: Readonly<Record<string, string>> = {

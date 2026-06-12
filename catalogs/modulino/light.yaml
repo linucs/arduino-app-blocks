@@ -1,0 +1,55 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/vscode-blockly/refs/heads/main/src/catalog/block-catalog_v1.schema.json
+id: modulino-light
+author: Lino Moretto
+version: 0.0.1
+category: "Modulino::Sensors"
+colour: "#26A69A"
+description:
+  en: "Ambient light sensor blocks for Modulino Light"
+  it: "Blocchi sensore di luce ambientale per Modulino Light"
+docs:
+  datasheet: "https://docs.arduino.cc/hardware/modulino-light"
+  library: "https://www.arduino.cc/reference/en/libraries/modulino/"
+  api: "https://github.com/arduino-libraries/Modulino/blob/main/docs/api.md"
+
+implementations:
+  # ─── C++ (MCU side) ───
+  - runtime: "arduino:cpp"
+    dependencies:
+      - type: library
+        name: "Arduino_Modulino"
+        minVersion: "0.8.0"
+    codegen:
+      imports:
+        - "#include <Modulino.h>"
+        - "#include <Wire.h>"
+      declarations:
+        - "ModulinoLight _light;"
+      setup:
+        - "Wire.begin();"
+        - "Modulino.begin(Wire);"
+        - "_light.begin();"
+    blocks:
+      - blockly:
+          type: modulino_light_lux
+          message0: "☀ light (lux)"
+          output: Number
+          tooltip: "Read the ambient light level in lux from Modulino Light."
+          inputsInline: true
+        codegen:
+          body:
+            - "_light.getLux()"
+          precedence: ATOMIC
+        tags: [sensor, input, i2c, beginner]
+
+      - blockly:
+          type: modulino_light_color
+          message0: "☀ light colour"
+          output: Number
+          tooltip: "Read the approximate colour name from Modulino Light."
+          inputsInline: true
+        codegen:
+          body:
+            - "_light.getColorApproximate()"
+          precedence: ATOMIC
+        tags: [sensor, input, i2c]

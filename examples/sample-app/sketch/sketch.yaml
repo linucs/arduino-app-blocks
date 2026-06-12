@@ -5,4 +5,6 @@ profiles:
       - platform: arduino:zephyr
     libraries: []
 
+    libraries:
+      - Arduino_Modulino (0.8.0)
 default_profile: default

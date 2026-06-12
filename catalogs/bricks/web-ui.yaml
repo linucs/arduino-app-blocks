@@ -1,0 +1,134 @@
+id: brick-web-ui
+category: "Interface"
+
+implementations:
+  - runtime: "arduino:python"
+    dependencies:
+      - type: brick
+        name: "arduino:web_ui"
+    codegen:
+      imports:
+        - "from arduino.app_utils import WebUI"
+      declarations:
+        - "_ui = WebUI()"
+    blocks:
+      - blockly:
+          type: webui_on_message
+          message0: "when web UI receives %1"
+          args0:
+            - type: field_input
+              name: MESSAGE_NAME
+              text: "message"
+          message1: "data in %1 do"
+          args1:
+            - type: field_param_input
+              name: DATA_VAR
+              text: "data"
+          message2: "%1"
+          args2:
+            - type: input_statement
+              name: DO
+          nextStatement: null
+          extensions:
+            - hat_event_style
+          tooltip: "Run blocks when the web UI sends a message with the given name."
+        codegen:
+          declarations:
+            - "def _on_ui_msg_{{MESSAGE_NAME}}({{DATA_VAR}}):\n  {{DO}}"
+          setup:
+            - "_ui.on_message('{{MESSAGE_NAME}}', _on_ui_msg_{{MESSAGE_NAME}})"
+        tags: [event, webui, network, beginner]
+
+      - blockly:
+          type: webui_on_connect
+          message0: "when web UI client connects"
+          message1: "client id in %1 do"
+          args1:
+            - type: field_param_input
+              name: CLIENT_VAR
+              text: "client_id"
+          message2: "%1"
+          args2:
+            - type: input_statement
+              name: DO
+          nextStatement: null
+          extensions:
+            - hat_event_style
+          tooltip: "Run blocks each time a new browser client connects to the web UI."
+        codegen:
+          declarations:
+            - "def _on_ui_connect({{CLIENT_VAR}}):\n  {{DO}}"
+          setup:
+            - "_ui.on_connect(_on_ui_connect)"
+        tags: [event, webui, network]
+
+      - blockly:
+          type: webui_send_message
+          message0: "send %1 with %2 to web UI"
+          args0:
+            - type: field_input
+              name: MESSAGE_NAME
+              text: "message"
+            - type: input_value
+              name: DATA
+          previousStatement: null
+          nextStatement: null
+          tooltip: "Broadcast a message with data to all connected web UI clients."
+          inputsInline: true
+        codegen:
+          body:
+            - "_ui.send_message('{{MESSAGE_NAME}}', {{DATA}})"
+          inputDefaults:
+            DATA: "None"
+        tags: [actuator, webui, network, beginner]
+
+      - blockly:
+          type: webui_send_to_client
+          message0: "send %1 with %2 to client %3"
+          args0:
+            - type: field_input
+              name: MESSAGE_NAME
+              text: "message"
+            - type: input_value
+              name: DATA
+            - type: input_value
+              name: CLIENT
+              check: String
+          previousStatement: null
+          nextStatement: null
+          tooltip: "Send a message with data to one specific web UI client."
+          inputsInline: true
+        codegen:
+          body:
+            - "_ui.send_message('{{MESSAGE_NAME}}', {{DATA}}, client_id={{CLIENT}})"
+          inputDefaults:
+            DATA: "None"
+            CLIENT: '""'
+        tags: [actuator, webui, network]
+
+      - blockly:
+          type: webui_expose_api
+          message0: "expose REST %1 %2"
+          args0:
+            - type: field_dropdown
+              name: METHOD
+              options:
+                - ["GET", "GET"]
+                - ["POST", "POST"]
+            - type: field_input
+              name: PATH
+              text: "/api/data"
+          message1: "do %1"
+          args1:
+            - type: input_statement
+              name: DO
+          nextStatement: null
+          extensions:
+            - hat_event_style
+          tooltip: "Expose a REST API endpoint. Run blocks each time the endpoint is called."
+        codegen:
+          declarations:
+            - "def _api_handler_{{PATH}}():\n  {{DO}}"
+          setup:
+            - "_ui.expose_api('{{METHOD}}', '{{PATH}}', _api_handler_{{PATH}})"
+        tags: [event, webui, network, advanced]

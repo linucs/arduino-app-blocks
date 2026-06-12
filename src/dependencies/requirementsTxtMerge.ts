@@ -1,6 +1,6 @@
 /**
  * Add-only merge of pip requirements into a requirements.txt (Guardrail G8),
- * mirroring src/project/arduino/sketchYamlMerge.ts for the Python path.
+ * the Python analogue of sketchYamlMerge.ts (libraries).
  *
  * Strictly non-destructive: never reorders, re-pins, rewrites, or removes the
  * user's existing lines or comments — only appends packages that aren't already

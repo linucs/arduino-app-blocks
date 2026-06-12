@@ -1,0 +1,62 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/vscode-blockly/refs/heads/main/src/catalog/block-catalog_v1.schema.json
+id: modulino-vibro
+author: Lino Moretto
+version: 0.0.1
+category: "Modulino::Actuators"
+colour: "#26A69A"
+description:
+  en: "Vibration motor control blocks for Modulino Vibro"
+  it: "Blocchi controllo motore vibrazione per Modulino Vibro"
+docs:
+  datasheet: "https://docs.arduino.cc/hardware/modulino-vibro"
+  library: "https://www.arduino.cc/reference/en/libraries/modulino/"
+  api: "https://github.com/arduino-libraries/Modulino/blob/main/docs/api.md"
+
+implementations:
+  # ─── C++ (MCU side) ───
+  - runtime: "arduino:cpp"
+    dependencies:
+      - type: library
+        name: "Arduino_Modulino"
+        minVersion: "0.8.0"
+    codegen:
+      imports:
+        - "#include <Modulino.h>"
+        - "#include <Wire.h>"
+      declarations:
+        - "ModulinoVibro _vibro;"
+      setup:
+        - "Wire.begin();"
+        - "Modulino.begin(Wire);"
+        - "_vibro.begin();"
+    blocks:
+      - blockly:
+          type: modulino_vibro_on
+          message0: "📳 vibrate for %1 ms"
+          args0:
+            - type: input_value
+              name: DURATION
+              check: ["Number", "int", "unsigned int", "long", "unsigned long", "byte",
+                      "word", "uint8_t", "uint16_t", "uint32_t", "int8_t", "int16_t", "int32_t"]
+          previousStatement: null
+          nextStatement: null
+          tooltip: "Activate the Modulino Vibro motor for the specified duration in milliseconds."
+          inputsInline: true
+        codegen:
+          body:
+            - "_vibro.on({{DURATION}});"
+          inputDefaults:
+            DURATION: 500
+        tags: [actuator, haptic, i2c, beginner]
+
+      - blockly:
+          type: modulino_vibro_off
+          message0: "📳 stop vibration"
+          previousStatement: null
+          nextStatement: null
+          tooltip: "Stop the Modulino Vibro motor immediately."
+          inputsInline: true
+        codegen:
+          body:
+            - "_vibro.off();"
+        tags: [actuator, haptic, i2c]

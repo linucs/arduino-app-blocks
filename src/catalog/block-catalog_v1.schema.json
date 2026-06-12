@@ -71,7 +71,7 @@
         "targets": {
           "type": "array",
           "items": { "type": "string" },
-          "description": "Optional list of supported targets or platforms (e.g. ['espressif32', 'ststm32']). If absent, the block is considered universal."
+          "description": "Optional list of supported board targets (e.g. ['arduino:avr', 'arduino:zephyr']). If absent, the block is considered universal."
         },
         "codegen": {
           "$ref": "#/definitions/CodegenSections",
@@ -93,7 +93,7 @@
             "type": { "const": "library" },
             "name": { "type": "string" },
             "minVersion": { "type": "string" },
-            "url": { "type": "string", "description": "Git/VCS URL for libraries not in the PlatformIO registry. Emitted as PlatformIO's 'name=url' form; minVersion is ignored (pin via 'ref')." },
+            "url": { "type": "string", "description": "Git/VCS URL for libraries not in the Arduino library index; pin a git tag/branch/commit via 'ref'." },
             "ref": { "type": "string", "description": "Optional git tag/branch/commit to pin the VCS dependency (e.g. 'v1.0.0')." }
           },
           "required": ["type", "name"],

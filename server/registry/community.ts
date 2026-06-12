@@ -1,10 +1,10 @@
 /**
- * Community Blocks page — a host-served browse/search/install view (Workstream G).
+ * Community Blocks page — a host-served browse/search/install view.
  *
- * It is NOT part of the Blockly bundle (mirroring how registry browsing sat
- * outside the webview in VS Code). It calls the /api/registry* endpoints and
- * renders client-side. Reachable from the file-picker landing ("Manage community
- * blocks") and from a button in the editor toolbar.
+ * It is NOT part of the Blockly bundle — it's a standalone page that calls the
+ * /api/registry* endpoints and renders client-side. Reachable from the
+ * file-picker landing ("Manage community blocks") and from a button in the
+ * editor toolbar.
  *
  * `runtimeHint` (optional) is the open file's runtime (e.g. `arduino:python`) when
  * the page is opened from the editor — used to label "applies to this file / other

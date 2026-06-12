@@ -2,11 +2,10 @@ import { SHIM_JS } from './shim';
 import { L10nData } from './l10n';
 
 /**
- * Editor HTML host (ports BlocksEditorProvider.getHtmlForWebview).
+ * Editor HTML host — assembles the page that boots the webview bundle.
  *
- * Differences from the VS Code version, all confined here:
- *  - the webview script is served at /webview.js (no asWebviewUri);
- *  - --vscode-* tokens come from /assets/theme.css (G9), not the VS Code host;
+ *  - the webview script is served at /webview.js;
+ *  - --vscode-* tokens come from /assets/theme.css (G9);
  *  - the acquireVsCodeApi() shim is inlined BEFORE webview.js (Guardrail G3);
  *  - host chrome labels are English literals (host i18n can come later — the
  *    webview's own l10n still flows via the four JSON <script> tags below).

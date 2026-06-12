@@ -2,20 +2,20 @@ import * as os from 'os';
 import * as path from 'path';
 import * as fs from 'fs/promises';
 import * as yaml from 'js-yaml';
-import { RegistryIndex, RegistryEntry } from '../src/catalog/CatalogRegistryTypes';
-import { httpGet } from '../src/catalog/remoteCatalog';
-import { CatalogManager } from './catalogManager';
+import { RegistryIndex, RegistryEntry } from './types';
+import { httpGet } from './remoteCatalog';
+import { CatalogManager } from '../catalogManager';
 
 /**
- * Community catalog registry — the server-side port of vscode-blockly's
- * CatalogRegistryProvider, minus the VS Code tree-view UI.
+ * Community catalog registry — the headless model behind the brick's catalog
+ * browser.
  *
- * The browsing surface itself lives in the brick's own web UI (server/community.ts
- * + /api/registry endpoints); this class is the headless model: fetch+cache the
- * remote JSON index, group entries by vendor, mark installed, and install (download
- * → validate → write into the app's .blocks/).
+ * The browsing surface itself lives in the brick's own web UI (community.ts
+ * + /api/registry endpoints); this class fetches+caches the remote JSON index,
+ * groups entries by vendor, marks installed, and installs (download → validate →
+ * write into the app's .blocks/).
  *
- * Index source resolution (parity with the extension):
+ * Index source resolution:
  *   BLOCKS_CATALOG_INDEX (env) → CATALOG_REGISTRY_URL (brick variable) → default.
  * A local (non-URL) index source also makes installs read from its directory
  * (resolveLocalRoot), so the whole flow works offline against a checkout.
@@ -167,7 +167,7 @@ export class Registry {
 
   /**
    * Install a catalog by id: download (or read locally) its YAML, validate it
-   * against block-catalog_v1 (reusing CatalogManager's AJV — G2), then write it
+   * against block-catalog_v1 (reusing CatalogManager's AJV), then write it
    * into the app's .blocks/ at the entry's relative path. Returns the written path.
    */
   async install(id: string, blocksDirPath: string): Promise<{ path: string }> {

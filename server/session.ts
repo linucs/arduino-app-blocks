@@ -2,11 +2,15 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 import type { WebSocket } from 'ws';
 import { filterEntriesForRuntime } from '../src/catalog/boardFilter';
-import { collectRequirements } from '../src/catalog/requirements';
 import { collectUsedBlockTypes } from '../src/project/blockUsage';
-import { mergeSketchLibraries } from '../src/project/arduino/sketchYamlMerge';
-import { collectPipRequirements } from './pipRequirements';
-import { mergeRequirements } from './requirementsTxt';
+import {
+  collectLibraryRequirements,
+  collectPipRequirements,
+  collectBrickRequirements,
+  mergeSketchLibraries,
+  mergeRequirements,
+  mergeAppBricks,
+} from '../src/dependencies';
 import { BoardContext } from '../src/project/projectConfig';
 import { CatalogEntry } from '../src/catalog/CatalogTypes';
 import { CatalogManager } from './catalogManager';
@@ -18,14 +22,12 @@ import {
 } from './companion';
 
 /**
- * Per-connection editing session — the thin host adapter (Guardrail G2).
+ * Per-connection editing session — the thin host adapter.
  *
- * This is the port of BlocksEditorProvider.resolveCustomTextEditor: identical
- * control flow, swapping ONLY IO (vscode.workspace.fs → fs/promises) and
- * transport (webview.postMessage → the /session WebSocket). It re-implements no
- * catalog/codegen/merge logic — it calls the same pure functions the extension
- * does (filterEntriesForRuntime, collectRequirements, collectUsedBlockTypes,
- * mergeSketchLibraries) via resolveFileContext (G4).
+ * Owns the IO (fs/promises) and transport (the /session WebSocket) around the
+ * pure domain functions: it calls filterEntriesForRuntime, the dependency
+ * collectors/mergers (src/dependencies), collectUsedBlockTypes, and
+ * resolveFileContext (G4) rather than re-implementing any of them.
  *
  * Session model (G12): one session keyed by the open file path. The .blk is the
  * sole source of truth; reconnect re-sends init_catalog + update from disk.
@@ -131,7 +133,6 @@ export class Session {
       hasBoard,
       framework,
       runtime,
-      configType: 'arduino',
       // No profile/environment dropdown in the brick — the board is fixed by the
       // single sketch.yaml profile (or DEFAULT_FQBN). Empty envs hides the picker.
       envs: [],
@@ -166,14 +167,22 @@ export class Session {
   /**
    * Add-only merge of the dependencies required by blocks in use (G8), dispatched
    * by runtime: cpp → sketch.yaml profile libraries; python → requirements.txt.
-   * Both are non-destructive and do a fresh read immediately before the merge+write
-   * (never from a cached copy).
+   * `brick` deps map to App Lab's app.yaml `bricks:` and apply to BOTH languages.
+   * All merges are non-destructive and do a fresh read immediately before the
+   * merge+write (never from a cached copy).
    */
   private async syncDependencies(state: unknown): Promise<void> {
     const ctx = this.ctx;
     if (!ctx || !ctx.runtime) return;
     const used = collectUsedBlockTypes(state);
     const allEntries = [...this.catalog.getEntries(), ...this.projectLocalEntries];
+
+    // brick deps → app.yaml `bricks:` — language-agnostic (a WebUI brick is
+    // required whether the source is python or cpp); the runtime scoping in the
+    // collector picks the impl that owns the used blocks. App Lab owns app.yaml
+    // creation, so an absent file is left untouched (mirrors the sketch.yaml
+    // "don't manufacture a profile" rule).
+    await this.syncBrickDependencies(used, allEntries, ctx.runtime);
 
     if (ctx.language === 'python') {
       const specs = collectPipRequirements(allEntries, used, ctx.runtime);
@@ -189,7 +198,7 @@ export class Session {
 
     // cpp → sketch.yaml profile libraries.
     if (ctx.language !== 'cpp' || !ctx.project || !ctx.boardContext || !ctx.activeEnvName) return;
-    const reqs = collectRequirements(allEntries, used, ctx.runtime);
+    const reqs = collectLibraryRequirements(allEntries, used, ctx.runtime);
     if (reqs.libDeps.length === 0) return;
 
     let content: string;
@@ -202,6 +211,26 @@ export class Session {
       libDeps: reqs.libDeps,
     });
     if (changed) await fs.writeFile(ctx.project.configPath, merged, 'utf8');
+  }
+
+  /** Add brick deps of the blocks in use to the app's app.yaml `bricks:` list. */
+  private async syncBrickDependencies(
+    used: Iterable<string>,
+    allEntries: CatalogEntry[],
+    runtime: string
+  ): Promise<void> {
+    const bricks = collectBrickRequirements(allEntries, used, runtime);
+    if (bricks.length === 0) return;
+
+    const appYamlPath = path.join(this.config.appRoot, 'app.yaml');
+    let content: string;
+    try {
+      content = await fs.readFile(appYamlPath, 'utf8');
+    } catch {
+      return; // no app.yaml — App Lab hasn't provisioned one; don't manufacture it.
+    }
+    const { content: merged, changed } = mergeAppBricks(content, bricks);
+    if (changed) await fs.writeFile(appYamlPath, merged, 'utf8');
   }
 
   private companionPath(): string {

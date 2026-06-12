@@ -1,4 +1,4 @@
-import { DEFAULT_ENV_NAME } from '../projectConfig';
+import { DEFAULT_ENV_NAME } from '../project/projectConfig';
 
 /**
  * Non-destructive merge of library dependencies into a specific profile
@@ -6,10 +6,10 @@ import { DEFAULT_ENV_NAME } from '../projectConfig';
  * targeted profile is touched, and duplicates are skipped (de-duped by
  * library name, case-insensitive).
  *
- * Like iniMerge.ts, this operates on raw lines to preserve formatting.
+ * Operates on raw lines to preserve the user's formatting.
  *
  * sketch.yaml library format (index libs):   `- LibName (version)`
- * PIO lib_deps format:                       `LibName@^version` or `LibName=url#ref`
+ * Library specs arrive already in this form (see collectLibraryRequirements).
  */
 
 /**
@@ -24,26 +24,6 @@ function sketchLibIdentity(entry: string): string {
     return (parenIdx !== -1 ? s.slice(0, parenIdx) : s).trim().toLowerCase();
 }
 
-/**
- * Convert a PIO-style lib_dep string to sketch.yaml format.
- * `Name@^1.2.3` → `Name (1.2.3)`
- * `Name=url#ref` → `Name` (VCS libs have no version in sketch.yaml)
- * `Name` → `Name`
- */
-function pioToSketchLib(pioDep: string): string {
-    const eqIdx = pioDep.indexOf('=');
-    if (eqIdx !== -1) {
-        return pioDep.slice(0, eqIdx).trim();
-    }
-    const atIdx = pioDep.indexOf('@');
-    if (atIdx !== -1) {
-        const name = pioDep.slice(0, atIdx).trim();
-        let version = pioDep.slice(atIdx + 1).trim();
-        if (version.startsWith('^') || version.startsWith('~')) version = version.slice(1);
-        return `${name} (${version})`;
-    }
-    return pioDep.trim();
-}
 
 function detectEol(content: string): string {
     return content.includes('\r\n') ? '\r\n' : '\n';
@@ -82,7 +62,20 @@ function findLibrariesRange(
             if (/^\s{2}\S/.test(lines[i]) && !lines[i].trim().startsWith('-')) break;
             if (/^\S/.test(lines[i])) break;
         }
-        if (/^\s+libraries:\s*$/.test(lines[i])) { libKeyIdx = i; break; }
+        // Match the profile's `libraries:` key, including the flow-style empty
+        // forms `libraries: []` / `libraries: {}` that arduino-cli emits for a
+        // profile with no libraries. Without this, the inline `[]` slips past a
+        // bare-key-only regex, libKeyIdx stays -1, and the caller inserts a
+        // SECOND `libraries:` block — corrupting sketch.yaml with a duplicate key.
+        const libMatch = /^(\s+libraries:)\s*(\[\s*\]|\{\s*\})?\s*$/.exec(lines[i]);
+        if (libMatch) {
+            // Strip the inline empty collection so the line becomes a bare
+            // `libraries:` key; the empty-block append path then writes proper
+            // block-style items under it.
+            if (libMatch[2]) lines[i] = libMatch[1];
+            libKeyIdx = i;
+            break;
+        }
     }
 
     if (libKeyIdx === -1) {
@@ -153,8 +146,7 @@ export function mergeSketchLibraries(
     }
 
     const seen = new Set(existing.map(sketchLibIdentity));
-    const converted = deps.map(pioToSketchLib);
-    const missing = converted.filter(lib => !seen.has(sketchLibIdentity(lib)));
+    const missing = deps.filter(lib => !seen.has(sketchLibIdentity(lib)));
     if (missing.length === 0) return { content, changed: false };
 
     const indent = range.libKeyIdx !== -1 ? indentOf(lines[range.libKeyIdx]) + 2 : 6;

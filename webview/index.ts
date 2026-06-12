@@ -63,9 +63,10 @@ function titleCase(s: string): string {
 // Acquire VSCode API for messaging
 const vscode = acquireVsCodeApi();
 
-// ── Sandbox workaround: redirect window.open to extension host ─────────────
-// VS Code webviews block window.open (no allow-popups). Blockly's showHelp()
-// calls window.open(helpUrl), so we intercept and route via postMessage.
+// ── Redirect window.open through the host ─────────────
+// Blockly's showHelp() calls window.open(helpUrl); intercept and route it via
+// postMessage so the host shim opens it (the shim captures the native
+// window.open before this reassignment).
 const _origWindowOpen = window.open;
 window.open = function (url?: string | URL, ...rest: any[]) {
     if (url) {
@@ -76,9 +77,8 @@ window.open = function (url?: string | URL, ...rest: any[]) {
 } as typeof window.open;
 
 // ── Blockly dialog overrides ────────────────────────────────────────────────
-// VS Code webviews do not support window.prompt / window.confirm / window.alert.
-// Override Blockly's dialog functions to round-trip through postMessage so the
-// extension host can show native VS Code UI (InputBox, QuickPick, etc.).
+// Round-trip Blockly's prompt/confirm/alert through postMessage; the host shim
+// handles them (native browser dialogs) and posts the result back.
 const pendingDialogs = new Map<number, (result: any) => void>();
 let dialogIdCounter = 0;
 
@@ -135,9 +135,9 @@ document.addEventListener("DOMContentLoaded", () => {
     Object.assign(Blockly.Msg, blockMsgLocale);
 
     // The custom-code field (FieldCode) is used by BOTH the C++ and Python code_*
-    // blocks, so drop the upstream "(C++)" qualifier from its title — keeping each
-    // locale's translation of "Custom Code". (Brick-specific; avoids forking all
-    // 16 l10n/blocks.*.json files for one string.)
+    // blocks, so drop the "(C++)" qualifier from its title — keeping each locale's
+    // translation of "Custom Code". (Avoids forking all 16 l10n/blocks.*.json
+    // files for one string.)
     if (typeof Blockly.Msg['FIELD_CODE_TITLE'] === 'string') {
         Blockly.Msg['FIELD_CODE_TITLE'] = Blockly.Msg['FIELD_CODE_TITLE']
             .replace(/\s*[（(]\s*C\+\+\s*[)）]\s*$/, '');
@@ -417,7 +417,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let lastSentState = '';
 
-    // Listen for messages from the extension host
+    // Listen for messages from the host
     window.addEventListener('message', event => {
         const message = event.data;
         switch (message.type) {
@@ -428,17 +428,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (!hasBoard) {
                     showBlocked(
                         l10n.t('No board detected'),
-                        l10n.t('Open this file inside a project containing a platformio.ini or sketch.yaml to load the blocks compatible with your board.')
+                        l10n.t('Open this file inside a project containing a sketch.yaml to load the blocks compatible with your board.')
                     );
                     break;
                 }
                 if (!framework || !runtime) {
-                    const isArduino = message.configType === 'arduino';
                     showBlocked(
                         l10n.t('No framework declared'),
-                        isArduino
-                            ? l10n.t('This profile\'s FQBN does not specify a recognized framework. Ensure the fqbn field is set correctly in sketch.yaml.')
-                            : l10n.t('This environment does not set "framework" in platformio.ini, so no code can be generated. Add a framework (e.g. framework = arduino).')
+                        l10n.t('This profile\'s FQBN does not specify a recognized framework. Ensure the fqbn field is set correctly in sketch.yaml.')
                     );
                     break;
                 }

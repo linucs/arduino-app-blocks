@@ -8,16 +8,8 @@ import { CatalogEntry } from '../src/catalog/CatalogTypes';
 import schema from '../src/catalog/block-catalog_v1.schema.json';
 
 /**
- * Server-side catalog loader. Ports the PURE logic of src/catalog/CatalogManager
- * (AJV compile/validate + recursive YAML directory scan), swapping the VS Code
- * couplings for plain Node:
- *   vscode.EventEmitter            → Node EventEmitter
- *   extensionContext.extensionUri  → a base directory
- *   workspace.getConfiguration     → constructor options
- *   vscode.window.show*Message     → console
- *
- * The validation + scanning behavior is identical (invalid entries warned and
- * skipped, not fatal). No business logic is re-implemented (G2).
+ * Server-side catalog loader: AJV compile/validate + recursive YAML directory
+ * scan. Invalid entries are warned and skipped, not fatal.
  */
 export class CatalogManager extends EventEmitter {
   private entries: CatalogEntry[] = [];
@@ -52,8 +44,8 @@ export class CatalogManager extends EventEmitter {
 
   /**
    * Validate a single parsed catalog document against block-catalog_v1, reusing
-   * the same compiled AJV the loader uses (G2 — no second validator). Returns the
-   * list of human-readable errors; empty means valid.
+   * the same compiled AJV the loader uses (one validator, no second copy). Returns
+   * the list of human-readable errors; empty means valid.
    */
   validateEntry(doc: unknown): string[] {
     if (!doc || typeof doc !== 'object') return ['not an object'];

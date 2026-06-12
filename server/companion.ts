@@ -2,11 +2,9 @@ import * as fs from 'fs/promises';
 import { SIDECAR_EXT } from '../src/codegen/sourceLanguage';
 
 /**
- * Companion `.blk` sidecar on the local filesystem (ports src/sidecar/companion.ts
- * to fs/promises + plain paths).
+ * Companion `.blk` sidecar on the local filesystem.
  *
- * DELIBERATE DIVERGENCE from vscode-blockly (Guardrail G5, decided in the plan):
- * the sidecar is keyed by the FULL filename, not the basename —
+ * The sidecar is keyed by the FULL filename, not the basename (Guardrail G5) —
  *   sketch.ino  -> sketch.ino.blk
  *   main.py     -> main.py.blk
  * The brick edits many files via a picker, so basename keying (main.py + main.cpp

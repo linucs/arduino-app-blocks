@@ -146,7 +146,6 @@ blockly:
   message0: "list with items"
   args0: []
   output: Array
-  colour: 260
   mutator: my_block_mutator
 generator: MyBlockMutatorGenerator
 ```

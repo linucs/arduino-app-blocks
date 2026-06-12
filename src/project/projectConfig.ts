@@ -5,19 +5,18 @@ export const DEFAULT_ENV_NAME = '';
 export interface ProjectEnv {
     /** Environment or profile name. */
     name: string;
+    /** Platform id from the sketch.yaml `platforms:` entry, or the first two FQBN segments. */
     platform?: string;
     board?: string;
     framework?: string;
-    /** Original Arduino FQBN (only for arduino projects). */
+    /** Original Arduino FQBN (e.g. `arduino:avr:uno`). */
     fqbn?: string;
 }
 
-/** Parsed project configuration from either platformio.ini or sketch.yaml. */
+/** Parsed project configuration from sketch.yaml. */
 export interface ProjectConfig {
     /** Absolute path to the config file that was parsed. */
     configPath: string;
-    /** Which toolchain this project uses. */
-    configType: 'platformio' | 'arduino';
     /** All environments/profiles, in file order. */
     envs: ProjectEnv[];
     /** Fallback environment names in priority order. */

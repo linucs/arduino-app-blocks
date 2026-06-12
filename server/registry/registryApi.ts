@@ -8,7 +8,7 @@ import { Registry } from './registry';
  *   GET  /api/registry/search?q=  → flat filtered entries
  *   POST /api/registry/install    → { id } → download + validate + write to .blocks/
  *
- * Thin transport only (G2): all logic lives in Registry. Returns JSON; the page
+ * Thin transport only: all logic lives in Registry. Returns JSON; the page
  * renders client-side. `blocksDirPath` is the single .blocks/ dir (G5), passed in.
  */
 

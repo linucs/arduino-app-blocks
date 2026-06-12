@@ -24,7 +24,7 @@ function filenameForUrl(url: string): string {
 function httpGet(url: string): Promise<Buffer> {
     return new Promise((resolve, reject) => {
         const mod = url.startsWith('https') ? https : http;
-        mod.get(url, { headers: { 'User-Agent': 'PlatformIO-Blocks-VSCode' } }, res => {
+        mod.get(url, { headers: { 'User-Agent': 'arduino-app-blocks' } }, res => {
             if (res.statusCode && res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
                 httpGet(res.headers.location).then(resolve, reject);
                 return;

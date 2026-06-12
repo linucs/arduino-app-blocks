@@ -1,0 +1,55 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/vscode-blockly/refs/heads/main/src/catalog/block-catalog_v1.schema.json
+id: modulino-distance
+author: Lino Moretto
+version: 0.0.1
+category: "Modulino::Sensors"
+colour: "#26A69A"
+description:
+  en: "Time-of-flight distance sensor blocks for Modulino Distance"
+  it: "Blocchi sensore di distanza time-of-flight per Modulino Distance"
+docs:
+  datasheet: "https://docs.arduino.cc/hardware/modulino-distance"
+  library: "https://www.arduino.cc/reference/en/libraries/modulino/"
+  api: "https://github.com/arduino-libraries/Modulino/blob/main/docs/api.md"
+
+implementations:
+  # ─── C++ (MCU side) ───
+  - runtime: "arduino:cpp"
+    dependencies:
+      - type: library
+        name: "Arduino_Modulino"
+        minVersion: "0.8.0"
+    codegen:
+      imports:
+        - "#include <Modulino.h>"
+        - "#include <Wire.h>"
+      declarations:
+        - "ModulinoDistance _distance;"
+      setup:
+        - "Wire.begin();"
+        - "Modulino.begin(Wire);"
+        - "_distance.begin();"
+    blocks:
+      - blockly:
+          type: modulino_distance_available
+          message0: "📏 distance ready"
+          output: Boolean
+          tooltip: "True if the Modulino Distance sensor has a fresh measurement ready to read."
+          inputsInline: true
+        codegen:
+          body:
+            - "_distance.available()"
+          precedence: ATOMIC
+        tags: [sensor, input, i2c]
+
+      - blockly:
+          type: modulino_distance_get
+          message0: "📏 distance (mm)"
+          output: Number
+          tooltip: "Read the measured distance in millimetres from Modulino Distance."
+          inputsInline: true
+        codegen:
+          body:
+            - "_distance.get()"
+          precedence: ATOMIC
+        tags: [sensor, input, i2c, beginner]

@@ -1,9 +1,9 @@
 /*
  * theme.css — the closed set of --vscode-* design tokens the webview reads (G9).
  *
- * The webview bundle (copied verbatim from vscode-blockly) and its ThemeAdapter
- * read these tokens via getComputedStyle(document.body) and CSS var() fallbacks.
- * In VS Code they are supplied by the host; in the brick we define them here.
+ * The webview bundle and its ThemeAdapter read these tokens via
+ * getComputedStyle(document.body) and CSS var() fallbacks; the brick defines
+ * them here (the `--vscode-*` namespace is the token vocabulary the webview uses).
  *
  * This list is the EXACT union of tokens referenced by webview/** and the host
  * HTML template. If the webview starts referencing a new --vscode-* token, add

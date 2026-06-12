@@ -1,0 +1,81 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/linucs/vscode-blockly/refs/heads/main/src/catalog/block-catalog_v1.schema.json
+id: modulino-movement
+author: Lino Moretto
+version: 0.0.1
+category: "Modulino::Sensors"
+colour: "#26A69A"
+description:
+  en: "Accelerometer and gyroscope blocks for Modulino Movement (IMU)"
+  it: "Blocchi accelerometro e giroscopio per Modulino Movement (IMU)"
+docs:
+  datasheet: "https://docs.arduino.cc/hardware/modulino-movement"
+  library: "https://www.arduino.cc/reference/en/libraries/modulino/"
+  api: "https://github.com/arduino-libraries/Modulino/blob/main/docs/api.md"
+
+implementations:
+  # ─── C++ (MCU side) ───
+  - runtime: "arduino:cpp"
+    dependencies:
+      - type: library
+        name: "Arduino_Modulino"
+        minVersion: "0.8.0"
+    codegen:
+      imports:
+        - "#include <Modulino.h>"
+        - "#include <Wire.h>"
+      declarations:
+        - "ModulinoMovement _movement;"
+      setup:
+        - "Wire.begin();"
+        - "Modulino.begin(Wire);"
+        - "_movement.begin();"
+    blocks:
+      - blockly:
+          type: modulino_movement_update
+          message0: "📐 update movement"
+          previousStatement: null
+          nextStatement: null
+          tooltip: "Read new sensor data from Modulino Movement (IMU). Call once per loop iteration before reading axes."
+          inputsInline: true
+        codegen:
+          body:
+            - "_movement.update();"
+        tags: [sensor, i2c]
+
+      - blockly:
+          type: modulino_movement_accel
+          message0: "📐 acceleration %1"
+          args0:
+            - type: field_dropdown
+              name: AXIS
+              options:
+                - ["X", "X"]
+                - ["Y", "Y"]
+                - ["Z", "Z"]
+          output: Number
+          tooltip: "Read one acceleration axis (m/s²) from Modulino Movement. Call update() first."
+          inputsInline: true
+        codegen:
+          body:
+            - "_movement.get{{AXIS}}()"
+          precedence: ATOMIC
+        tags: [sensor, input, i2c, beginner]
+
+      - blockly:
+          type: modulino_movement_gyro
+          message0: "📐 rotation %1"
+          args0:
+            - type: field_dropdown
+              name: AXIS
+              options:
+                - ["roll", "Roll"]
+                - ["pitch", "Pitch"]
+                - ["yaw", "Yaw"]
+          output: Number
+          tooltip: "Read one gyroscope axis (°/s) from Modulino Movement. Call update() first."
+          inputsInline: true
+        codegen:
+          body:
+            - "_movement.get{{AXIS}}()"
+          precedence: ATOMIC
+        tags: [sensor, input, i2c]

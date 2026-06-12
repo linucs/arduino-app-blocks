@@ -21,9 +21,8 @@ export function isImplCompatible(impl: Implementation, ctx: BoardContext, runtim
 
     if (impl.targets && impl.targets.length > 0) {
         const candidates = [ctx.platform, ctx.board].filter((v): v is string => !!v);
-        // For Arduino CLI projects, also accept FQBN-based identifiers so catalog
-        // authors can target by either PIO-style ("atmelavr") or Arduino-style
-        // ("arduino:avr", "arduino:avr:uno") names.
+        // Also accept FQBN-derived identifiers so catalog authors can target by
+        // platform ("arduino:avr") or full FQBN ("arduino:avr:uno").
         if (ctx.fqbn) {
             const parts = ctx.fqbn.split(':');
             if (parts.length >= 2) candidates.push(parts.slice(0, 2).join(':'));
